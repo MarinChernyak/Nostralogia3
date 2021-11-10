@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nostralogia3", "Nostralogia3\Nostralogia3.csproj", "{A9FCB853-85BA-4C71-B835-212B640FBEBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NostradamusDAL", "..\Nostradamus\NostradamusDAL\NostradamusDAL.csproj", "{E81E9802-50B1-4E3F-ADB0-46C1640860B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9FCB853-85BA-4C71-B835-212B640FBEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FCB853-85BA-4C71-B835-212B640FBEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FCB853-85BA-4C71-B835-212B640FBEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FCB853-85BA-4C71-B835-212B640FBEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81E9802-50B1-4E3F-ADB0-46C1640860B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81E9802-50B1-4E3F-ADB0-46C1640860B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81E9802-50B1-4E3F-ADB0-46C1640860B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81E9802-50B1-4E3F-ADB0-46C1640860B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A47DC31B-814B-4571-81E5-334E1F671CC7}
+	EndGlobalSection
+EndGlobal
