@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nostralogia3.Models;
+using Nostralogia3.Models.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace Nostralogia3.Controllers
 
         public IActionResult Index()
         {
-            HomeModel model = new HomeModel();
+            LogInModel model = new LogInModel();
             return View(model);
         }
 

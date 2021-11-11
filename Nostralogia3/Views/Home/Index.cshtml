@@ -1,100 +1,52 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+@model Nostralogia3.Models.Authentication.LogInModel
 <!-- content -->
 <div class="content_top"></div>
-<div class="Nostra_Main">
 
-    <div class="Nostra_Row">
-        <div class="Nostra_box1 Nostra_box1_first">
-            <div class=" box1_left"><img src="~/Images/who-what.jpg" style="padding-top: 15px;" alt="" /></div>
-            <div class=" box1_right" style=" width: 205px">
-                <h1>When, What...</h1>
-                <p>If you have a question when, where, why or any other, you got to a right place... </p>
-                <div class="reNostra_more_box1"><a href="#">read more...</a></div>
+<section id="MainHeader">
+    Nostralogia
+</section>
+@using(Html.BeginForm("LogIn","Authentification"))
+{
+<section id="LogIn">
+    <div class="container">
+        <fieldset>
+            <legend>Log in Form</legend>
+
+            <div class="col-md-3 form-group">
+
+                @Html.LabelFor(x => x.UserName)
+
+                @Html.EditorFor(x => x.Password)
+
+                @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+
             </div>
-        </div>
+            <div class="col-md-3 form-group">
 
-        <div class="Nostra_box1">
-            <div class=" box1_left"><img src="~/Images/make_decision.jpg" style="padding-top: 15px;" alt="" /></div>
-            <div class=" box1_right" style=" width: 205px">
-                <h1>Making decision...</h1>
-                <p>If you cannot make a decision, we can help....</p>
-                <div class="reNostra_more_box1"><a href="#">read more...</a></div>
+                @Html.LabelFor(x => x.Password)
+                @Html.PasswordFor(x => x.Password)
+                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+
             </div>
-        </div>
 
-        <div class="Nostra_box1">
-            <div class=" box1_left"><img src="~/Images/clock.png" style="padding-top: 15px;" alt="" /></div>
-            <div class=" box1_right" style=" width: 205px">
-                <h1>Is it good time</h1>
-                <p>...to do something? May be yes, may be no. We can figure out for you.</p>
-                <div class="reNostra_more_box1"><a href="#">read more...</a></div>
-            </div>
-        </div>
-    </div>
-    <div class="clear"></div>
-
-    <div class="Nostra_Row">
-        <div class="index_left">
-            <div class="index_left_bg">
-                <div class="index_left_left">
-                    <h3>Who We Are</h3>
-                    <div class="block">
-                        <img src="/images/img11.jpg" alt="" />
-                        <p>
-                            <strong>Sed nibh neque, porta ac mattis sit amet, molestie eget elit.</strong><br />
-                            Aliquam non dolor eget purus pellentesque iaculis eget at ante. Suspendisse potenti. Sed augue massa, aliquam sit amet dignissim non, lobortis id eros. Nunc sagittis elit vel libero dapibus sagittis. Fusce mi enim, malesuada in tincidunt eget, aliquam at lectus. Donec tempor placerat.
-                        </p>
-                        <div class="reNostra_more"><a href="#">read more...</a></div>
-                    </div>
-                    <div class="clear" style="height: 35px;"></div>
-                    <div class="block">
-                        <img src="/images/img12.jpg" alt="" />
-                        <p>
-                            <strong>Praesent elementum nunc et nulla gravida tristique.</strong><br />
-                            Sed augue ipsum, tincidunt sit amet adipiscing ut, dictum quis lectus. Nullam volutpat, lacus a fringilla bibendum, libero lacus condimentum erat, a ultricies eros nibh vitae mi. Nam varius est enim. Phasellus tincidunt gravida elit, faucibus blandit dui lacinia id. Cras eu tellus ipsum. Nulla
-                        </p>
-                        <div class="reNostra_more"><a href="#">read more...</a></div>
-                    </div>
+            <div class="col-md-3 form-group">
+               
+                <div class="mt-lg-4">
+                    @Html.CheckBoxFor(m => m.ShouldRemember)
+                    @Html.LabelFor(x => x.ShouldRemember)
                 </div>
-                <div class="index_left_right">
-                    <h3>Testemonials</h3>
-                    <div class="Nostra_Testemonial">
-                        <p>
-                            Aliquam non dolor eget purus pellentesque iaculis eget at ante. Suspendisse potenti. Sed augue massa, aliquam sit amet dignissim non, lobortis id eros.
-                        </p>
-                        <div class="reNostra_more"><a href="#">read more...</a></div>
-                    </div>
-                    <div class="Nostra_Testemonial">
-                        <p>
-                            Aliquam non dolor eget purus pellentesque iaculis eget at ante. Suspendisse potenti. Sed augue massa, aliquam sit amet dignissim non, lobortis id eros.
-                        </p>
-                        <div class="reNostra_more"><a href="#">read more...</a></div>
-                    </div>
-                </div>
-                <div class="clear"></div>
             </div>
-        </div>
-        <div class="index_right">
-            <h3 style="text-align: center;">Company News</h3>
-            <p>
-                <strong>Sep.23, 2012</strong><br />
-                <strong>Suspendisse potenti.</strong><br />
-                Maecenas hendrerit tempus felis, vitae vulputate mi dapibus quis. Vestibulum auctor sapien sed lectus ullamcorper
-            </p>
-            <div class="reNostra_more"><a href="#">read more...</a></div>
-            <div class="clear" style="height:20px;"></div>
-            <div class="line" style="height:20px;"></div>
-            <p>
-                <strong>Sep.24, 2010</strong><br />
-                <strong>Etiam vitae nibh libero. </strong><br />
-                Vivamus et felis dolor. Donec ligula velit, egestas eu venenatis non, tempus sollicitudin ante.
-            </p>
-            <div class="reNostra_more"><a href="#">read more...</a></div>
-        </div>
-        <div class="clear"></div>
+            <div class="col-md-3 form-group align-center">
+
+                <input type="submit" value="Log in" />
+
+            </div>
+        </fieldset>
     </div>
-</div>
-<div class="content_bot"></div>
+</section>
+}
+
+    <div class="content_bot"></div>

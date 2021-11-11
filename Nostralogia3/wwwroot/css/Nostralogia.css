@@ -1,0 +1,26 @@
+﻿#MainHeader {
+    font-family: 'Stencil Std';
+    font-size: 100px;
+    text-align: center;
+    color: honeydew;
+    height: 100vh;
+    padding-top: 20%;
+    background-color: #000000;
+}
+#LogIn {
+    
+    font-family: Arial;
+    font-size: 15px;
+    color: floralwhite;
+    background-color: #404040;
+    height: 400px;
+}
+    #LogIn fieldset {
+        padding-top: 10px;
+        margin-left: 15px;
+    }
+    #LogIn fieldset legend {
+        padding-top: 50px;
+        margin-left: 15px;
+        font-weight: bold;
+    }
