@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +26,17 @@ namespace Nostralogia3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+        //    services.AddDbContext<NostraGeoContext>(options =>
+        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionGeo)));
+        //    services.AddDbContext<NostradamusTestContext>(options =>
+        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionMain)));
+        //    services.AddDbContext<SMGeneralTestContext>(options =>
+        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionSMGeneral)));
+
+
+
         }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,6 +64,7 @@ namespace Nostralogia3
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
