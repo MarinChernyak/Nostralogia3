@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.Geo.EventPlaceModel
+
+
+<fieldset id="PlaceEvent">
+
+    <div class="col-md-3 form-group">
+
+        @Html.LabelFor(x => x.Country)
+        @Html.DropDownListFor(x => x.Country, Model.Countries, null, new { id = "cmbCountries" })
+    </div>
+    <div class="col-md-3 form-group">
+        @Html.LabelFor(x => x.State)
+        @Html.DropDownListFor(x => x.State, Model.States, null, new { id = "cmbStates" })
+    </div>
+    <div class="col-md-5 form-group">
+        @Html.LabelFor(x => x.City)
+        @Html.DropDownListFor(x => x.City, Model.Cities, null, new { id = "cmbCities" })
+    </div>
+</fieldset>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="/JS/GeoActions.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            $("#cmbCountries").on("change", function () {
+                UpdateCountry();
+            });
+            $("#cmbStates").on("change", function () {
+                UpdateStates();
+            });
+
+        });
+    });
+</script>
+

@@ -7,37 +7,29 @@ namespace Nostralogia3.Utilities
 {
     public class StringGenerator
     {
-        protected String _genstr = "";
-        public String GenericString { get { return _genstr; } }
+        private const int default_string_length = 8;
+        protected string _genstr = "";
+        public string GenericString { get { return _genstr; } }
         protected int NumberSymbols { get; set; }
         protected bool Numbers { get; set; }
         protected bool SpecialSymbols { get; set; }
         protected bool CapitalsLetters { get; set; }
         protected bool SmallLetters { get; set; }
 
-        public StringGenerator(int iNumSymb, bool bNum, bool bSpecSymb, bool CapLetters, bool SmLetters)
+        public StringGenerator(int iNumSymb= default_string_length, bool bNum=true, bool bSpecSymb=true, bool CapLetters=true, bool SmLetters=true)
         {
             NumberSymbols = iNumSymb;
             Numbers = bNum;
             SpecialSymbols = bSpecSymb;
             CapitalsLetters = CapLetters;
-            SmallLetters = SmallLetters;
-            Generate();
-        }
-        public StringGenerator()
-        {
-            NumberSymbols = 8;
-            Numbers = true;
-            SpecialSymbols = true;
-            CapitalsLetters = true;
-            SmallLetters = true;
+            SmallLetters = SmLetters;
             Generate();
         }
         public void Generate()
         {
             _genstr = String.Empty;
             if (NumberSymbols == 0)
-                NumberSymbols = 8;
+                NumberSymbols = default_string_length;
 
             int NumSections = 0;
             if (Numbers)

@@ -1,0 +1,58 @@
+﻿@model Nostralogia3.Models.Calendar.SimpleCalendarTimeModel
+
+@{    
+    Html.RenderPartial("~~/Views/Controls/Calendar/SimpleCalendarView.cshtml", @Model);
+ }
+<div class="SMEntity_Row Cldr_hidden" id="@Model.TM.ID">
+        @Html.Partial("~/Views/Controls/Calendar/_TimeSelection.cshtml", @Model.TM)
+</div>
+
+<script src="~/JS/SimpleCalendar.js"></script>
+@*<script src="~/JS/TimeSelection2.js"></script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var timeData = new TimeDataManipulator('@Model.TM.ID');
+        InitControl();
+        function InitControl() {
+
+            UpdateCalValue('@Model.CalID', '@Model.ID_cmbMonthes', '@Model.ID_cmbDays', timeData.GetTimeDataValue("H"), timeData.GetTimeDataValue("M"), timeData.GetTimeDataValue("S"));
+        }
+
+        $("#@Model.ID_time_icon").on("click", function () {
+
+            $("#@Model.TM.ID").removeClass("Cldr_hidden");
+            $("#@Model.TM.ID_time_closeicon").removeClass("Cldr_hidden");
+
+            $("#@Model.ID_time_icon").addClass("Cldr_hidden");
+            $("#@Model.ID_cldrEditBox").addClass("Cldr_hidden");
+
+        });
+
+        $("#@Model.TM.ID_time_closeicon").on("click", function () {
+            $("#@Model.TM.ID_time_closeicon").addClass("Cldr_hidden");
+            $("#@Model.TM.ID").addClass("Cldr_hidden");
+
+            $("#@Model.ID_time_icon").removeClass("Cldr_hidden");
+            $("#@Model.ID_cldrEditBox").removeClass("Cldr_hidden");
+
+           
+            UpdateCalValue('@Model.CalID', '@Model.ID_cmbMonthes', '@Model.ID_cmbDays', timeData.GetTimeDataValue("H"), timeData.GetTimeDataValue("M"), timeData.GetTimeDataValue("S"));
+        });
+        $("#@Model.ID_close_icon").on("click", function () {
+            if ('@Model.IsTimeIconVisible()' == 'True') {
+                $("#@Model.ID_main_container").addClass("Cldr_hidden");
+                $("#@Model.ID_close_icon").addClass("Cldr_hidden");
+
+                $("#@Model.ID_cldr_icon").removeClass("Cldr_hidden");
+                $("#@Model.ID_cldrEditBox").removeClass("Cldr_hidden");
+         
+
+                UpdateCalValue('@Model.CalID', '@Model.ID_cmbMonthes', '@Model.ID_cmbDays', timeData.GetTimeDataValue("H"), timeData.GetTimeDataValue("M"), timeData.GetTimeDataValue("S"));
+            }
+        });
+
+
+    });
+</script>

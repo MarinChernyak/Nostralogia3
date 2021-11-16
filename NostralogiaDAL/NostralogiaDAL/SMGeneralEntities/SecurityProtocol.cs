@@ -12,6 +12,8 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string Passcode { get; set; }
         public string Initvector { get; set; }
         public DateTime DateCreation { get; set; }
-        public int UserId { get; set; }
+        public string UserName { get; set; }
+
+        public virtual User UserNameNavigation { get; set; }
     }
 }

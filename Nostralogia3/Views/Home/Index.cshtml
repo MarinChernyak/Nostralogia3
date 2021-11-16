@@ -1,53 +1,15 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-@model Nostralogia3.Models.Authentication.LogInModel
+
 <!-- content -->
 <div class="content_top"></div>
 
 <section id="MainHeader">
     Nostralogia
 </section>
-@using(Html.BeginForm("LogIn","Authentification"))
-{
-<section id="LogIn">
-    <div class="container">
-        <fieldset>
-            <legend>Log in Form</legend>
 
-            <div class="col-md-3 form-group">
+    @await Html.PartialAsync("~/Views/Authentication/_LogIn.cshtml", new Nostralogia3.Models.Authentication.LogInModel())
 
-                @Html.LabelFor(x => x.UserName)
-
-                @Html.EditorFor(x => x.Password)
-
-                @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
-
-            </div>
-            <div class="col-md-3 form-group">
-
-                @Html.LabelFor(x => x.Password)
-                @Html.PasswordFor(x => x.Password)
-                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
-
-            </div>
-
-            <div class="col-md-3 form-group">
-               
-                <div class="mt-lg-4">
-                    @Html.CheckBoxFor(m => m.ShouldRemember)
-                    @Html.LabelFor(x => x.ShouldRemember)
-                </div>
-            </div>
-            <div class="col-md-3 form-group align-center">
-
-                <input type="submit" value="Log in" />
-
-            </div>
-        </fieldset>
-    </div>
-</section>
-}
-
-    <div class="content_bot">
-    </div>
+<div class="content_bot">
+</div>

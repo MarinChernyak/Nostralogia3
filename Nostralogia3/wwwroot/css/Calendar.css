@@ -1,0 +1,201 @@
+﻿.Cldr_MainContainer {
+    border: 1px solid #003366;
+    float: left;
+    width: 260px;
+    border-radius: 5px;
+    background-color: #BBD1E8;
+}
+.Cldr_hidden {
+    display:none;
+}
+.Cldr_BoxContainer {
+    /*border: 1px solid #999999;*/
+    float: left;
+    width: 248px;
+    border-radius: 5px;
+    background-color: #BBD1E8;
+    margin: 5px;
+}
+.Cldr_Value {
+    float: left;
+    border: 1px solid #333333;
+    border-radius: 3px;
+    margin: 7px 0 3px 5px;
+    width: 165px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 5px 0 5px 5px;
+    color: #000066;
+    background-color: #DFDFDF;
+}
+.Cldr_Value_box1 {
+    display:inline;
+}
+.Cldr_Value_box2 {
+    display: inline;
+    margin-left: 14px;
+    color: #316293;
+}
+.Cldr_closeicon {
+    float:right;
+    cursor:pointer;
+    margin-top:-2px;
+    margin-right:-4px;
+}
+.Cldr_clockicon {
+    float:right;
+    cursor:pointer;
+    margin-right:-8px;
+    margin-top:-2px;
+}
+.Cldr_icon {
+    float:right;
+    cursor:pointer;
+    margin-right:-13px;
+    margin-top:-2px;
+}
+.Cldr_InnerRow {
+    width:100%;
+    float:left;
+}
+/*////////// Month /////////*/
+.Cldr_CMB_MONTHES {
+    float: left;
+    margin-left:5px;
+}
+    .Cldr_CMB_MONTHES select {
+    border: 1px solid #000000;
+    border-radius: 4px;
+    margin: 8px 0 0 0px;
+    background-color: #282828;
+    color: #F5F5F5;
+    font-family: 'Arial Black';
+    font-size: 12px;
+    font-weight: bold;
+    width:125px;
+    height:21px;
+    padding-bottom:2px;
+    padding-left:3px;
+}
+/*///// YEAR TIME ////*/
+.Cldr_Year {
+     float: left;
+     /*margin-left:20px;*/
+}
+.Cldr_NumberMainContainer {
+    border: 1px solid #666666;
+    float: left;
+    width: 23px;
+    background-color: #CCCCCC;
+    font-family: 'Arial Black';
+}
+.Cldr_NumberContainer {
+    border-width: 1px;
+    border-color: #666666;
+    float: left;
+    width: 100%;
+    text-align: center;
+    font-family: 'Arial Black';
+    font-size: 12px;
+    font-weight: bold;
+    color: #CCCCCC;
+    padding-bottom: 2px;
+    background-color: #000000;
+    margin-left: -1px;
+    border-right-style: solid;
+    border-left-style: solid;
+}
+.Cldr_time_label {
+    float: left;
+    width: 7px;
+    margin-left: 3px;
+    margin-right: 10px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #101010;
+}
+.Cldr_NumberMainContainerFirst {
+
+    margin-left:15px;
+    border: 1px solid #666666;
+    float: left;
+    width: 23px;
+    background-color: #CCCCCC;
+    font-family: 'Arial Black';
+}
+.Cldr_NumberContainer_arrow_up img {
+    float: left;
+    margin-left: 5px;
+}
+    .Cldr_NumberContainer_arrow_up:hover {
+        cursor:url('../Images/Calendar/Hand_down.cur'), default;
+    }
+    .Cldr_NumberContainer_arrow_down img {
+    float: left;
+    margin-left: 5px;
+}
+    .Cldr_NumberContainer_arrow_down:hover {
+        cursor:url('../Images/Calendar/Hand_normal.cur'), default;
+    }
+/*///// Table ////*/
+.Cldr_InnerRowTable {
+    width:100%;
+    float:left;
+    margin-top:5px;
+}
+.Cldr_Header {
+    border: 1px solid #333333;
+    width: 28px;
+    float: left;
+    text-align: center;
+    background-color: #282828;
+    font-family: 'Arial Black';
+    color: #CCCCCC;
+    padding: 2px;
+    font-weight: normal;
+    font-size: 8pt;
+    background-color: #000000;
+}
+.Cldr_Cell,.Cldr_Cell1,.Cldr_Cell2,.Cldr_Cell3,.Cldr_Cell4,.Cldr_Cell5 {
+    border: 1px solid #808080;
+    width: 28px;
+    height:20px;
+    float: left;
+    text-align:center;
+    cursor:pointer;
+    padding:2px;
+}
+.Cldr_Cell_belongMonth,.Cldr_Cell_belongMonth1,.Cldr_Cell_belongMonth2,.Cldr_Cell_belongMonth3,.Cldr_Cell_belongMonth4,.Cldr_Cell_belongMonth5 {
+    border: 1px solid #808080;
+    width: 28px;
+    height:20px;
+    float: left;
+    text-align: center;
+    background-color: #FDFBCC;
+    cursor:pointer;
+    padding:2px;
+}
+.Cldr_Cell_selDay,.Cldr_Cell_selDay1,.Cldr_Cell_selDay2,.Cldr_Cell_selDay3,.Cldr_Cell_selDay4,.Cldr_Cell_selDay5 {
+    border: 1px solid #808080;
+    width: 28px;
+    height:20px;
+    float: left;
+    text-align: center;
+    background-color: #400000;
+    color: #FFFFFF;
+    padding:2px;
+
+}
+.Cldr_Cell_HolyDay,.Cldr_Cell_HolyDay1,.Cldr_Cell_HolyDay2,.Cldr_Cell_HolyDay3,.Cldr_Cell_HolyDay4,.Cldr_Cell_HolyDay5 {
+    border: 1px solid #808080;
+    width: 28px;
+    height:20px;
+    float: left;
+    text-align: center;
+    background-color: #FFDDCC;
+    padding:2px;
+    cursor:pointer;
+}

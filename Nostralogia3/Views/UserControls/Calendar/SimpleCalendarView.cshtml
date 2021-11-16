@@ -1,0 +1,86 @@
+﻿@model Nostralogia3.Models.Calendar.SimpleCalendarModel
+
+  <link href="@Url.Content("~/CSS/SimpleCalendar.css")" rel="stylesheet" type="text/css" />
+    <div class="Cldr_MainContainer">
+        <div  class="Cldr_BoxContainer Cldr_hidden" id="ID_cldrEditBox">
+            <div class="Cldr_Value" id="ID_cldr_value">
+                
+            </div>
+            <div class="Cldr_icon" id="ID_cldr_icon">
+                <img alt="calendar" src="~/Images/Calendar/calendar.png" width="40" height="40"/>
+            </div>
+        </div>
+
+        <div class="Cldr_BoxContainer Cldr_widthSimpleCal Cldr_hidden" id="ID_main_container">
+                  <div class="Cldr_closeicon" id="ID_close_icon">
+                    <img alt="close" src="~/Images/Calendar/close.png" />
+                </div>
+            <div class="Cldr_InnerRow">
+                @for (int i = 0; i < 4; ++i)
+                {     
+                  @Html.Partial("~/Views/Controls/Calendar/_YearNumber.cshtml", @Model.getYearNum(i));
+                }
+                <div class="Cldr_CMB_MONTHES">
+                    @Html.DropDownList("ID_cmbMonthes",@Model.Months)
+                </div>
+               <div class="Cldr_CMB_Days">
+                    @Html.DropDownList("ID_cmbDays", @Model.Days)
+                </div>
+
+            </div>        
+        </div>
+    </div>
+    <input type="hidden" value="@Model.CalID" id="calID" />
+    <input type="hidden" value="@Model.Month" id="curMonthID" />
+    <input type="hidden" value="@Model.Day" id="curDayID" />
+    <input type="hidden" value="" id="CalResult" />
+
+
+<script src="~/JS/AstroCalculations.js"></script>
+<script src="~/JS/SimpleCalendar.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var calID = $("#calID").val();
+        var curMonth = $("#curMonthID").val();
+        var curDay = $("#curDayID").val();
+        var cal = new SimpleCalendarBase(curDay, curMonth, calID, '@Model.CalIndex');
+
+        $("#ID_cldr_icon_" + calID).on("click", function () {
+            cal.UpdateCalendar("m");
+        });
+        $("#ID_close_icon_" + calID).on("click", function () {
+            cal.UpdateCalendar("e");
+        });
+        $("#year_plus_0_" + calID).on("click", function () {
+            cal.clickYearChange(0, '+');
+        });
+        $("#year_minus_0_" + calID).on("click", function () {
+            cal.clickYearChange(0, '-');
+        });
+        $("#year_plus_1_" + calID).on("click", function () {
+            cal.clickYearChange(1, '+');
+        });
+        $("#year_minus_1_" + calID).on("click", function () {
+            cal.clickYearChange(1, '-');
+        });
+        $("#year_plus_2_" + calID).on("click", function () {
+            cal.clickYearChange(2, '+');
+        });
+        $("#year_minus_2_" + calID).on("click", function () {
+            cal.clickYearChange(2, '-');
+        });
+        $("#year_plus_3_" + calID).on("click", function () {
+            cal.clickYearChange(3, '+');
+        });
+        $("#year_minus_3_" + calID).on("click", function () {
+            cal.clickYearChange(3, '-');
+        });
+        $("#ID_cmbMonthes_" + calID).on("change", function () {
+            cal.clickMonthChanged();
+        });
+        $("#ID_cmbDays_" + calID).on("change", function () {
+            cal.clickDaysChanged();
+        });
+
+    });
+</script>

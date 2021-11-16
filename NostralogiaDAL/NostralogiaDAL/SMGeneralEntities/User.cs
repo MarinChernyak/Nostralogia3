@@ -7,6 +7,12 @@ namespace NostralogiaDAL.SMGeneralEntities
 {
     public partial class User
     {
+        public User()
+        {
+            SecurityProtocols = new HashSet<SecurityProtocol>();
+            UserAppRoles = new HashSet<UserAppRole>();
+        }
+
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -21,5 +27,9 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string MidleName { get; set; }
         public DateTime? Dob { get; set; }
         public byte? Sex { get; set; }
+        public string Token { get; set; }
+
+        public virtual ICollection<SecurityProtocol> SecurityProtocols { get; set; }
+        public virtual ICollection<UserAppRole> UserAppRoles { get; set; }
     }
 }

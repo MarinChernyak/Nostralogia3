@@ -1,0 +1,16 @@
+﻿
+@model Nostralogia3.Models.Calendar.YearNumber
+
+    <div class="Cldr_NumberMainContainer">
+        <div class="Cldr_NumberContainer_arrow_up" >
+            <img id="year_plus_@Model.IndexInParent" alt="plus" src="~/Images/Calendar/up.png"  />
+        </div>
+        <div class="Cldr_NumberContainer" id="year_number_@Model.IndexInParent">
+        @Model.YearNum
+        </div>
+        <div class="Cldr_NumberContainer_arrow_down">
+                <img id="year_minus_@Model.IndexInParent" alt="minus" src="~/Images/Calendar/down.png" />            
+        </div>
+    </div>
+                
+

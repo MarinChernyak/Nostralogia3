@@ -11,21 +11,18 @@ namespace Nostralogia3.Utilities
     public class SMRijndaelEncryption
     {
         protected SymmetricAlgorithm _MainCryptoServ;
-        private string _saltValue;
-        private string _passPhrase; // can be any string, perhaps 10 symbols
-        private string _initVector;// must be 16 bytes
+        private string _saltValue=string.Empty;
+        private string _passPhrase = string.Empty; // can be any string, perhaps 10 symbols
+        private string _initVector = string.Empty;// must be 16 bytes
         protected int passwordIterations = 2;  // can be any number
         protected const int keySize = 256;
         protected string HashAlgorithm { get; set; }
-        public SMRijndaelEncryption()
+        public SMRijndaelEncryption(string saltvalue,string passphrase, string vector)
         {
-            //_saltValue = saltvalue;
-            //_passPhrase = passphrase;
-            GetSaltPass();
-        }
-        protected void GetSaltPass()
-        {
-
+            _saltValue = saltvalue;
+            _passPhrase = passphrase;
+            _initVector = vector;
+            
         }
         public String Encrypt(String plainText)
         {

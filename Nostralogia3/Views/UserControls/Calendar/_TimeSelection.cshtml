@@ -1,0 +1,131 @@
+﻿@model Nostralogia3.Models.Calendar.TimeModel    
+    <link href="@Url.Content("~/CSS/Calendar.css")" rel="stylesheet" type="text/css" />
+    
+<div class="Cldr_BoxContainer" id="timeContainer">
+            <div class="Cldr_InnerRow">
+              <div class="Cldr_NumberMainContainerFirst">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tH10add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                <div class="Cldr_NumberContainer" id="tH10">
+                </div>
+                <div class="Cldr_NumberContainer_arrow_down">
+                        <img id="tH10min" alt="minus" src="~/Images/Calendar/down.png" />            
+                </div>
+             </div>
+              <div class="Cldr_NumberMainContainer">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tH1add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                <div class="Cldr_NumberContainer" id="tH1">
+                </div>
+                <div class="Cldr_NumberContainer_arrow_down">
+                        <img id="tH1min" alt="minus" src="~/Images/Calendar/down.png" />            
+                </div>
+              </div>
+              <div class="Cldr_time_label">
+                  h
+             </div>
+              <div class="Cldr_NumberMainContainer">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tM10add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                <div class="Cldr_NumberContainer" id="tM10">
+                </div>
+                <div class="Cldr_NumberContainer_arrow_down">
+                        <img id="tM10min" alt="minus" src="~/Images/Calendar/down.png" />            
+                </div>
+                </div>
+              <div class="Cldr_NumberMainContainer">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tM1add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                <div class="Cldr_NumberContainer" id="tM1">
+                </div>
+                <div class="Cldr_NumberContainer_arrow_down">
+                        <img id="tM1min" alt="minus" src="~/Images/Calendar/down.png" />            
+                </div>
+              </div>
+              <div class="Cldr_time_label">
+                  m
+             </div>
+              <div class="Cldr_NumberMainContainer">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tS10add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                    <div class="Cldr_NumberContainer" id="tS10">
+                    </div>
+                    <div class="Cldr_NumberContainer_arrow_down">
+                            <img id="tS10min" alt="minus" src="~/Images/Calendar/down.png" />            
+                    </div>
+                    </div>
+              <div class="Cldr_NumberMainContainer">
+                <div class="Cldr_NumberContainer_arrow_up" >
+                    <img id="tS1add" alt="plus" src="~/Images/Calendar/up.png"  />
+                </div>
+                <div class="Cldr_NumberContainer" id="tS1">
+                </div>
+                <div class="Cldr_NumberContainer_arrow_down">
+                        <img id="tS1min" alt="minus" src="~/Images/Calendar/down.png" />            
+                </div>
+                </div>
+              <div class="Cldr_time_label">
+                  s
+             </div>
+                <div class="Cldr_closeicon Cldr_hidden" id="ID_time_closeicon">
+                    <img alt="close" src="~/Images/Calendar/close.png" />
+                </div>
+            </div>
+        </div>
+@*<input type="hidden" value="@Model.ID" id="timeID" />*@
+
+@*<script type="text/javascript" src="~/JS/TimeSelection2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var timeID = $("#timeID").val();
+        var timeManipulator = new TimeDataManipulator('@Model.ID');
+        timeManipulator.InitControl('@Model.Hour', '@Model.Minutes', '@Model.Seconds');
+
+        $("#tH10add_" + timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'H10');
+        });
+        $("#tH10min_" + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'H10');
+        });
+        $('#tH1add_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'H1');
+        });
+        $('tH1min_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'H1');
+        });
+
+
+        $('tM10add_'+timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'M10');
+        });
+        $('tM10min_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'M10');
+        });
+        $('tM1add_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'M1');
+        });
+        $('#tM1min_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'M1');
+        });
+
+
+        $('tS10add_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'S10');
+        });
+        $('#tS10min_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'S10');
+        });
+        $('#tS1add_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(1, 'S1');
+        });
+        $('#tS1min_' + timeID).on('click', function () {
+            timeManipulator.UpdateElement(-1, 'S1');
+        });
+    });
+</script>*@

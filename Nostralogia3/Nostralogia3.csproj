@@ -5,15 +5,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Calendar\SimpleCalendarTimeModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\UserControls\Calendar\SimpleCalendarTimeView.cshtml" />
+    <Content Remove="Views\UserControls\Calendar\SimpleCalendarView.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Calendar\calendar.png" />
+    <None Include="wwwroot\Images\Calendar\clock.png" />
+    <None Include="wwwroot\Images\Calendar\close.png" />
+    <None Include="wwwroot\Images\Calendar\down.png" />
+    <None Include="wwwroot\Images\Calendar\Hand_down.cur" />
+    <None Include="wwwroot\Images\Calendar\Hand_normal.cur" />
+    <None Include="wwwroot\Images\Calendar\tsepar.png" />
+    <None Include="wwwroot\Images\Calendar\up.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Authentication\" />
   </ItemGroup>
 
   <ItemGroup>

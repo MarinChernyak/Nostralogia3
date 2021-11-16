@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace NostralogiaDAL.SMGeneralEntities
 {
-    public partial class SMGeneralTestContext : DbContext
+    public partial class SMGeneralContext : DbContext
     {
-        public SMGeneralTestContext()
+        public SMGeneralContext()
         {
         }
 
-        public SMGeneralTestContext(DbContextOptions<SMGeneralTestContext> options)
+        public SMGeneralContext(DbContextOptions<SMGeneralContext> options)
             : base(options)
         {
         }
@@ -30,7 +30,7 @@ namespace NostralogiaDAL.SMGeneralEntities
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-3MNP0406;Database=SMGeneralTest;Trusted_Connection=True;");
             }
         }
@@ -99,6 +99,12 @@ namespace NostralogiaDAL.SMGeneralEntities
                 entity.Property(e => e.Salt)
                     .IsRequired()
                     .HasMaxLength(20);
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.SecurityProtocols)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SecurityProtocol_Users");
             });
 
             modelBuilder.Entity<TempPass>(entity =>
@@ -117,13 +123,27 @@ namespace NostralogiaDAL.SMGeneralEntities
                     .IsRequired()
                     .HasMaxLength(150)
                     .HasColumnName("TempPass");
+
+                entity.HasOne(d => d.IdappNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Idapp)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TempPass_applications");
+
+                entity.HasOne(d => d.IduserNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Iduser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TempPass_Users");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users", "adm");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
 
                 entity.Property(e => e.ActivationDate)
                     .HasColumnType("datetime")
@@ -154,9 +174,11 @@ namespace NostralogiaDAL.SMGeneralEntities
 
                 entity.Property(e => e.Sex).HasDefaultValueSql("((3))");
 
+                entity.Property(e => e.Token).HasMaxLength(128);
+
                 entity.Property(e => e.UserName)
                     .IsRequired()
-                    .HasMaxLength(20);
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<UserAppLanguage>(entity =>
@@ -170,6 +192,18 @@ namespace NostralogiaDAL.SMGeneralEntities
                 entity.Property(e => e.LanguageId).HasColumnName("LanguageID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.App)
+                    .WithMany()
+                    .HasForeignKey(d => d.AppId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAppLanguage_applications");
+
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAppLanguage_Users");
             });
 
             modelBuilder.Entity<UserAppPoint>(entity =>
@@ -181,6 +215,12 @@ namespace NostralogiaDAL.SMGeneralEntities
                 entity.Property(e => e.AppId).HasColumnName("AppID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAppPoints_Users");
             });
 
             modelBuilder.Entity<UserAppRole>(entity =>
@@ -192,6 +232,18 @@ namespace NostralogiaDAL.SMGeneralEntities
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserAppRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAppRole_roles");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserAppRoles)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAppRole_Users");
             });
 
             OnModelCreatingPartial(modelBuilder);

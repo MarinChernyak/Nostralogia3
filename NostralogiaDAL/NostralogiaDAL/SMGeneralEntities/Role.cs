@@ -7,6 +7,11 @@ namespace NostralogiaDAL.SMGeneralEntities
 {
     public partial class Role
     {
+        public Role()
+        {
+            UserAppRoles = new HashSet<UserAppRole>();
+        }
+
         public short RoleId { get; set; }
         public short AppId { get; set; }
         public string RoleNameIds { get; set; }
@@ -15,5 +20,6 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string RoleName { get; set; }
 
         public virtual Application App { get; set; }
+        public virtual ICollection<UserAppRole> UserAppRoles { get; set; }
     }
 }

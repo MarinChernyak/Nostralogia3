@@ -13,5 +13,9 @@ namespace Nostralogia3.Models.Authentication
         {
             _context = new SMGeneralContext();
         }
+        protected string StrWraper(string str)
+        {
+            return string.IsNullOrEmpty(str) ? string.Empty : str;
+        }
     }
 }

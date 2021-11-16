@@ -26,12 +26,15 @@ namespace Nostralogia3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-        //    services.AddDbContext<NostraGeoContext>(options =>
-        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionGeo)));
-        //    services.AddDbContext<NostradamusTestContext>(options =>
-        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionMain)));
-        //    services.AddDbContext<SMGeneralTestContext>(options =>
-        //options.UseSqlServer(Configuration.GetConnectionString(Constants.ConnectionSMGeneral)));
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(50);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
 
 
@@ -57,6 +60,9 @@ namespace Nostralogia3
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseSession();
+
 
             app.UseEndpoints(endpoints =>
             {
