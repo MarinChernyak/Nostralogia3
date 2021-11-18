@@ -8,8 +8,10 @@
 <section id="MainHeader">
         Nostralogia
 </section>
-
+@if (string.IsNullOrEmpty(@Model.UserName))
+{
     @await Html.PartialAsync("~/Views/Authentication/_LogIn.cshtml", new Nostralogia3.Models.Authentication.LogInModel())
+}
 
 <div class="content_bot ">
 

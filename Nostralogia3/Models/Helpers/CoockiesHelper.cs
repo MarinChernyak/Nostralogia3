@@ -31,5 +31,14 @@ namespace Nostralogia3.Models.Helpers
             }
             return cookie;
         }
+        public static void DeleteCockie(HttpContext context, string name)
+        {
+            string cookie = string.Empty;
+            if (context != null && context.Request.Cookies.ContainsKey(name))
+            {
+                context.Response.Cookies.Delete(name);
+
+            }
+        }
     }
 }

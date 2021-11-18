@@ -26,10 +26,22 @@ namespace Nostralogia3.Models.Authentication
         [DisplayName("Remember me")]
         public bool ShouldRemember { get; set; }
 
-        public bool IsLoggedIn { get; protected set; }
         public LogInModel()
         {
             
+        }
+        public LogInModel(string token)
+        {
+            if (!string.IsNullOrEmpty(token))
+            {
+                EncryptDataUpdater updater = new EncryptDataUpdater();
+                bool brez = updater.CheckToken(token);
+                if (brez)
+                {
+                    UserName = updater.UserName;
+                }
+
+            }
         }
         public LogInModel(HttpContext context)
         {
@@ -37,8 +49,8 @@ namespace Nostralogia3.Models.Authentication
             User user = _context.Users.FirstOrDefault(x => x.Token == token);
             if(user!=null)
             {
+                UserName = user.UserName;
                 EncryptDataUpdater datapdater = new EncryptDataUpdater();
-                IsLoggedIn = true;
                 token = datapdater.SetToken(user.UserName);
                 CoockiesHelper.SetCockie(context, Constants.CoockieToken,token);
             }
@@ -54,6 +66,7 @@ namespace Nostralogia3.Models.Authentication
                 string decrpass = datapdater.DecryptStringVal(UserName, user.Password);
                 if(decrpass == Password)
                 {
+                    UserName = user.UserName;
                     bIsOK = true;
                     datapdater.UpdateEncryptedData(UserName);
                     if (ShouldRemember)

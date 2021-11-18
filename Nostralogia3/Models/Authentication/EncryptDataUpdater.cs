@@ -14,18 +14,18 @@ namespace Nostralogia3.Models.Authentication
         {
 
         }
-        public string CheckToken(string token)
+        public bool CheckToken(string token)
         {
+            bool bRez = false;
             string newtoken = string.Empty;
-            bool exists =  _context.Users.Any(x => x.Token ==token);
-            if(exists)
-            {
-                User user = _context.Users.FirstOrDefault(x => x.Token == token);
-                newtoken = SetToken(user.UserName);
-                
+            User user = _context.Users.FirstOrDefault(x => x.Token == token);
+            if (user!=null)
+            {                
+                UserName = user.UserName;
+                bRez = true;
             }
 
-            return newtoken;
+            return bRez;
         }
         public string SetToken(string username)
         {           

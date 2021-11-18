@@ -16,12 +16,17 @@ namespace Nostralogia3.Controllers.Authentication
             if(!string.IsNullOrEmpty(token))
             {
                 EncryptDataUpdater updater = new EncryptDataUpdater();
-                token = updater.CheckToken(token);
-                if(!string.IsNullOrEmpty(token))
+                bool bRez = updater.CheckToken(token);
+                if(bRez)
                 {
+                    token = updater.SetToken(updater.UserName);
                     CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
                     return RedirectToAction("Index", "Home");
-                }                
+                }
+                else
+                {
+                    CoockiesHelper.DeleteCockie(HttpContext, Constants.CoockieToken);
+                }
             }
             LogInModel model = new LogInModel();
             return View("~/Views/Authentication/LogInStandAlone.cshtml", model);
@@ -38,7 +43,6 @@ namespace Nostralogia3.Controllers.Authentication
                 if(model.ShouldRemember && !string.IsNullOrEmpty(token))
                 {
                     CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
-                    string tt = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
                 }
                 return RedirectToAction("HomePage", "Home");
             }

@@ -4,7 +4,7 @@ using Nostralogia3.Models;
 using Nostralogia3.Models.Authentication;
 using Nostralogia3.Models.Helpers;
 using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,27 +24,25 @@ namespace Nostralogia3.Controllers
         public IActionResult Index()
         {
 
-            LogInModel model = new LogInModel();
+            
             string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
-            if(!string.IsNullOrEmpty(token))
+            LogInModel model = new LogInModel(token);
+            if(!string.IsNullOrEmpty(model.UserName))
             {
-                EncryptDataUpdater updater = new EncryptDataUpdater();
-                token = updater.CheckToken(token);
-                if (!string.IsNullOrEmpty(token))
-                {
-                    ViewBag.IsLoggedIn = model.IsLoggedIn;
-                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken,token);
-                }
-
+                HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
             }
-
-
 
             return View(model);
         }
 
         public IActionResult HomePage()
         {
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            LogInModel model = new LogInModel(token);
+            if (!string.IsNullOrEmpty(model.UserName))
+            {
+                HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
+            }
             return View();
         }
         public IActionResult Privacy()

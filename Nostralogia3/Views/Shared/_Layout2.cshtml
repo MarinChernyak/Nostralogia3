@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,22 +28,30 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    @*@if (ViewBag.IsLoggedIn)
-                    {*@
+                    @{
+                        string name = "";
+                        if(Context.Session.GetString(Constants.SessionUName)!=null)
+                        {
+                            name = Context.Session.GetString(Constants.SessionUName).ToString();
+
+                        }
+                        if (!string.IsNullOrEmpty(name))
+                        {
                         <ul class="navbar-nav flex-grow-1" style="background-color:coral;">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Log Out</a>
                             </li>
                         </ul>
-                    @*}
-                    else
-                    {*@
+                        }
+                        else
+                        {
                         <ul class="navbar-nav flex-grow-1" style="background-color:burlywood;">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Log In</a>
                             </li>
                         </ul>
-                    @*}*@
+                        }
+                     }
 
                 </div>
             </div>
