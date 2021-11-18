@@ -6,10 +6,19 @@
 <div class="content_top"></div>
 
 <section id="MainHeader">
-    Nostralogia
+        Nostralogia
 </section>
 
     @await Html.PartialAsync("~/Views/Authentication/_LogIn.cshtml", new Nostralogia3.Models.Authentication.LogInModel())
 
-<div class="content_bot">
+<div class="content_bot ">
+
 </div>
+<script>
+    $(document).ready(function () {
+        $("#MainHeader").on("click", function () {
+            window.location.href ='@Url.Action("HomePage", "Home")';
+        });
+
+    });
+</script>

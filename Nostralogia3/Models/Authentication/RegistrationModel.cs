@@ -1,10 +1,12 @@
 ﻿using Nostralogia3.Models.Helpers;
+using Nostralogia3.Models.Utilities;
 using Nostralogia3.Utilities;
 using NostralogiaDAL.SMGeneralEntities;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace Nostralogia3.Models.Authentication
 {
@@ -23,23 +25,24 @@ namespace Nostralogia3.Models.Authentication
             string salt = strgen.GenericString;
             strgen.Generate();
             string pass = strgen.GenericString;
-            strgen = new StringGenerator(16);
+            strgen = new StringGenerator();
             string vector = strgen.GenericString;
 
             SMGeneralContext context = new SMGeneralContext();
             User user = new User();
-            SMRijndaelEncryption ecryptor = new SMRijndaelEncryption(salt, pass, vector);
+            //SMRijndaelEncryption ecryptor = new SMRijndaelEncryption(salt, pass, vector);
+            RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, pass);
             try
             {
                 user.UserName = UserName;
-                user.Password = ecryptor.Encrypt(Password);
-                user.Email = ecryptor.Encrypt(Email);
-                user.City = City;
-                user.Country = Country;
-                user.FirstName = ecryptor.Encrypt(StrWraper( FirstName));
-                user.LastName = ecryptor.Encrypt(StrWraper(LastName));
-                user.MidleName = ecryptor.Encrypt(StrWraper(MidleName));
-                user.Sex = Sex;
+                user.Password = encryptor.Encrypt(Password);
+                user.Email = encryptor.Encrypt(Email);
+                user.PlaceId = City;
+                user.CountryId = Country;
+                user.FirstName = encryptor.Encrypt(StrWraper( FirstName));
+                user.LastName = encryptor.Encrypt(StrWraper(LastName));
+                user.MidleName = encryptor.Encrypt(StrWraper(MidleName));
+                user.Sex = (byte?)Sex;
                 context.Users.Add(user);
                 context.SaveChanges();
                 int Id = user.Id;
@@ -60,6 +63,15 @@ namespace Nostralogia3.Models.Authentication
                 ErrorMessage = "Registration has failed! Please check log files."; 
             }
             return brez;
+        }
+
+        public bool UserNameExists()
+        {
+            return _context.Users.Any(x => x.UserName == UserName);
+        }
+        public bool EmailExists()
+        {
+            return _context.Users.Any(x => x.Email == Email);
         }
     }
 }

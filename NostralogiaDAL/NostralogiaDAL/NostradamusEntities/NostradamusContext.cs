@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace NostralogiaDAL.NostradamusEntities
 {
-    public partial class NostradamusTestContext : DbContext
+    public partial class NostradamusContext : DbContext
     {
-        public NostradamusTestContext()
+        public NostradamusContext()
         {
         }
 
-        public NostradamusTestContext(DbContextOptions<NostradamusTestContext> options)
+        public NostradamusContext(DbContextOptions<NostradamusContext> options)
             : base(options)
         {
         }

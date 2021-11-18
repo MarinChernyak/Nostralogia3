@@ -59,6 +59,10 @@
                     @Html.LabelFor(x => x.LastName)
                     @Html.EditorFor(x => x.LastName)
                 </div>
+                <div class="col-md-2 form-group">
+                    @Html.LabelFor(x => x.Sex)
+                    @Html.DropDownListFor(x => x.Sex, Model.SexCollection, null, new { id = "cmbSex" })
+                </div>
 
                 @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel())
 

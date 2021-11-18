@@ -9,7 +9,6 @@ namespace NostralogiaDAL.SMGeneralEntities
     {
         public User()
         {
-            SecurityProtocols = new HashSet<SecurityProtocol>();
             UserAppRoles = new HashSet<UserAppRole>();
         }
 
@@ -19,9 +18,9 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string Email { get; set; }
         public bool? IsActive { get; set; }
         public DateTime ActivationDate { get; set; }
-        public short? Country { get; set; }
-        public int? State { get; set; }
-        public int? City { get; set; }
+        public short? CountryId { get; set; }
+        public int? StateId { get; set; }
+        public int? PlaceId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MidleName { get; set; }
@@ -29,7 +28,6 @@ namespace NostralogiaDAL.SMGeneralEntities
         public byte? Sex { get; set; }
         public string Token { get; set; }
 
-        public virtual ICollection<SecurityProtocol> SecurityProtocols { get; set; }
         public virtual ICollection<UserAppRole> UserAppRoles { get; set; }
     }
 }

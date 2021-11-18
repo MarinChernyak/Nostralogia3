@@ -10,7 +10,5 @@ namespace NostralogiaDAL.SMGeneralEntities
         public int UserId { get; set; }
         public short AppId { get; set; }
         public int Points { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

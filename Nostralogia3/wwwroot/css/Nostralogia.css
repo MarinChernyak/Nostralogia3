@@ -47,3 +47,8 @@
     .SecondaryYellow:hover {
         color: #bb8911;
     }
+
+/*Location */
+.block_right {
+    text-align: right;
+}

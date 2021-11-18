@@ -12,10 +12,16 @@ namespace Nostralogia3.Controllers.Authentication
     {
         public IActionResult ReLogIn()
         {
-            string cockie = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieUName);
-            if(!string.IsNullOrEmpty(cockie))
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            if(!string.IsNullOrEmpty(token))
             {
-                return RedirectToAction("Index", "Home"); 
+                EncryptDataUpdater updater = new EncryptDataUpdater();
+                token = updater.CheckToken(token);
+                if(!string.IsNullOrEmpty(token))
+                {
+                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
+                    return RedirectToAction("Index", "Home");
+                }                
             }
             LogInModel model = new LogInModel();
             return View("~/Views/Authentication/LogInStandAlone.cshtml", model);
@@ -23,16 +29,18 @@ namespace Nostralogia3.Controllers.Authentication
         [HttpPost]
         public ActionResult LogIn(LogInModel model)
         {
-            bool brez = model.TryLogIn();
+            string token = string.Empty;
+            bool brez = model.TryLogIn(out token);
             if (!brez)
                 return RedirectToAction("ReLogIn");
             else
             {
-                if(model.ShouldRemember)
+                if(model.ShouldRemember && !string.IsNullOrEmpty(token))
                 {
-                    CoockiesHelper.SetCockies(HttpContext, Constants.CoockieUName, model.UserName);
+                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
+                    string tt = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("HomePage", "Home");
             }
         }
         public ActionResult Registration()
@@ -46,16 +54,29 @@ namespace Nostralogia3.Controllers.Authentication
             
             if (ModelState.IsValid)
             {
-                bool brez=model.SaveUser();
-                if (brez)
+                bool UserNameExists = model.UserNameExists();
+                bool EmailExists = model.EmailExists();
+                if (UserNameExists)
                 {
-                    return View("~/Views/Authentication/LogInStandAlone.cshtml", new LogInModel());
+                    ModelState.AddModelError("UserName", "This User name already exists");
                 }
+                if(EmailExists)
+                {
+                    ModelState.AddModelError("Email", "This email already exists");
+                }
+
+                if(!UserNameExists && !EmailExists)
+                {
+                    bool brez = model.SaveUser();
+                    if (brez)
+                    {
+                        return View("~/Views/Authentication/LogInStandAlone.cshtml", new LogInModel());
+                    }
+                }
+                
             }
 
-             return View("~/Views/Authentication/RegistrationForm.cshtml", model);
-
-            
+             return View("~/Views/Authentication/RegistrationForm.cshtml", model);            
         }
     }
 }

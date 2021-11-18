@@ -15,7 +15,7 @@ namespace Nostralogia3
         public const string ZeroStringComboValue = "-1";
 
         public static String SessionID { get { return "Nostra_SESSION_ID"; } }
-        public static String CoockieUName{ get { return "Nostra_COCKIE_UName"; } }
+        public static String CoockieToken{ get { return "Nostra_COCKIE_Token"; } }
 
     }
 }

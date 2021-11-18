@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NostralogiaDAL.NostradamusEntities;
+using NostralogiaDAL.SMGeneralEntities;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Nostralogia3.Models.Authentication
 {
@@ -22,6 +27,29 @@ namespace Nostralogia3.Models.Authentication
         [DisplayName("Midle Name (Optional)")]
         public string MidleName { get; set; }
         [DisplayName("Gender (Optional)")]
-        public byte? Sex { get; set; }
+        public short? Sex { get; set; }
+
+        public List<SelectListItem> SexCollection { get; protected set; }
+        public MUser()
+        {
+            FillUpSexCollection();
+        }
+        protected void FillUpSexCollection()
+        {
+            using(NostradamusContext context = new NostradamusContext())
+            {
+                SexCollection = new List<SelectListItem>();
+                List<SexDatum> lst = context.SexData.ToList();
+                foreach(SexDatum sd in lst)
+                {
+                    SexCollection.Add(new SelectListItem()
+                    {
+                        Text = sd.SexDescription,
+                        Value = sd.SexId.ToString(),
+                        Selected = sd.SexId == 3 ? true : false
+                    });
+                }
+            }
+        }
     }
 }

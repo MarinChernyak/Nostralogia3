@@ -13,7 +13,5 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string Initvector { get; set; }
         public DateTime DateCreation { get; set; }
         public string UserName { get; set; }
-
-        public virtual User UserNameNavigation { get; set; }
     }
 }

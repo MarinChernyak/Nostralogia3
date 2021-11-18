@@ -1,4 +1,7 @@
-﻿using NostralogiaDAL.SMGeneralEntities;
+﻿using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models.Helpers;
+using NostralogiaDAL.SMGeneralEntities;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,21 +25,41 @@ namespace Nostralogia3.Models.Authentication
     {
         [DisplayName("Remember me")]
         public bool ShouldRemember { get; set; }
+
+        public bool IsLoggedIn { get; protected set; }
         public LogInModel()
         {
             
         }
-        public bool TryLogIn()
+        public LogInModel(HttpContext context)
         {
+            string token = CoockiesHelper.GetCockie(context, Constants.CoockieToken);
+            User user = _context.Users.FirstOrDefault(x => x.Token == token);
+            if(user!=null)
+            {
+                EncryptDataUpdater datapdater = new EncryptDataUpdater();
+                IsLoggedIn = true;
+                token = datapdater.SetToken(user.UserName);
+                CoockiesHelper.SetCockie(context, Constants.CoockieToken,token);
+            }
+        }
+        public bool TryLogIn(out string token)
+        {
+            token = "";
             bool bIsOK = false;
             User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
             if(user!=null)
             {
-                string pass = user.Password;
-                PasswordUpdater pupdater = new PasswordUpdater(user.UserName, pass);
-                if(pupdater.DecryptedPass == Password)
+                EncryptDataUpdater datapdater = new EncryptDataUpdater();
+                string decrpass = datapdater.DecryptStringVal(UserName, user.Password);
+                if(decrpass == Password)
                 {
                     bIsOK = true;
+                    datapdater.UpdateEncryptedData(UserName);
+                    if (ShouldRemember)
+                    {
+                        token = datapdater.SetToken(UserName);
+                    }
                 }
             }
 

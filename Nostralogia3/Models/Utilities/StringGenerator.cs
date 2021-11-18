@@ -8,103 +8,73 @@ namespace Nostralogia3.Utilities
     public class StringGenerator
     {
         private const int default_string_length = 8;
-        protected string _genstr = "";
-        public string GenericString { get { return _genstr; } }
+        public string GenericString { get; protected set; }
         protected int NumberSymbols { get; set; }
-        protected bool Numbers { get; set; }
-        protected bool SpecialSymbols { get; set; }
-        protected bool CapitalsLetters { get; set; }
-        protected bool SmallLetters { get; set; }
+        protected bool bNumbers { get; set; }
+        protected bool bSpecialSymbols { get; set; }
+        protected bool bCapitalsLetters { get; set; }
+        protected bool bSmallLetters { get; set; }
 
-        public StringGenerator(int iNumSymb= default_string_length, bool bNum=true, bool bSpecSymb=true, bool CapLetters=true, bool SmLetters=true)
+        protected const string LLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        protected const string lLetters = "abcdefghijklmnopqrstuvwxyz";
+        protected const string Numbers = "0123456789";
+        protected const string Symbols = "!@#$%^&*-_=+|";
+
+        protected List<string> Collections;
+        protected List<bool> generated;
+
+        public StringGenerator(int iNumSymb = default_string_length, bool bNum = true, bool bSpecSymb = true, bool CapLetters = true, bool SmLetters = true)
         {
             NumberSymbols = iNumSymb;
-            Numbers = bNum;
-            SpecialSymbols = bSpecSymb;
-            CapitalsLetters = CapLetters;
-            SmallLetters = SmLetters;
+            bNumbers = bNum;
+            bSpecialSymbols = bSpecSymb;
+            bCapitalsLetters = CapLetters;
+            bSmallLetters = SmLetters;
+            Collections = new List<string>()
+            {
+                LLetters,lLetters,Numbers,Symbols
+            };
+            generated = new List<bool>()
+            {
+                false, false, false, false
+            };
+
+
             Generate();
         }
         public void Generate()
         {
-            _genstr = String.Empty;
+            GenericString = String.Empty;
             if (NumberSymbols == 0)
                 NumberSymbols = default_string_length;
 
-            int NumSections = 0;
-            if (Numbers)
-                NumSections++;
-            if (SmallLetters)
-                NumSections++;
-            if (CapitalsLetters)
-                NumSections++;
-            if (SmallLetters)
-                NumSections++;
-            if (SpecialSymbols)
-                NumSections++;
-
-            if (NumSections == 0)
-            {
-                NumSections = 1;
-                SmallLetters = true;
-            }
-            int iNumSymbolsInSec = NumberSymbols / NumSections;
-            if (iNumSymbolsInSec * NumSections < NumberSymbols)
-                iNumSymbolsInSec++;
-
 
             Random rnd = new Random();
-            int iCount = 0;
-            int[] iAll = new int[4];
-            for (int i = 0; i < 4; i++)
-            {
-                iAll[i] = 0;
-            }
-            int iCh = 0;
 
-            if (!Numbers)
-                iAll[1] = 1;
-            if (!SpecialSymbols)
-                iAll[0] = 1;
-            if (!SmallLetters)
-                iAll[3] = 1;
-            if (!CapitalsLetters)
-                iAll[2] = 1;
-
-            while (iCount < NumberSymbols || iAll[0] == 0 || iAll[1] == 0 || iAll[2] == 0 || iAll[3] == 0)
+            while (GenericString.Length < NumberSymbols)
             {
-                iCh = rnd.Next(35, 122);
-                if ((iCh < 37
-                    || iCh == 43/*+*/
-                    || iCh == 45/*-*/
-                    || iCh == 61 /*=*/
-                    || iCh == 64 /*@*/
-                    || iCh == 94/*^*/
-                    || iCh == 95/*_*/) && iAll[0] < iNumSymbolsInSec && SpecialSymbols)
+                int index = 0;
+
+                index = generated.FindIndex(x => x == false);
+                if (GenericString.Length >= NumberSymbols - 4 && index>0)
                 {
-                    iAll[0]++;
-                    _genstr += Convert.ToChar(iCh);
-                    iCount++;
+                    UpdateString(index);
                 }
-                else if (iCh < 58 && iCh > 47 && iAll[1] < iNumSymbolsInSec && Numbers)
+                else
                 {
-                    iAll[1]++;
-                    _genstr += Convert.ToChar(iCh);
-                    iCount++;
+                    index = rnd.Next(0, Collections.Count - 1);
+                    UpdateString(index);
                 }
-                else if (iCh > 64 && iCh < 91 && iAll[2] < iNumSymbolsInSec && CapitalsLetters)
-                {
-                    iAll[2]++;
-                    _genstr += Convert.ToChar(iCh);
-                    iCount++;
-                }
-                else if (iCh > 96 && iAll[3] < iNumSymbolsInSec && SmallLetters)
-                {
-                    iAll[3]++;
-                    _genstr += Convert.ToChar(iCh);
-                    iCount++;
-                }
+                
             }
+        }
+        protected void UpdateString(int indexCollection)
+        {
+            string str = Collections[indexCollection];
+            generated[indexCollection] = true;
+            Random rnd = new Random();
+            int index = rnd.Next(0, str.Length - 1);
+            GenericString += str[index];
         }
     }
 }

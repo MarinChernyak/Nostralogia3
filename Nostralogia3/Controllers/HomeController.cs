@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Nostralogia3.Models;
 using Nostralogia3.Models.Authentication;
+using Nostralogia3.Models.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,10 +23,30 @@ namespace Nostralogia3.Controllers
 
         public IActionResult Index()
         {
+
             LogInModel model = new LogInModel();
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            if(!string.IsNullOrEmpty(token))
+            {
+                EncryptDataUpdater updater = new EncryptDataUpdater();
+                token = updater.CheckToken(token);
+                if (!string.IsNullOrEmpty(token))
+                {
+                    ViewBag.IsLoggedIn = model.IsLoggedIn;
+                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken,token);
+                }
+
+            }
+
+
+
             return View(model);
         }
 
+        public IActionResult HomePage()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
