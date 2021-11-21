@@ -1,9 +1,75 @@
-﻿
+﻿<link rel="stylesheet" href="~/css/dataTables.css" />
+<script type="text/javascript" charset="utf8" src="~/js/dataTables.js"></script>
 @{
     ViewData["Title"] = "HomPage";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+@model Nostralogia3.Models.HomePageModel
 
-<h1>Hom Page</h1>
+        <div class="row">
+            <div class="col-md-7 bg-light">
 
-X XXXXXX
+                <div class="tablelabel m-lg-4">Last ten Added Persons</div>
+                <table id="tblPeople" class="table table-striped m-lg-4" style="width:910px;">
+                    @**@
+                    <thead class="thead-dark">
+                        @**@
+                        <tr>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Birth place</th>
+                            <th>Events</th>
+                            <th>Keywords</th>
+                            <th>Pictures</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                        @foreach (var person in Model.People)
+                        {
+                            <tr>
+                                <td> @person.SecondName @person.FirstName </td>
+                                <td> @person.BirthDay-@person.BirthMonth-@person.BirthYear </td>
+                                <td> @person.CityName </td>
+                                <td> @person.NumEvents  </td>
+                                <td> @person.NumKw  </td>
+                                <td> @person.NumPictures  </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="tablelabel m-lg-4">Last ten World Evants Added..</div>
+                <table id="tblEvents" class="table table-striped m-lg-4" style="width:910px;">
+                    @**@
+                    <thead class="thead-dark">
+                        @**@
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Impact</th>
+                            <th>Contributor</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                        @foreach (var ev in Model.Events)
+                        {
+                        <tr>
+                            <td> @ev.EventName </td>
+                            <td> @ev.EventsDayFrom-@ev.EventsMonthFrom-@ev.EventsYearFrom </td>
+                            <td> @ev.Impact  </td>
+                            <td> @ev.UserName </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5 bg-secondary" style="min-height:300px;">
+
+            </div>
+        </div>
+
+        @*<script>
+                $(document).ready(function () {
+                    $('#tblPeople').DataTable();
+                });
+            </script>*@

@@ -11,7 +11,23 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Controllers
 {
-    public class HomeController : Controller
+
+    public class BaseSessionController: Controller
+    {
+        protected void SetSessionVariables(MUserBase model)
+        {
+            HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
+            HttpContext.Session.SetString(Constants.SessionULevel, model.UserLevel.ToString());
+
+        }
+        protected void DeleteSessionVariables()
+        {
+            HttpContext.Session.Remove(Constants.SessionUName);
+            HttpContext.Session.Remove(Constants.SessionULevel);
+
+        }
+    }
+    public class HomeController : BaseSessionController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -29,7 +45,7 @@ namespace Nostralogia3.Controllers
             LogInModel model = new LogInModel(token);
             if(!string.IsNullOrEmpty(model.UserName))
             {
-                HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
+                SetSessionVariables(model);
             }
 
             return View(model);
@@ -41,9 +57,10 @@ namespace Nostralogia3.Controllers
             LogInModel model = new LogInModel(token);
             if (!string.IsNullOrEmpty(model.UserName))
             {
-                HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
+                SetSessionVariables(model);
             }
-            return View();
+            HomePageModel mopdel = new HomePageModel();
+            return View(mopdel);
         }
         public IActionResult Privacy()
         {
@@ -55,5 +72,6 @@ namespace Nostralogia3.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

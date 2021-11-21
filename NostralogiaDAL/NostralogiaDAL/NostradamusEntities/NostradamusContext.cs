@@ -66,7 +66,7 @@ namespace NostralogiaDAL.NostradamusEntities
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-3MNP0406;Database=NostradamusTest;Trusted_Connection=True;");
             }
         }
@@ -1052,6 +1052,11 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.BirthYear).HasColumnName("Birth_Year");
 
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CountryAcronym)
                     .IsRequired()
                     .HasMaxLength(4)
@@ -1069,8 +1074,6 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.DataTypeName).HasMaxLength(50);
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
-
-                entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
@@ -1096,11 +1099,6 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.IdsSource)
                     .HasMaxLength(50)
                     .HasColumnName("IDS_Source");
-
-                entity.Property(e => e.PlaceName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.SecondName)
                     .HasMaxLength(50)
@@ -1129,6 +1127,11 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.ToView("vwPersonalDisplayData");
 
+                entity.Property(e => e.Abbreviation)
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.AdditionalHours).HasColumnName("Additional_hours");
 
                 entity.Property(e => e.BirthDay).HasColumnName("Birth_Day");
@@ -1148,6 +1151,11 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.BirthSecTo).HasColumnName("Birth_Sec_To");
 
                 entity.Property(e => e.BirthYear).HasColumnName("Birth_Year");
+
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CountryAcronym)
                     .IsRequired()
@@ -1183,11 +1191,6 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.NumKw).HasColumnName("NumKW");
 
-                entity.Property(e => e.PlaceName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.SecondName)
                     .HasMaxLength(50)
                     .HasColumnName("Second_Name");
@@ -1208,6 +1211,11 @@ namespace NostralogiaDAL.NostradamusEntities
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("State_region");
+
+                entity.Property(e => e.TzoneName)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .HasColumnName("TZone_name");
             });
 
             modelBuilder.Entity<VwPersonalNote>(entity =>

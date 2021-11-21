@@ -12,20 +12,20 @@
 </head>
 <body class="bg-dark">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 bg-dark">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nostralogia3</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="NostralogiaLabel">Nostralogia</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 w-75" style="background-color:aquamarine;">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between linkAction">
+                    <ul class="navbar-nav flex-grow-1 w-75 linkAction" >
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                     @{
@@ -37,17 +37,17 @@
                         }
                         if (!string.IsNullOrEmpty(name))
                         {
-                        <ul class="navbar-nav flex-grow-1" style="background-color:coral;">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Log Out</a>
+                        <ul class="navbar-nav flex-grow-1 ">
+                            <li class="nav-item  ">
+                                <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="LogOut">Log Out</a>
                             </li>
                         </ul>
                         }
                         else
                         {
-                        <ul class="navbar-nav flex-grow-1" style="background-color:burlywood;">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Log In</a>
+                        <ul class="navbar-nav flex-grow-1 linkAction" >
+                            <li class="nav-item ">
+                                <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="LogIn">Log In</a>
                             </li>
                         </ul>
                         }
@@ -57,7 +57,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

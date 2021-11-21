@@ -19,13 +19,28 @@ namespace Nostralogia3.Models.Authentication
         [MaxLength(50, ErrorMessage = "The length of a user  name must not exсeed 50 characters")]
         public string Password { get; set; }
 
+        public int UserLevel { get; protected set; }
+
+        protected int GetUserLevel(string username)
+        {
+            int level = 0;
+            User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
+            var vlevel = _context.UserAppRoles.Join(_context.Roles, uappr => uappr.RoleId, r => r.RoleId,
+                (uappr, r) => new { Uapr = uappr, R = r }).Where(z => z.R.AppId == Constants.ApplicationId && z.Uapr.UserId == user.Id).FirstOrDefault();
+            if (vlevel != null)
+            {
+                level = vlevel.R.AccessLevel;
+            }
+            return level;
+        }
 
     }
     public class LogInModel : MUserBase
     {
         [DisplayName("Remember me")]
         public bool ShouldRemember { get; set; }
-
+        public string ErrorMessage { get; set; }
+        
         public LogInModel()
         {
             
@@ -39,6 +54,7 @@ namespace Nostralogia3.Models.Authentication
                 if (brez)
                 {
                     UserName = updater.UserName;
+                    UserLevel = updater.UserLevel;
                 }
 
             }
@@ -60,12 +76,15 @@ namespace Nostralogia3.Models.Authentication
             token = "";
             bool bIsOK = false;
             User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
-            if(user!=null)
+            
+
+            if (user!=null)
             {
                 EncryptDataUpdater datapdater = new EncryptDataUpdater();
                 string decrpass = datapdater.DecryptStringVal(UserName, user.Password);
                 if(decrpass == Password)
                 {
+                    UserLevel = GetUserLevel(user.UserName);
                     UserName = user.UserName;
                     bIsOK = true;
                     datapdater.UpdateEncryptedData(UserName);

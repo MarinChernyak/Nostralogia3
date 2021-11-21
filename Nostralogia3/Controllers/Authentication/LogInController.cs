@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Nostralogia3.Models.Authentication;
 using Nostralogia3.Models.Helpers;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Controllers.Authentication
 {
-    public class LogInController : Controller
+    public class LogInController : BaseSessionController
     {
         public IActionResult ReLogIn()
         {
@@ -29,6 +30,12 @@ namespace Nostralogia3.Controllers.Authentication
                 }
             }
             LogInModel model = new LogInModel();
+            model.ErrorMessage = "Login failed. Please try again.";
+            return View("~/Views/Authentication/LogInStandAlone.cshtml", model);
+        }
+        public ActionResult LogIn()
+        {
+            LogInModel model = new LogInModel();            
             return View("~/Views/Authentication/LogInStandAlone.cshtml", model);
         }
         [HttpPost]
@@ -43,6 +50,7 @@ namespace Nostralogia3.Controllers.Authentication
                 if(model.ShouldRemember && !string.IsNullOrEmpty(token))
                 {
                     CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
+                    SetSessionVariables(model);
                 }
                 return RedirectToAction("HomePage", "Home");
             }
@@ -81,6 +89,13 @@ namespace Nostralogia3.Controllers.Authentication
             }
 
              return View("~/Views/Authentication/RegistrationForm.cshtml", model);            
+        }
+        public ActionResult LogOut()
+        {
+            CoockiesHelper.DeleteCockie(HttpContext, Constants.CoockieToken);
+            DeleteSessionVariables();
+
+            return RedirectToAction("HomePage", "Home");
         }
     }
 }

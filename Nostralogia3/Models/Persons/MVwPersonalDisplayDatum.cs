@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace NostralogiaDAL.NostradamusEntities
+namespace Nostralogia3.Models.Persons
 {
-    public partial class VwPersonalDisplayDatum
+    public class MVwPersonalDisplayDatum
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

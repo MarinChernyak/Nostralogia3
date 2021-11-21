@@ -22,6 +22,7 @@ namespace Nostralogia3.Models.Authentication
             if (user!=null)
             {                
                 UserName = user.UserName;
+                UserLevel = GetUserLevel(user.UserName);
                 bRez = true;
             }
 
@@ -42,14 +43,21 @@ namespace Nostralogia3.Models.Authentication
         public string DecryptStringVal(string username, string encryptedstr)
         {
             string decryptstr = string.Empty;
-            var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
-            if(secprot!=null)
+            try
             {
-                string salt = secprot.Salt;
-                string passcode = secprot.Passcode;
+                var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                if (secprot != null)
+                {
+                    string salt = secprot.Salt;
+                    string passcode = secprot.Passcode;
 
-                RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
-                decryptstr = encryptor.Decrypt(encryptedstr);
+                    RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                    decryptstr = encryptor.Decrypt(encryptedstr);
+                }
+            }
+            catch
+            {
+
             }
             return decryptstr;
         }
