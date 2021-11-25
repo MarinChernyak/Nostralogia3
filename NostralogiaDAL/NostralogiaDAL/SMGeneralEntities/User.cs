@@ -24,7 +24,7 @@ namespace NostralogiaDAL.SMGeneralEntities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MidleName { get; set; }
-        public DateTime? Dob { get; set; }
+        public DateTime Dob { get; set; }
         public byte? Sex { get; set; }
         public string Token { get; set; }
 

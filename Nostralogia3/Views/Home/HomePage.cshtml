@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-7 bg-light">
 
-                <div class="tablelabel m-lg-4">Last ten Added Persons</div>
+                <div class="tablelabel m-lg-4">Last Ten Persons Added </div>
                 <table id="tblPeople" class="table table-striped m-lg-4" style="width:910px;">
                     @**@
                     <thead class="thead-dark">
@@ -38,7 +38,7 @@
                     </tbody>
                 </table>
 
-                <div class="tablelabel m-lg-4">Last ten World Evants Added..</div>
+                <div class="tablelabel m-lg-4">Last Ten World Events Added..</div>
                 <table id="tblEvents" class="table table-striped m-lg-4" style="width:910px;">
                     @**@
                     <thead class="thead-dark">
@@ -64,7 +64,14 @@
                 </table>
             </div>
             <div class="col-md-5 bg-secondary" style="min-height:300px;">
-
+                <ul class="linkAction ml-lg-5 mt-lg-5">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="Consulting">Get a consulting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="DataPerson">Add data of a person</a>
+                    </li>
+                </ul>
             </div>
         </div>
 

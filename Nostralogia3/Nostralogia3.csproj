@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Models\Calendar\SimpleCalendarTimeModel.cs" />
+    <Compile Remove="Models\Utilities\SMRijndaelEncryption.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NostralogiaDAL\NostralogiaDAL\NostralogiaDAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\UserControls\" />
   </ItemGroup>
 
 </Project>

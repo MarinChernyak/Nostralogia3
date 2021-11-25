@@ -12,7 +12,7 @@ namespace Nostralogia3.Controllers.UserControls
     public class EventPlaceController : Controller
     {
         [HttpPost]
-        public JsonResult CountryChangedValue(int Id)
+        public JsonResult CountryChangedValue(short? Id)
         {
             GeoFactory fact = new GeoFactory();
             List<List<SelectListItem>> lst = fact.GetStatesCitiesByCountry(Id);

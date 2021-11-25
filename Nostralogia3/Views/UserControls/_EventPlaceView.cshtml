@@ -8,16 +8,16 @@
 
     <div class="col-md-3 form-group">
 
-        @Html.LabelFor(x => x.Country)
-        @Html.DropDownListFor(x => x.Country, Model.Countries, null, new { id = "cmbCountries" })
+        @Html.LabelFor(x => x.CountryId)
+        @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, new { id = "cmbCountries" })
     </div>
     <div class="col-md-3 form-group">
-        @Html.LabelFor(x => x.State)
-        @Html.DropDownListFor(x => x.State, Model.States, null, new { id = "cmbStates" })
+        @Html.LabelFor(x => x.StateId)
+        @Html.DropDownListFor(x => x.StateId, Model.States, null, new { id = "cmbStates" })
     </div>
-    <div class="col-md-5 form-group">
-        @Html.LabelFor(x => x.City)
-        @Html.DropDownListFor(x => x.City, Model.Cities, null, new { id = "cmbCities" })
+    <div class="col-md-3 form-group">
+        @Html.LabelFor(x => x.PlaceId)
+        @Html.DropDownListFor(x => x.PlaceId, Model.Cities, null, new { id = "cmbCities" })
     </div>
 </fieldset>
 

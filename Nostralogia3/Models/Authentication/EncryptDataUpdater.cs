@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Authentication
 {
-    public class EncryptDataUpdater : MUserBase
+    public class EncryptDataUpdater :MUserBase
     { 
         public EncryptDataUpdater()
         {
@@ -18,41 +18,76 @@ namespace Nostralogia3.Models.Authentication
         {
             bool bRez = false;
             string newtoken = string.Empty;
-            User user = _context.Users.FirstOrDefault(x => x.Token == token);
-            if (user!=null)
-            {                
-                UserName = user.UserName;
-                UserLevel = GetUserLevel(user.UserName);
-                bRez = true;
+            using (SMGeneralContext _context = new SMGeneralContext())
+            {
+                User user = _context.Users.FirstOrDefault(x => x.Token == token);
+                if (user != null)
+                {
+                    UserName = user.UserName;
+                    UserLevel = GetUserLevel(user.UserName);
+                    bRez = true;
+                }
             }
 
             return bRez;
         }
         public string SetToken(string username)
-        {           
+        {
+            
             string token  = Guid.NewGuid().ToString();
-            User user = _context.Users.Where(x => x.UserName == username).First();
-            if(user!=null)
+            using (SMGeneralContext _context = new SMGeneralContext())
             {
-                user.Token = token;
-                _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+                User user = _context.Users.Where(x => x.UserName == username).First();
+                if (user != null)
+                {
+                    user.Token = token;
+                    _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
             }
             return token;
+        }
+        public string EncryptStringVal(string username, string strtoencrypt)
+        {
+            string encryptstr = string.Empty;
+            try
+            {
+                using (SMGeneralContext _context = new SMGeneralContext())
+                {
+                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    if (secprot != null)
+                    {
+                        string salt = secprot.Salt;
+                        string passcode = secprot.Passcode;
+
+                        RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                        encryptstr = encryptor.Encrypt(strtoencrypt);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+            return encryptstr;
         }
         public string DecryptStringVal(string username, string encryptedstr)
         {
             string decryptstr = string.Empty;
             try
             {
-                var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
-                if (secprot != null)
+                using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    string salt = secprot.Salt;
-                    string passcode = secprot.Passcode;
+                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    if (secprot != null)
+                    {
+                        string salt = secprot.Salt;
+                        string passcode = secprot.Passcode;
 
-                    RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
-                    decryptstr = encryptor.Decrypt(encryptedstr);
+                        RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                        decryptstr = encryptor.Decrypt(encryptedstr);
+                    }
                 }
             }
             catch
@@ -61,47 +96,207 @@ namespace Nostralogia3.Models.Authentication
             }
             return decryptstr;
         }
+        public Dictionary<string, string> DecryptMapStrings(string username, Dictionary<string,string> map)
+        {
+            Dictionary<string, string> mapout = new Dictionary<string, string>();
+           
+            try
+            {
+                using (SMGeneralContext _context = new SMGeneralContext())
+                {
+                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    if (secprot != null)
+                    {
+                        string salt = secprot.Salt;
+                        string passcode = secprot.Passcode;
+
+                        RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                        foreach(string key in map.Keys)
+                        {
+                            mapout[key] = encryptor.Decrypt(map[key]);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return mapout;
+        }
+        public Dictionary<string, string> EncryptMapStrings(string username, Dictionary<string, string> map)
+        {
+            Dictionary<string, string> mapout = new Dictionary<string, string>();
+
+            try
+            {
+                using (SMGeneralContext _context = new SMGeneralContext())
+                {
+                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    if (secprot != null)
+                    {
+                        string salt = secprot.Salt;
+                        string passcode = secprot.Passcode;
+
+                        RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                        foreach (string key in map.Keys)
+                        {
+                            mapout[key] = encryptor.Encrypt(map[key]);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return mapout;
+        }
         public void UpdateEncryptedData(string username)
         {
             int SaltLength = 10;
             int PascodeLength = 12;
-            var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
-            if (secprot != null)
+            using (SMGeneralContext _context = new SMGeneralContext())
             {
-                User user = _context.Users.Where(x => x.UserName == username).First();
-                string salt = secprot.Salt;
-                string passcode = secprot.Passcode;
+                var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                if (secprot != null)
+                {
+                    User user = _context.Users.Where(x => x.UserName == username).First();
+                    string salt = secprot.Salt;
+                    string passcode = secprot.Passcode;
 
-                RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
-                string password = encryptor.Decrypt(user.Password);
-                string FName = encryptor.Decrypt(user.FirstName);
-                string email = encryptor.Decrypt(user.Email);
-                string LName = encryptor.Decrypt(user.LastName);
-                string MName = encryptor.Decrypt(user.MidleName);
+                    RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                    string password = encryptor.Decrypt(user.Password);
+                    string FName = encryptor.Decrypt(user.FirstName);
+                    string email = encryptor.Decrypt(user.Email);
+                    string LName = encryptor.Decrypt(user.LastName);
+                    string MName = encryptor.Decrypt(user.MidleName);
 
-                StringGenerator strgen = new StringGenerator(SaltLength);
-                salt = strgen.GenericString;
-                strgen = new StringGenerator(PascodeLength);
-                strgen.Generate();
-                passcode = strgen.GenericString;
+                    StringGenerator strgen = new StringGenerator(SaltLength);
+                    salt = strgen.GenericString;
+                    strgen = new StringGenerator(PascodeLength);
+                    strgen.Generate();
+                    passcode = strgen.GenericString;
 
 
-                encryptor = new RijndaelEncryptor(salt, passcode);
-                user.FirstName = encryptor.Encrypt(FName);
-                user.MidleName = encryptor.Encrypt(MName);
-                user.LastName = encryptor.Encrypt(LName);
-                user.Email = encryptor.Encrypt(email);
-                user.Password = encryptor.Encrypt(password);
-                _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    encryptor = new RijndaelEncryptor(salt, passcode);
+                    user.FirstName = encryptor.Encrypt(FName);
+                    user.MidleName = encryptor.Encrypt(MName);
+                    user.LastName = encryptor.Encrypt(LName);
+                    user.Email = encryptor.Encrypt(email);
+                    user.Password = encryptor.Encrypt(password);
 
-                secprot.Passcode = passcode;
-                secprot.Salt = salt;
+                    secprot.Passcode = passcode;
+                    secprot.Salt = salt;
+                    using (var dbContextTransaction = _context.Database.BeginTransaction())
+                    {
+                        _context.Entry(secprot).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
 
-                _context.Entry(secprot).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
-
+                }
             }
 
+        }
+
+        public MUser GetDecryptedUser(string username)
+        {
+            MUser model = null;
+            try
+            {
+                using (SMGeneralContext context = new SMGeneralContext())
+                {
+                    var vsecprot = context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id);
+                    if (vsecprot != null)
+                    {
+                        var secprot = vsecprot.First();
+                        if (secprot != null)
+                        {
+                            User user = context.Users.Where(x => x.UserName == username).First();
+                            string salt = secprot.Salt;
+                            string passcode = secprot.Passcode;
+
+                            RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                            user.Password = encryptor.Decrypt(user.Password);
+                            user.FirstName = encryptor.Decrypt(user.FirstName);
+                            user.Email = encryptor.Decrypt(user.Email);
+                            user.LastName = encryptor.Decrypt(user.LastName);
+                            user.MidleName = encryptor.Decrypt(user.MidleName);
+
+
+                            model = ModelsTransformer.TransferModel<User, MUser>(user);
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLog(e.Message);
+
+            }
+            return model;
+        }
+        public bool SetEncryptedUser(MUser muser)
+        {
+            bool bRez = false;
+            string salt = string.Empty;
+            string passcode = string.Empty;
+            GetSaltPasscode(out salt, out passcode);
+            using (SMGeneralContext _context = new SMGeneralContext())
+            {
+                try
+                {
+                    RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                    muser.FirstName = encryptor.Encrypt(muser.FirstName);
+                    muser.MidleName = encryptor.Encrypt(muser.MidleName);
+                    muser.LastName = encryptor.Encrypt(muser.LastName);
+                    muser.Email = encryptor.Encrypt(muser.Email);
+                    muser.Password = encryptor.Encrypt(muser.Password);
+
+                    User user = ModelsTransformer.TransferModel<MUser, User>(muser);
+                    bool bExists = _context.SecurityProtocols.Any(x => x.UserName == muser.UserName);
+
+                    using (var dbContextTransaction = _context.Database.BeginTransaction())
+                    {
+                        if (!bExists)
+                        {
+                            SecurityProtocol sp = new SecurityProtocol()
+                            {
+                                Passcode = passcode,
+                                Salt = salt,
+                                UserName = muser.UserName,
+                                DateCreation = DateTime.Now
+                            };
+                            _context.SecurityProtocols.Add(sp);
+                        }
+                        else
+                        {
+                            var secprot = _context.SecurityProtocols.Where(x => x.UserName == muser.UserName).OrderByDescending(x => x.Id).First();
+                            secprot.Salt = salt;
+                            secprot.Passcode = passcode;
+                            _context.Entry(secprot).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        }
+
+                        _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.Users.Update(user);
+                        _context.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    bRez = true;
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+
+            return bRez;
         }
     }
 }

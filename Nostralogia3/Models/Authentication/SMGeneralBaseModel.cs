@@ -8,10 +8,8 @@ namespace Nostralogia3.Models.Authentication
 {
     public class SMGeneralBaseModel
     {
-        protected SMGeneralContext _context;
         public SMGeneralBaseModel()
         {
-            _context = new SMGeneralContext();
         }
         protected string StrWraper(string str)
         {

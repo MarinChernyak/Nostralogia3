@@ -13,6 +13,16 @@ namespace Nostralogia3
         public const string ConnectionGeo = "ConnectionGeo";
         public const string ConnectionSMGeneral = "ConnectionSMGeneral";
 
+        public const string EmailFrom = "nostralogia@gmail.com";
+        public const string PassFrom = "Shofar8385";
+
+        public const int PassCodeLength = 12;
+        public const int SaltLength = 10;
+
+        public static DateTime DummyDate { get { return new DateTime(1800, 1, 1);  } }
+
+
+
         public const string ZeroStringComboText = "Select...";
         public const string ZeroStringComboValue = "-1";
 

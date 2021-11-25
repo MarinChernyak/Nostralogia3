@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Nostralogia3.Models.Helpers
+namespace Nostralogia3.Models.Utilities
 {
     public class LogMaster
     {

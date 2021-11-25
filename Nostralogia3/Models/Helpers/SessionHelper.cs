@@ -9,15 +9,15 @@ namespace Nostralogia3.Models.Helpers
 {
     public static class SessionHelper
     {
-        public static void SetObjectAsJson(this ISession session, string key, object value)
+        public static void SetObjectAsJson(this ISession session, string key, string value)
         {
-            session.SetString(key, JsonConvert.SerializeObject(value));
+            session.SetString(key, value);
         }
 
-        public static T GetObjectFromJson<T>(this ISession session, string key)
+        public static string GetObjectFromJson(this ISession session, string key)
         {
-            var value = session.GetString(key);
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+            string value = session.GetString(key);
+            return value ?? string.Empty;
         }
     }
 }

@@ -19,8 +19,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between linkAction">
-                    <ul class="navbar-nav flex-grow-1 w-75 linkAction" >
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between linkActionHighMenu">
+                    <ul class="navbar-nav flex-grow-1 w-50 linkActionHighMenu" >
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -30,22 +30,32 @@
                     </ul>
                     @{
                         string name = "";
+                        int level = 0;
                         if(Context.Session.GetString(Constants.SessionUName)!=null)
                         {
                             name = Context.Session.GetString(Constants.SessionUName).ToString();
-
+                            level =  Context.Session.GetString(Constants.SessionULevel)==null? 0: Convert.ToInt32(Context.Session.GetString(Constants.SessionULevel)) ;
                         }
                         if (!string.IsNullOrEmpty(name))
                         {
-                        <ul class="navbar-nav flex-grow-1 ">
-                            <li class="nav-item  ">
-                                <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="LogOut">Log Out</a>
-                            </li>
-                        </ul>
+                                        <ul class="navbar-nav flex-grow-1 ">
+                                            <li class="nav-item  ">
+                                                <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="LogOut">Log Out</a>
+                                            </li>
+                                            <li class="nav-item  ">
+                                                <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="MyAccount">My Account</a>
+                                            </li>
+                                            @if(level==4)
+                                            {
+                                            <li class="nav-item  ">
+                                                <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                                            </li>
+                                            }
+                                        </ul>
                         }
                         else
                         {
-                        <ul class="navbar-nav flex-grow-1 linkAction" >
+                        <ul class="navbar-nav flex-grow-1 linkActionHighMenu" >
                             <li class="nav-item ">
                                 <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="LogIn">Log In</a>
                             </li>

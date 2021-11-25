@@ -80,13 +80,14 @@ namespace Nostralogia3.Models.Factories
             return lst;
         }
 
-        public List<List<SelectListItem>> GetStatesCitiesByCountry(int id)
+        public List<List<SelectListItem>> GetStatesCitiesByCountry(short? id)
         {
+            short Id = id ?? 0;
             List<List<SelectListItem>> lstout = new List<List<SelectListItem>>();
             if (id > 0)
             {
-                lstout.Add(GetStatesListCollection(id));
-                lstout.Add(GetCitiesListCollection(id, 0));
+                lstout.Add(GetStatesListCollection(Id));
+                lstout.Add(GetCitiesListCollection(Id, 0));
             }
             return lstout;
         }

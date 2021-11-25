@@ -1,12 +1,13 @@
 ﻿
 @{
-    ViewData["Title"] = "Registration Form";
+    
     Layout = "~/Views/Shared/_Layout2.cshtml";
     @using Nostralogia3.Models.Geo
 }
-@model Nostralogia3.Models.Authentication.RegistrationModel
+@model Nostralogia3.Models.Authentication.MyAccount
 
-@using (Html.BeginForm("Registration", "LogIn", FormMethod.Post))
+
+@using (Html.BeginForm("MyAccount", "LogIn", FormMethod.Post))
 {
     <section class="bg-dark ">
         <div class="container">
@@ -14,19 +15,27 @@
                 <label class="text-danger">@Model.ErrorMessage</label>
             </div>
             <fieldset>
-                <legend  class="text-warning ml-lg-4">Registration Form</legend>
+                <legend class="text-warning ml-lg-4" >My Account</legend>
                 <div class="col-md-3 form-group">
 
                     @Html.LabelFor(x => x.UserName)
-                    @Html.EditorFor(x => x.UserName)
-                    <div class="row ml-lg-1">
-                        @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
-                    </div>
+                    @Html.EditorFor(x => x.UserName, new
+                    {
+                   htmlAttributes = new { @readonly = "readonly" }
+               })
+                </div>
+                <div class="col-md-3 form-group">
+
+                    @Html.LabelFor(x => x.Role)
+                    @Html.EditorFor(x => x.Role, new
+                    {
+                   htmlAttributes = new { @readonly = "readonly" }
+               })
                 </div>
                 <div class="col-md-3 form-group">
 
                     @Html.LabelFor(x => x.Password)
-                    @Html.PasswordFor(x => x.Password)
+                    @Html.EditorFor(x => x.Password)
                     <div class="row ml-lg-1">
                         @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                     </div>
@@ -38,13 +47,7 @@
                         @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-3 form-group">
-                    @Html.LabelFor(x => x.ConfirmEmail)
-                    @Html.EditorFor(x => x.ConfirmEmail)
-                    <div class="row ml-lg-1">
-                        @Html.ValidationMessageFor(x => x.ConfirmEmail, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+
                 <div class="col-md-3 form-group">
                     @Html.LabelFor(x => x.FirstName)
                     @Html.EditorFor(x => x.FirstName)
@@ -61,17 +64,23 @@
                     @Html.LabelFor(x => x.Sex)
                     @Html.DropDownListFor(x => x.Sex, Model.SexCollection, null, new { id = "cmbSex" })
                 </div>
-
-                @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel())
+                <div class="col-md-3 form-group">
+                    @Html.LabelFor(x => x.NumPoints)
+                    @Html.EditorFor(x => x.NumPoints, new
+               {
+                   htmlAttributes = new { /*disabled = "disabled",*/ @readonly = "readonly" }
+               })
+                </div>
+                @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlaceModel)
 
 
 
                 <div class="col-md-3 form-group align-items-center mt-lg-3">
-                    <button type="submit" class="btn btn-outline-warning">Register</button>
+                    <button type="submit" class="btn btn-outline-warning">Update</button>
                 </div>
             </fieldset>
 
         </div>
-</section>
-
+    </section>
+    @Html.HiddenFor(x=>x.Id)
 }

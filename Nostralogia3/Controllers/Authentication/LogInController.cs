@@ -14,13 +14,16 @@ namespace Nostralogia3.Controllers.Authentication
         public IActionResult ReLogIn()
         {
             string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
-            if(!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(token))
             {
                 EncryptDataUpdater updater = new EncryptDataUpdater();
                 bool bRez = updater.CheckToken(token);
-                if(bRez)
+                if (bRez)
                 {
                     token = updater.SetToken(updater.UserName);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionUName, updater.UserName);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionULevel, updater.UserLevel.ToString());
+
                     CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
                     return RedirectToAction("Index", "Home");
                 }
@@ -35,7 +38,7 @@ namespace Nostralogia3.Controllers.Authentication
         }
         public ActionResult LogIn()
         {
-            LogInModel model = new LogInModel();            
+            LogInModel model = new LogInModel();
             return View("~/Views/Authentication/LogInStandAlone.cshtml", model);
         }
         [HttpPost]
@@ -47,23 +50,26 @@ namespace Nostralogia3.Controllers.Authentication
                 return RedirectToAction("ReLogIn");
             else
             {
-                if(model.ShouldRemember && !string.IsNullOrEmpty(token))
+                if (model.ShouldRemember && !string.IsNullOrEmpty(token))
                 {
                     CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
                     SetSessionVariables(model);
                 }
+                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionUName, model.UserName);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionULevel, model.UserLevel.ToString());
+
                 return RedirectToAction("HomePage", "Home");
             }
         }
         public ActionResult Registration()
         {
             RegistrationModel model = new RegistrationModel();
-            return View("~/Views/Authentication/RegistrationForm.cshtml", model); 
+            return View("~/Views/Authentication/RegistrationForm.cshtml", model);
         }
         [HttpPost]
         public ActionResult Registration(RegistrationModel model)
         {
-            
+
             if (ModelState.IsValid)
             {
                 bool UserNameExists = model.UserNameExists();
@@ -72,23 +78,23 @@ namespace Nostralogia3.Controllers.Authentication
                 {
                     ModelState.AddModelError("UserName", "This User name already exists");
                 }
-                if(EmailExists)
+                if (EmailExists)
                 {
                     ModelState.AddModelError("Email", "This email already exists");
                 }
 
-                if(!UserNameExists && !EmailExists)
+                if (!UserNameExists && !EmailExists)
                 {
-                    bool brez = model.SaveUser();
+                    bool brez = model.SaveNewUser();
                     if (brez)
                     {
                         return View("~/Views/Authentication/LogInStandAlone.cshtml", new LogInModel());
                     }
                 }
-                
+
             }
 
-             return View("~/Views/Authentication/RegistrationForm.cshtml", model);            
+            return View("~/Views/Authentication/RegistrationForm.cshtml", model);
         }
         public ActionResult LogOut()
         {
@@ -96,6 +102,50 @@ namespace Nostralogia3.Controllers.Authentication
             DeleteSessionVariables();
 
             return RedirectToAction("HomePage", "Home");
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            MUser model = new MUser();
+
+            return View("~/Views/Authentication/ForgotPassword.cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(MUser model)
+        {
+            bool IsOK = model.ResetPassword();
+            if (!IsOK)
+            {
+                model.ErrorMessage = "Password was not reset! Please try again.";
+                return View("~/Views/Authentication/ForgotPassword.cshtml", model);
+            }
+            else
+            {
+                return RedirectToAction("LogIn");
+            }
+
+        }
+        public ActionResult MyAccount()
+        {
+            string username = SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionUName);
+            MyAccount model = new MyAccount(username);
+            return View("~/Views/Authentication/MyAccount.cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult MyAccount(MyAccount model)
+        {
+            if (model != null)
+            {
+                bool bRez = model.SaveData();
+                //EncryptDataUpdater updater = new EncryptDataUpdater();
+                //bool bRez= updater.SetEncryptedUser(model);
+                if (bRez)
+                {
+                    return RedirectToAction("HomePage", "Home");
+                }
+            }
+            model.ErrorMessage = "Updating data failed. Pleas etry again later.";
+            return RedirectToAction("~/Views/Authentication/MyAccount.cshtml", model);
         }
     }
 }

@@ -35,19 +35,27 @@ table, th, td {
         margin-left: 15px;
         font-weight: bold;
     }
-.linkAction, linkAction ul li {
+.linkActionHighMenu, linkActionHighMenu ul li {
     font-family: Arial;
-    font-size: 15px;
+    font-size: 17px;
+    color: floralwhite;   
+}
+.linkActionHighMenu:hover {
+    color: burlywood;
+}
+.linkAction {
+    font-family: Arial;
+    font-size: 20px;
     color: floralwhite;
+    font-weight:bold;
 }
-.linkAction:hover {
-    color:burlywood;
-}
-.ErrorMessage
-{
-    display:block;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size:15px;
+    .linkAction:hover {
+        color: burlywood;
+    }
+.ErrorMessage {
+    display: block;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
 }
 #PlaceEvent select {
     min-width: 220px;
