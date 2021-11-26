@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.UserControls.NostraTable
+<div class="row w-100">
+    <div class="row  w-100">
+        <div class="tablelabel">
+           @Model.TableLabel @*Last Ten Persons Added*@
+        </div>
+        <div class="ExpandLabel">
+            <a data-toggle="collapse" href="#@Model.ExpandCollapsAreaId()" role="button" aria-expanded="false" aria-controls="collapseExample">
+                ↑↓
+            </a>
+        </div>
+    </div>
+    <div class="collapse" id="@Model.ExpandCollapsAreaId()">
+        <table id="@Model.GetTbleId()" class="table table-striped m-lg-4" style="width:910px;">
+            @**@
+            <thead class="thead-dark">
+                @**@
+                <tr>
+                    @foreach(var label in @Model.Labels)
+                    {
+                        <th>@label</th>
+                    }
+                </tr>
+            </thead>
+            <tbody class="table-hover">
+                @foreach (var row in @Model.Data)
+                {
+                    <tr>
+                        @foreach (var data in row)
+                        {
+                    
+                            <td>@data </td>                    
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

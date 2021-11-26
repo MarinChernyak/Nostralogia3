@@ -5,75 +5,23 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 @model Nostralogia3.Models.HomePageModel
-
-        <div class="row">
-            <div class="col-md-7 bg-light">
-
-                <div class="tablelabel m-lg-4">Last Ten Persons Added </div>
-                <table id="tblPeople" class="table table-striped m-lg-4" style="width:910px;">
-                    @**@
-                    <thead class="thead-dark">
-                        @**@
-                        <tr>
-                            <th>Name</th>
-                            <th>DOB</th>
-                            <th>Birth place</th>
-                            <th>Events</th>
-                            <th>Keywords</th>
-                            <th>Pictures</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-hover">
-                        @foreach (var person in Model.People)
-                        {
-                            <tr>
-                                <td> @person.SecondName @person.FirstName </td>
-                                <td> @person.BirthDay-@person.BirthMonth-@person.BirthYear </td>
-                                <td> @person.CityName </td>
-                                <td> @person.NumEvents  </td>
-                                <td> @person.NumKw  </td>
-                                <td> @person.NumPictures  </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
-                <div class="tablelabel m-lg-4">Last Ten World Events Added..</div>
-                <table id="tblEvents" class="table table-striped m-lg-4" style="width:910px;">
-                    @**@
-                    <thead class="thead-dark">
-                        @**@
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Date</th>
-                            <th>Impact</th>
-                            <th>Contributor</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-hover">
-                        @foreach (var ev in Model.Events)
-                        {
-                        <tr>
-                            <td> @ev.EventName </td>
-                            <td> @ev.EventsDayFrom-@ev.EventsMonthFrom-@ev.EventsYearFrom </td>
-                            <td> @ev.Impact  </td>
-                            <td> @ev.UserName </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-5 bg-secondary" style="min-height:300px;">
-                <ul class="linkAction ml-lg-5 mt-lg-5">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="Consulting">Get a consulting</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="DataPerson">Add data of a person</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="row">
+        <div class="col-md-7 bg-light">
+            @await Html.PartialAsync("~/Views/UserControls/_NostraTableView.cshtml", Model.PeopleTable)
+            @await Html.PartialAsync("~/Views/UserControls/_NostraTableView.cshtml", Model.EventTable)
+            <br/>
         </div>
+        <div class="col-md-5 bg-secondary" style="min-height:300px;">
+            <ul class="linkAction ml-lg-5 mt-lg-5">
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="Consulting">Get a consulting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="DataWorking" asp-action="DataPerson">Add data of a person</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
         @*<script>
                 $(document).ready(function () {

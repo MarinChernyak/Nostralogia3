@@ -39,8 +39,4 @@
     <ProjectReference Include="..\NostralogiaDAL\NostralogiaDAL\NostralogiaDAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\UserControls\" />
-  </ItemGroup>
-
 </Project>

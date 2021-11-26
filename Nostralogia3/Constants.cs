@@ -33,5 +33,8 @@ namespace Nostralogia3
         public static String CoockieToken{ get { return "Nostra_COCKIE_Token"; } }
         public static String CoockieUserLevel { get { return "Nostra_COCKIE_ULevel"; } }
 
+        protected static int _counter = 0;
+        public static int Counter { get { return _counter++; } }
+
     }
 }
