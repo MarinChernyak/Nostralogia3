@@ -3,6 +3,23 @@
     ViewData["Title"] = "DataPerson";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+@using Nostralogia3.Models.Calendar
+<div class="row">
+    <div class="col-md-5 bg-light">
+        <fieldset>
+            <legend>Log in Form</legend>
 
-<h1>DataPerson</h1>
+            <div class="col-md-3 form-group">
+
+                @Html.Label("Date of Birth")
+                @await Html.PartialAsync("~/Views/UserControls/Calendar/CalendarMain.cshtml", new CalendarModel())
+
+            </div>
+         </fieldset>
+            
+    </div>
+    <div class="col-md-7 bg-secondary" style="min-height:300px;">
+       
+    </div>
+</div>
 

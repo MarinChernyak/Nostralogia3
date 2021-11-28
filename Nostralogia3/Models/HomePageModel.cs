@@ -27,7 +27,7 @@ namespace Nostralogia3.Models
 
             Events = EventsDataFactory.GetEventslDisplayDataList();
             People = PersonalDataFactory.GetPersonalDisplayDataList();
-            PeopleTable = new NostraTable("Last Ten People Added");
+            PeopleTable = new NostraTable("Last Ten People Added",false);
             PeopleTable.Labels = new List<string>()
             { "Name","DOB","Birth place","Events","Keywords","Pictures"};
 

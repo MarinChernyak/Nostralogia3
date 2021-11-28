@@ -12,9 +12,9 @@ namespace Nostralogia3.Controllers
     {
         CalendarModel _model;
 
-        public PartialViewResult CalendarMain(int index)
+        public PartialViewResult CalendarMain()
         {
-            _model = new CalendarModel(index);
+            _model = new CalendarModel();
             ViewBag.cmbMothes = new SelectList(_model.Months, "Value", "Description", _model.Month);
             return PartialView(_model);
         }

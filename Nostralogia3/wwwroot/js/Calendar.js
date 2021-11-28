@@ -456,6 +456,10 @@ CalendarBase.prototype = {
             curDay++;
             week++; 
         }
+        if (this.ShouldTurnNextMonth)
+        {
+            table = this.endRow(table);
+        }        
 
         return table;
     },

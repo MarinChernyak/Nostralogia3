@@ -24,7 +24,6 @@ namespace Nostralogia3.Models.Calendar
         protected int _year;
         public int Year { get { return _year; } }
 
-
         private List<YearNumber> _year_lst;
         public List<YearNumber> ListYear
         {
@@ -38,24 +37,25 @@ namespace Nostralogia3.Models.Calendar
         }
         public CalendarBaseModel(int index = 1)
         {
-            InitZerovariant(index);
-        }
-        public CalendarBaseModel(int day, int month, int year, int index = 1)
-        {
-            InitFullVariant(day, month, year, index);
-        }
-        protected void InitZerovariant(int index)
-        {
-            _calendarID = String.Format("Calendar_{0}", index);
             _calIndex = index;
+            InitZerovariant();
+        }
+        public CalendarBaseModel(int day, int month, int year, int index=1)
+        {
+            _calIndex = index;
+            InitFullVariant(day, month, year);
+        }
+        protected void InitZerovariant()
+        {
+            _calendarID = String.Format("Calendar_{0}", _calIndex);
             _day = DateTime.Now.Day; ;
             _month = DateTime.Now.Month;
             InitYear(DateTime.Now.Year);
         }
-        protected void InitFullVariant(int day, int month, int year, int index = 1)
+        protected void InitFullVariant(int day, int month, int year)
         {
-            _calIndex = index;
-            _calendarID = String.Format("Calendar_{0}", index);
+
+            _calendarID = String.Format("Calendar_{0}", _calIndex);
             _day = day;
             _month = month;
             InitYear(year);

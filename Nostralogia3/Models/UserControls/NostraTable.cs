@@ -11,11 +11,15 @@ namespace Nostralogia3.Models.UserControls
         public List<string> Labels { get; set; }
         public List<List<string>> Data { get; set; }
 
+        public bool Expanded { get; set; }
+        public string GetclassExpanded() { return Expanded ? "collapse.show" : "collapse"; }
+
         protected int index { get; }
-        public NostraTable(string label)
+        public NostraTable(string label, bool collapsed=true)
         {
             TableLabel = label;
-            index = Constants.Counter; ;
+            index = Constants.Counter;
+            Expanded = !collapsed;
         }
         public string GetTbleId()
         {
@@ -24,6 +28,10 @@ namespace Nostralogia3.Models.UserControls
         public string ExpandCollapsAreaId()
         {
             return $"ExpCollapxe{index}";
+        }
+        public string ExpanderId()
+        {
+            return $"Expander{index}";
         }
     }
 }

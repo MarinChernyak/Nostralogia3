@@ -8,13 +8,13 @@ namespace Nostralogia3.Models.Calendar
     public class SimpleCalendarModel :CalendarBaseModel
     {
 
-        public SimpleCalendarModel(int index = 1)
-            :base(index)
+        public SimpleCalendarModel()
+            :base()
         {
             InitDays();
         }
-        public SimpleCalendarModel(int day, int month, int year, int index = 1)
-            :base(day,month,year,index)
+        public SimpleCalendarModel(int day, int month, int year)
+            :base(day,month,year)
         {
             InitDays();
         }

@@ -73,7 +73,12 @@ table, th, td {
     margin-left:40px;
     font-size:22px;
     font-weight:bold;
+    cursor:auto;
 }
+    .ExpandLabel:hover {
+        cursor: url('../Images/Calendar/Hand_normal.cur'), default;
+        color:coral;
+    }
 /*    COLORS    */
 .SecondaryYellow {
     color: #dea92a;
