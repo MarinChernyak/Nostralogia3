@@ -79,6 +79,21 @@ table, th, td {
         cursor: url('../Images/Calendar/Hand_normal.cur'), default;
         color:coral;
     }
+.CalendarControls{
+    width:100px;
+    height:27px;
+}
+.CalendarLabel {
+    font-family: Arial;
+    font-size: 17px;
+    font-weight:bold;
+    margin-left:20px;
+}
+.wrapper {
+    width: 500px;
+    /*margin: 0 auto;*/
+    padding-left: 12%;
+}
 /*    COLORS    */
 .SecondaryYellow {
     color: #dea92a;

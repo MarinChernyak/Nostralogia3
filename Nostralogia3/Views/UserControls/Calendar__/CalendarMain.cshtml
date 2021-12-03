@@ -1,0 +1,180 @@
+﻿@model Nostralogia3.Models.Calendar.CalendarModel
+<link href="@Url.Content("~/css/Calendar.css")" rel="stylesheet" type="text/css" />    
+    <div class="Cldr_MainContainer">
+        <div  class="Cldr_BoxContainer" id="ID_cldrEditBox">
+            <div class="Cldr_Value" id="ID_cldr_value">
+                
+            </div>
+            <div class="Cldr_clockicon" id="ID_clockicon">
+                <img alt="time" src="~/Images/Calendar/clock.png" width="40" height="40"/>
+            </div>
+            <div class="Cldr_icon" id="ID_cldr_icon">
+                <img alt="calendar" src="~/Images/Calendar/calendar.png" width="40" height="40"/>
+            </div>
+        </div>
+        <div class="Cldr_BoxContainer Cldr_hidden" id="ID_main_container">
+            <div class="Cldr_InnerRow">
+                <div class="Cldr_Year">
+                    @for (int i = 0; i < 4; ++i)
+                    {
+                        @await Html.PartialAsync("~/Views/UserControls/Calendar/_YearNumber.cshtml", @Model.getYearNum(i));
+                    }
+                </div>
+                <div class="Cldr_CMB_MONTHES">
+                    @Html.DropDownList("ID_cmbMonthes", @Model.Months)
+                </div>
+                <div class="Cldr_closeicon" id="ID_close_icon">
+                    <img alt="close" src="~/Images/Calendar/close.png" />
+                </div>
+            </div>
+            <div class="Cldr_InnerRowTable">
+               <div class="Cldr_Header">
+             Sun
+         </div>
+         <div class="Cldr_Header">
+             Mon
+         </div>
+        <div class="Cldr_Header">
+             Tue
+         </div>
+         <div class="Cldr_Header">
+             Wed
+         </div>
+         <div class="Cldr_Header">
+             Thu
+         </div>
+         <div class="Cldr_Header">
+             Fri
+         </div>
+         <div class="Cldr_Header">
+             Sat
+         </div>
+            </div>
+            <div id="ID_calendarTable">
+                
+            </div>
+        </div>
+        <div class="Cldr_Row Cldr_hidden" id="ID_time">
+            @await Html.PartialAsync("~/Views/UserControls/Calendar/_TimeSelection.cshtml", @Model.TM)
+        </div>
+
+    </div>
+    
+
+    <input type="hidden" value="@Model.CalID" id="calID" />
+    <input type="hidden" value="@Model.Month" id="curMonthID" />
+    <input type="hidden" value="@Model.Day" id="curDayID" />
+    <input type="hidden" value="@Model.TM.Hour" id="curHID" />
+    <input type="hidden" value="@Model.TM.Minutes" id="curMID" />
+    <input type="hidden" value="@Model.TM.Seconds" id="curSID" />
+
+    <input type="hidden" value="" id="CalResult" />
+    <input type="hidden" value="" id="TimeResult" />
+
+<script src="~/js/AstroCalculations.js" type="text/javascript"></script>
+<script type="text/javascript" src="~/js/Calendar.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var calID = $("#calID").val();
+
+        var curMonth = $("#curMonthID").val();
+        var curDay = $("#curDayID").val();
+        var curH = $("#curHID").val();
+        var curM = $("#curMID").val();
+        var curS = $("#curSID").val();
+
+
+        var cal = new CalendarBase(curDay, curMonth, curH, curM, curS, calID, '@Model.CalIndex');
+
+        $("#ID_cmbMonthes_" + calID).on("change", function () {
+            cal.UpdateTable();
+        });
+
+        $("#ID_clockicon_" + calID).on("click", function () {
+            cal.UpdateCalendar("t");
+        });
+        $("#ID_cldr_icon_" + calID).on("click", function () {
+            cal.UpdateCalendar("m");
+        });
+        $("#ID_close_icon_" + calID).on("click", function () {
+            cal.UpdateCalendar("e");
+        });
+        $("#ID_time_closeicon_" + calID).on("click", function () {
+            $("#ID_cldr_value_" + calID).html(cal.getDateTimeOut());
+            cal.UpdateCalendar("e");
+        });
+        $("#year_plus_0_" + calID).on("click", function () {
+            cal.clickYearChange(0, '+');
+        });
+        $("#year_minus_0_" + calID).on("click", function () {
+            cal.clickYearChange(0, '-');
+        });
+        $("#year_plus_1_" + calID).on("click", function () {
+            cal.clickYearChange(1, '+');
+        });
+        $("#year_minus_1_" + calID).on("click", function () {
+            cal.clickYearChange(1, '-');
+        });
+        $("#year_plus_2_" + calID).on("click", function () {
+            cal.clickYearChange(2, '+');
+        });
+        $("#year_minus_2_" + calID).on("click", function () {
+            cal.clickYearChange(2, '-');
+        });
+        $("#year_plus_3_" + calID).on("click", function () {
+            cal.clickYearChange(3, '+');
+        });
+        $("#year_minus_3_" + calID).on("click", function () {
+            cal.clickYearChange(3, '-');
+        });
+        $(".Cldr_Cell_belongMonth"+ @Model.CalIndex + ",.Cldr_Cell_HolyDay" + @Model.CalIndex + ",.Cldr_Cell" + @Model.CalIndex).on("click", function (e) {
+            e.stopPropagation();
+            console.log("I am in");
+            var divclass = this.className;
+            var id = e.target.id;
+            console.log("divclass=>" + divclass + "    id=>" + id +"   CalIndex=>"+@Model.CalIndex);
+            cal.clickDayChange(id, divclass);
+        });
+
+        $("#tS10add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("S","10","+");
+        });
+        $("#tS10min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("S", "10", "-");
+        });
+        $("#tS1add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("S", "1", "+");
+        });
+        $("#tS1min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("S", "1", "-");
+        });
+        $("#tM10add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("M", "10", "+");
+        });
+        $("#tM10min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("M", "10", "-");
+        });
+        $("#tM1add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("M", "1", "+");
+        });
+        $("#tM1min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("M", "1", "-");
+        });
+        $("#tH10add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("H", "10", "+");
+        });
+        $("#tH10min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("H", "10", "-");
+        });
+        $("#tH1add_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("H", "1", "+");
+        });
+        $("#tH1min_" + calID).on("click", function () {
+            cal._tm.clickTimeChange("H", "1", "-");
+        });
+    });
+</script>
+
+
+

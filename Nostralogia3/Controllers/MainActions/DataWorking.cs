@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Nostralogia3.Models.DataWorking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace Nostralogia3.Controllers.MainActions
     {
         public IActionResult DataPerson()
         {
-            return View();
+            MPersonalData model = new MPersonalData();
+            return View(model);
         }
         public IActionResult Consulting()
         {

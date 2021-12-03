@@ -5,13 +5,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Calendar\SimpleCalendarTimeModel.cs" />
+    <Compile Remove="Models\Calendar\**" />
+    <Compile Remove="Models\Calendar__\**" />
+    <Compile Remove="Views\UserControls\Calendar\**" />
+    <Compile Remove="Views\UserControls\Calendar__\**" />
+    <Content Remove="Models\Calendar\**" />
+    <Content Remove="Models\Calendar__\**" />
+    <Content Remove="Views\UserControls\Calendar\**" />
+    <Content Remove="Views\UserControls\Calendar__\**" />
+    <EmbeddedResource Remove="Models\Calendar\**" />
+    <EmbeddedResource Remove="Models\Calendar__\**" />
+    <EmbeddedResource Remove="Views\UserControls\Calendar\**" />
+    <EmbeddedResource Remove="Views\UserControls\Calendar__\**" />
+    <None Remove="Models\Calendar\**" />
+    <None Remove="Models\Calendar__\**" />
+    <None Remove="Views\UserControls\Calendar\**" />
+    <None Remove="Views\UserControls\Calendar__\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\UserControls\CalendarController.cs" />
     <Compile Remove="Models\Utilities\SMRijndaelEncryption.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\UserControls\Calendar\SimpleCalendarTimeView.cshtml" />
-    <Content Remove="Views\UserControls\Calendar\SimpleCalendarView.cshtml" />
+    <Content Remove="wwwroot\css\Calendar.css" />
+    <Content Remove="wwwroot\js\Calendar.js" />
+    <Content Remove="wwwroot\js\Calendar2.js" />
   </ItemGroup>
 
   <ItemGroup>

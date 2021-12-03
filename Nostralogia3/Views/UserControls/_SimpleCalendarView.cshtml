@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.UserControls.SimpleCalendarModel
+
+
+    <div class="row">
+        <div class="CalendarLabel text-warning">
+            @Model.MainLabel
+        </div>
+    </div>
+    <div class="wrapper border border-warning">
+        <div class="row">
+            <div class="col-sm-3 form-group">
+                @Html.LabelFor(x => x.Day)
+                @Html.DropDownListFor(x => x.Month, Model.Days, null, new { id = @Model.GetIdDays(), @class = "CalendarControls" })
+            </div>
+            <div class="col-sm-3 form-group">
+                @Html.LabelFor(x => x.Month)
+                @Html.DropDownListFor(x => x.Month, Model.Monthes, null, new { id = @Model.GetIdMonthes(), @class = "CalendarControls" })
+            </div>
+            <div class="col-sm-3 form-group">
+                @Html.LabelFor(x => x.Year)
+                @Html.TextBoxFor(x => x.Year, new { id = @Model.GetIdYear(), @class = "CalendarControls", @type = "number" })
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //           Jan  Feb  Mar  Apr   May Jun  July  Aug  Sep  Oct  Nov
+            var monthes = ["31","28","31","30","31","30","31","31","30", "31","30","31"];
+
+            $("#@Model.GetIdYear()").on("change", function () {
+                UpdateMonthDays();
+            });
+            $("#@Model.GetIdMonthes()").on("change", function () {
+                UpdateMonthDays();
+            });
+            function UpdateMonthDays() {
+                var month = $("#@Model.GetIdMonthes() option:selected").val();
+                console.log("month = " + month);
+                FillDaysOfMonth(month);
+                if (month == 2) {
+                    var year = $("#@Model.GetIdYear()").val();
+                    console.log("year = " + year);
+                    if (isLeap(year)) {
+                        var newOption = $('<option value="29">29</option>');
+                        $("#@Model.GetIdDays()").append(newOption);
+                    }
+                }
+            }
+            function isLeap(yr)
+            {
+                var isleap = (yr % 400) ? ((yr % 100) ? ((yr % 4) ? false : true) : false) : true;
+                console.log("isleap = " + isleap);
+                return isleap;
+            }
+            function FillDaysOfMonth(month) {
+                $("#@Model.GetIdDays()").empty();
+                for (var i = 1; i <= monthes[month * 1 - 1]; i++) {
+                    var newOption = $('<option value=' + i + '>' + i + '</option>');
+                    $("#@Model.GetIdDays()").append(newOption);
+                }
+            }
+    });
+    </script>

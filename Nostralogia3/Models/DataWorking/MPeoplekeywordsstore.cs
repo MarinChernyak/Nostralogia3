@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.DataWorking
 {
-    public class PersonslData
+    public class MPeoplekeywordsstore
     {
     }
 }

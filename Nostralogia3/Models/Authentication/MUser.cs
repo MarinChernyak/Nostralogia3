@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Models.Utilities;
 using Nostralogia3.Utilities;
 using NostralogiaDAL.NostradamusEntities;
@@ -21,7 +22,7 @@ namespace Nostralogia3.Models.Authentication
         [Required(ErrorMessage = "Email cannot be empty")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-        [DisplayName("Country (Optional)")]
+        [DisplayName("Email")]
         public short? CountryId { get; set; }
         [DisplayName("State/Province/Land (Optional)")]
         public int? StateId { get; set; }
@@ -35,7 +36,7 @@ namespace Nostralogia3.Models.Authentication
         public string MidleName { get; set; }
         [DisplayName("Gender (Optional)")]
         public short? Sex { get; set; }
-
+        [DisplayName("Date of Birth (Optional)")]
         public DateTime Dob { get; set; }
         public string ErrorMessage { get; set; }
 
