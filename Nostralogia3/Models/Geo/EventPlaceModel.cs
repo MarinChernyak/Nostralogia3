@@ -10,29 +10,43 @@ namespace Nostralogia3.Models.Geo
 {
     public class EventPlaceModel
     {
-        [DisplayName("Country (Optional)")]
+        [DisplayName("Country")]
         public short? CountryId { get; set; }
-        [DisplayName("State/Province/Land (Optional)")]
+        [DisplayName("State/Province/Land")]
         public int? StateId { get; set; }
-        [DisplayName("City/Town/Village (Optional)")]
+        [DisplayName("City/Town/Village")]
         public int? PlaceId { get; set; }
-
+        public string MainLabel { get; set; }
 
         public List<SelectListItem> Countries { get; protected set; }
         public List<SelectListItem> States { get; protected set; }
         public List<SelectListItem> Cities { get; protected set; }
-        public EventPlaceModel()
+        public EventPlaceModel(string label)
         {
             FillUpCountries();
+            MainLabel = label;
             States = new List<SelectListItem>();
             Cities = new List<SelectListItem>();
         }
-        public EventPlaceModel(short? countryId, int? stateId, int? cityId)
+        public EventPlaceModel(int cityId, string label)
         {
-
-            CountryId =countryId??0;
-            StateId = stateId??0;
-            PlaceId = cityId??0;
+            MainLabel = label;
+            int idState = 0;
+            int idCountry = 0;
+            GeoFactory fact = new GeoFactory();
+            fact.GetCountryStateByCity(cityId,out idCountry,out idState);
+            FillUpAll((short)idCountry, idState, cityId);
+        }
+        public EventPlaceModel(short? countryId, int? stateId, int? cityId, string label)
+        {
+            MainLabel = label;
+            FillUpAll(countryId, stateId, cityId);
+        }
+        protected void FillUpAll(short? countryId, int? stateId, int? cityId)
+        {
+            CountryId = countryId ?? 0;
+            StateId = stateId ?? 0;
+            PlaceId = cityId ?? 0;
 
             FillUpCountries();
             if (CountryId > 0)
@@ -44,14 +58,15 @@ namespace Nostralogia3.Models.Geo
                 States = new List<SelectListItem>();
                 Cities = new List<SelectListItem>();
             }
-            if(StateId > 0)
+            if (StateId > 0)
             {
                 UpdateCitiesByStates();
             }
-            else if(Cities == null)
+            else if (Cities == null)
             {
                 Cities = new List<SelectListItem>();
             }
+
         }
         protected void FillUpCountries()
         {

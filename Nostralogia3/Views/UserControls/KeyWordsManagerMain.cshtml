@@ -1,0 +1,80 @@
+﻿@model Nostralogia3.Models.KeyWordsCollectionModel
+
+<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />
+<div class="container mt-5 text-center">
+    <div class="KWM_MainContainer_Edit">
+        <div class="KWM_InnerRow">
+            <div class="KWM_lbl">
+                Key words
+            </div>
+            <div class="KWM_txt_data" id="dvKW_txt_data">
+                @Model.ToString()
+            </div>
+            <div class="KWM_coner_button" id="dvbutOpen">
+                <img src="~/Images/KeyWordsManager/edit.png" height="40" width="40" id="butKWOpen" data-toggle="tooltip" data-placement="top" title="Edit" />
+            </div>
+        </div>
+        <div id="dvKW_MainSelection" class="KWM_hidden">
+            <div class="KWM_InnerRow ">
+                <div class="KWM_InnerContainer" id="dvFullListKW">
+                    @Html.ListBox("lstGeneral", @Model.KeyWordsCollection, new { id = "genLeft", size = "8" })
+                </div>
+                <div class="KWM_ButtonsContainer">
+
+                    <div class="KWM_button" id="butAdd"> >> </div>
+
+                    <div class="KWM_button" id="butRemove"> << </div>
+
+                    <div class="KWM_button" id="butDrUp"> up </div>
+
+                    <div class="KWM_button" id="butDrDown"> down </div>
+
+                </div>
+                <div class="KWM_InnerContainer" id="dvSelListKW">
+                    @Html.ListBox("lstSelectedGeneral", @Model.SelectedKeyWordsCollection, new { id = "selRight", size = "8" })
+                </div>
+            </div>
+            <div class="KWM_InnerRow">
+                <div class="KWM_InnerContainer">
+                    <div class="KWM_button" id="butOK"> Save </div>
+                    <div class="KWM_button" id="butCancel"> Cancel </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="hdKWIDCoolection" type="hidden" />
+    </div>
+</div>
+<script type="text/javascript" src="~/js/KeyWordsManager.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#butKWOpen").on("click", function () {
+            KWOpen();
+        });
+        $("#butAdd").on("click", function () {
+            AddKW();
+        });
+        $("#butRemove").on("click", function () {
+            $("#selRight option:selected").remove();
+        });
+        $("#butDrDown").on("click", function () {
+            DrillDown();
+        });
+        $("#genLeft").on("dblclick", function () {
+            var valselect = $("#genLeft option:selected").val();
+            $("#genLeft").val(valselect);
+            DrillDown();
+        });
+        $("#butDrUp").on("click", function () {
+            DrillUp();
+        });
+        $("#butOK").on("click", function () {
+            OnOK();
+        });
+        $("#butCancel").on("click", function () {
+            OnCancel();
+        });
+
+    });
+
+</script>

@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.UserControls.SimpleTimePickerModel
+
+
+<div class="row">
+    <div class="CalendarLabel text-warning">
+        @Model.MainLabel
+    </div>
+</div>
+<div class="wrapper border border-warning">
+    <div class="row">
+        <div class="col-sm-3 form-group">
+            @Html.LabelFor(x => x.Hour)
+            @Html.DropDownListFor(x => x.Hour, Model.Hours, null, new { id = @Model.GetIdHours(), @class = "CalendarControls" })
+        </div>
+        <div class="col-sm-3 form-group">
+            @Html.LabelFor(x => x.Minute)
+            @Html.DropDownListFor(x => x.Minute, Model.Minutes, null, new { id = @Model.GetIdMinutes(), @class = "CalendarControls" })
+        </div>
+    </div>
+</div>

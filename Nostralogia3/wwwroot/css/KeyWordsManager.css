@@ -1,0 +1,92 @@
+﻿.KWM_MainContainer {
+    float: left;
+    width: 520px;
+    padding: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    color: #282828;
+    background-color: #E1E1FF;
+    margin-bottom:10px;
+}
+
+.KWM_MainContainer_Edit {
+    float: left;
+    width: 520px;
+    padding: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    color: #282828;
+    background-color: #ECF0F2;
+    margin-bottom:10px;
+}
+.KWM_InnerRow {
+    float: left;
+    width: 100%;
+}
+.KWM_InnerContainer {
+    float:left;
+    margin:5px;
+    width:40%;
+}
+.KWM_InnerContainer select {
+    border: 1px solid #333333;
+    min-width: 200px;
+    border-radius:3px;
+    padding:3px;
+}
+
+.KWM_ButtonsContainer {
+    float: left;
+    text-align: center;
+   /* background-color: aquamarine;*/
+/*    margin-top: 10px;
+    margin-right: 0px;*/
+margin:10px auto 0 auto;
+    width: 9%;
+}
+.KWM_txt_data {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1A1B1C;
+    float: left;
+    margin-left: 10px;
+
+}
+.KWM_button {
+    float:left;
+    margin:2px 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    background-color: #7EA9A5;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    color: #282828;
+    min-width:40px;
+    padding:2px 3px;
+    text-align:center;
+}
+
+    .KWM_button:hover {
+    background-color: #EA7500;
+    border: 1px solid #000000;
+    cursor:pointer;
+}
+.KWM_coner_button img {
+    float:right;
+    margin-right:10px;
+    margin-top:-10px;
+}
+    .KWM_lbl {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    color: #00002B;
+    width:150px;
+    float:left;
+}
+.KWM_hidden {
+    display:none;
+}

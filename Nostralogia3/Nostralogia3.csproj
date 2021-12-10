@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\css\Calendar.css" />
+    <Content Remove="wwwroot\js\AstroCalculations.js" />
     <Content Remove="wwwroot\js\Calendar.js" />
     <Content Remove="wwwroot\js\Calendar2.js" />
   </ItemGroup>

@@ -62,7 +62,7 @@
                     @Html.DropDownListFor(x => x.Sex, Model.SexCollection, null, new { id = "cmbSex" })
                 </div>
 
-                @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel())
+                @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel("Where you are? (optional)"))
 
 
 
