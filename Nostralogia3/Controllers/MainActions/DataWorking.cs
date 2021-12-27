@@ -18,5 +18,11 @@ namespace Nostralogia3.Controllers.MainActions
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult GetModel(MPersonalData model)
+        {
+
+            return null;
+        }
     }
 }

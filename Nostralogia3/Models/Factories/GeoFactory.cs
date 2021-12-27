@@ -116,5 +116,27 @@ namespace Nostralogia3.Models.Factories
                 }
             }
         }
+        public string GetDisplayPlaceEvent(int id)
+        {
+            string place = string.Empty;
+            if (id > 0)
+            {
+                using (NostraGeoContext _context = new NostraGeoContext())
+                {
+                    City ct = _context.Cities.FirstOrDefault(x => x.Id == id);
+                    if (ct != null)
+                    {
+                        place = ct.CityName;
+                        int IdCountry = ct.Country;
+                        if(IdCountry>0)
+                        {
+                            var country = _context.Countries.FirstOrDefault(x => x.Id == IdCountry);
+                            place = $"{place} ({country.Acronym})";
+                        }
+                    }
+                }
+            }
+            return place;
+        }
     }
 }

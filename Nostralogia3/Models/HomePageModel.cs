@@ -27,9 +27,39 @@ namespace Nostralogia3.Models
 
             Events = EventsDataFactory.GetEventslDisplayDataList();
             People = PersonalDataFactory.GetPersonalDisplayDataList();
-            PeopleTable = new NostraTable("Last Ten People Added",false);
-            PeopleTable.Labels = new List<string>()
-            { "Name","DOB","Birth place","Events","Keywords","Pictures"};
+            PeopleTable = new NostraTable("Last Ten People Added",/*"910",*/false);
+            PeopleTable.Labels = new List<LabelData>()
+            { new LabelData()
+                {
+                    Label="Name",
+                    Width="150px"
+                },
+                new LabelData()
+                {
+                    Label = "DOB",
+                    Width = "120px"
+                },
+                new LabelData()
+                {
+                    Label = "Birth place",
+                    Width = "150px"
+                },
+                new LabelData()
+                {
+                    Label = "Events",
+                    Width = "70px"
+                },
+                new LabelData()
+                {
+                    Label = "Keywords",
+                    Width = "70px"
+                },
+                new LabelData()
+                {
+                    Label = "Pictures",
+                    Width = "70px"
+                }
+            };
 
             PeopleTable.Data = new List<List<string>>();
             foreach(var p in People)
@@ -45,11 +75,30 @@ namespace Nostralogia3.Models
                 });
             }
 
-            EventTable = new NostraTable("Last Ten Events Added");
-            EventTable.Labels = new List<string>()
-            {
-                "Event Name","Date","Impact","Contributor"
+            EventTable = new NostraTable("Last Ten Events Added"/* "910"*/);
+            EventTable.Labels = new List<LabelData>()
+            { new LabelData()
+                {
+                    Label="Event Name",
+                    Width="300px"
+                },
+                new LabelData()
+                {
+                    Label="Date",
+                    Width="150px"
+                },
+                new LabelData()
+                {
+                    Label="Impact",
+                    Width="150px"
+                },
+                new LabelData()
+                {
+                    Label="Contributor",
+                    Width="150px"
+                }
             };
+
             EventTable.Data = new List<List<string>>();
             foreach (var e in Events)
             {
@@ -58,7 +107,7 @@ namespace Nostralogia3.Models
                     e.EventName,
                     $"{e.EventsDayFrom}-{e.EventsMonthFrom}-{e.EventsYearFrom}",
                     e.Impact,
-                    e.UserName
+                    e.UserName                    
                 });
             }
         }

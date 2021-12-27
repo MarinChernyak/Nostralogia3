@@ -138,7 +138,7 @@ namespace Nostralogia3.Models
                 
                 using(NostradamusContext context = new NostralogiaDAL.NostradamusEntities.NostradamusContext())
                 {
-                    List<Keyword> lst = context.Keywords.Where(x=>x.Idkw > 0 && x.AccessLevel>0).ToList();
+                    List<Keyword> lst = context.Keywords.Where(x=>x.Idkw > 0).ToList();
                     _lstMainKWCollection = ModelsTransformer.TransferModelList<Keyword, MKeyWord>(lst);
                 }
                  

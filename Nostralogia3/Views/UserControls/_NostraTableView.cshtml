@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model Nostralogia3.Models.UserControls.NostraTable
+<script src="https://kit.fontawesome.com/945d346062.js" crossorigin="anonymous"></script>
+
 <div class="row w-100">
     <div class="row  w-100">
         <div class="tablelabel">
@@ -15,26 +17,40 @@
     </div>
 
     <div class="@Model.GetclassExpanded()" id="@Model.ExpandCollapsAreaId()">
-        <table id="@Model.GetTbleId()" class="table table-striped m-lg-4" style="width:910px;">
+        <table id="@Model.GetTbleId()" class="table table-striped m-lg-4 table-fixed">
             <thead class="thead-dark">
                 <tr>
                     @foreach (var label in @Model.Labels)
                     {
-                        <th>@label</th>
+                        <th class="th-lg" style="width:@label.Width;">@label.Label</th>
                     }
                 </tr>
             </thead>
             <tbody class="table-hover">
                 @foreach (var row in @Model.Data)
                 {
-                    <tr>
-                        @foreach (var data in row)
+                <tr>
+                    @foreach (var data in row)
+                    {
+
+                        if (@data.Contains(Constants.MarkerEdit))
                         {
-
-                            <td>@data </td>
-
+                            var pos = @data.IndexOf(":");
+                            var id = @data.Substring(pos);
+                            <td class="edit_cell" data-edit="@id"><i class="fas fa-edit"></i> </td>
                         }
-                    </tr>
+                        else if (@data.Contains(Constants.MarkerDelete))
+                        {
+                            var pos = @data.IndexOf(":");
+                            var id = @data.Substring(pos);
+                            <td class="delete_cell" data-edit="@id"><i class="far fa-trash-alt"></i> </td>
+                        }
+                        else
+                        {
+                            <td class="text-nowrap" >@data </td>
+                        }
+                    }
+                </tr>
                 }
             </tbody>
         </table>

@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-3 form-group">
                 @Html.LabelFor(x => x.Day)
-                @Html.DropDownListFor(x => x.Month, Model.Days, null, new { id = @Model.GetIdDays(), @class = "CalendarControls" })
+                @Html.DropDownListFor(x => x.Day, Model.Days, null, new { id = @Model.GetIdDays(), @class = "CalendarControls" })
             </div>
             <div class="col-sm-3 form-group">
                 @Html.LabelFor(x => x.Month)
