@@ -7,8 +7,8 @@
 @model Nostralogia3.Models.HomePageModel
     <div class="row">
         <div class="col-md-7 bg-light">
-            @await Html.PartialAsync("~/Views/UserControls/_NostraTableView.cshtml", Model.PeopleTable)
-            @await Html.PartialAsync("~/Views/UserControls/_NostraTableView.cshtml", Model.EventTable)
+            @await Html.PartialAsync("~/Views/UserControls/Tables/_NostraTableView.cshtml", Model.PeopleTable)
+            @await Html.PartialAsync("~/Views/UserControls/Tables/_NostraTableView.cshtml", Model.EventTable)
             <br/>
         </div>
         <div class="col-md-5 bg-secondary" style="min-height:300px;">
@@ -23,8 +23,4 @@
         </div>
     </div>
 
-        @*<script>
-                $(document).ready(function () {
-                    $('#tblPeople').DataTable();
-                });
-            </script>*@
+

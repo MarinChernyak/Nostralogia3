@@ -24,13 +24,34 @@ namespace Nostralogia3.Models.DataWorking
         public string SecondName { get ; set; }
         public byte BirthDay
         {
-            get; set;
+            get
+            {
+                return SimpleCalendarModel.Day;
+            }
+            set
+            {
+                SimpleCalendarModel.Day = value;
+            }
         }
         public byte BirthMonth {
-            get; set;
+            get
+            {
+                return SimpleCalendarModel.Month;
+            }
+            set
+            {
+                SimpleCalendarModel.Month = value;
+            }
         }
         public short BirthYear {
-            get;set;
+            get
+            {
+                return SimpleCalendarModel.Year;
+            }
+            set
+            {
+                SimpleCalendarModel.Year = value;
+            }
         }
         public byte BirthHourFrom 
         { 
@@ -94,7 +115,7 @@ namespace Nostralogia3.Models.DataWorking
         }
         public virtual List<MMapNote> MapNotes { get; set; }
         public SimpleTimePickerModel TimeFrom { get; set; }
-        public SimpleTimePickerModel TimeTo { get; set; }              
+        public SimpleTimePickerModel TimeTo { get; set; }
         public EventPlaceModel EventPlaceModel { get; set; }
         public virtual List<MPeopleevent> Peopleevents { get; set; }
         public virtual List<MPeoplekeywordsstore> Peoplekeywordsstores { get; set; }
@@ -105,7 +126,7 @@ namespace Nostralogia3.Models.DataWorking
         public List<SelectListItem> DataTypeCollection { get; protected set; }
         public List<MDataType> MDataTypes { get; protected set; }
 
-       public void FillUpCollections()
+        public void FillUpCollections()
         {
             using (NostradamusContext context = new NostradamusContext())
             {
@@ -157,8 +178,7 @@ namespace Nostralogia3.Models.DataWorking
                     Selected = sd.Idsource == SourceBirthTime ? true : false
                 });
             }            
-        }
-            
+        }            
         protected void FillUpSexCollection(NostradamusContext context)
         {
             SexCollection = new List<SelectListItem>();
@@ -195,6 +215,14 @@ namespace Nostralogia3.Models.DataWorking
                 SourceBirthTime = data.SourceBirthTime;
                 EventPlaceModel = new EventPlaceModel(data.CountryId,data.StateId, data.Place,"Birth Place");
             }
+        }
+
+        public int AddNew()
+        {
+            
+            Id = PersonalDataFactory.AddPersonalData(this);
+
+            return Id;
         }
     }
 }

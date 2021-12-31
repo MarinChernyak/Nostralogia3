@@ -36,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="C:\Users\aleks\Documents\Visual Studio 2019\Code Snippets\Visual C++\My Code Snippets\Example of modal dialog.cshtml" Link="Example of modal dialog.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Images\Calendar\calendar.png" />
     <None Include="wwwroot\Images\Calendar\clock.png" />
     <None Include="wwwroot\Images\Calendar\close.png" />

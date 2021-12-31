@@ -30,10 +30,7 @@ namespace Nostralogia3.Models.Factories
                 using (NostraGeoContext geocontext = new NostraGeoContext())
                 {
                     List<VwPeopleEvent> lstrecords = context.VwPeopleEvents.Where(x => x.Idperson == idPerson).ToList();
-                                     //join cit in geocontext.Cities on pe.PlaceEvent equals cit.Id
-                                     //join cnt in geocontext.Countries on cit.Country equals cnt.Id
-                                     //where pe.Idperson == idPerson
-                                     //select new { pe, cit.CityName, cnt.Acronym }).OrderBy(x=>x.pe.YearFrom).ThenBy(x=>x.pe.MonthFrom).ThenBy(x=>x.pe.DayFrom).ToList();
+                           
                     
                     foreach(VwPeopleEvent item in lstrecords)
                     {
@@ -42,11 +39,6 @@ namespace Nostralogia3.Models.Factories
                         if(idplace>0)
                         {
                             City place = geocontext.Cities.FirstOrDefault(x => x.Id == idplace);
-                            //StateRegion state = null;
-                            //if(place.RegionState>0)
-                            //{
-                            //    state = geocontext.StateRegions.FirstOrDefault(x => x.Id == place.RegionState);
-                            //}
                             Country country = null;
                             if(place.Country>0)
                             {
@@ -68,6 +60,18 @@ namespace Nostralogia3.Models.Factories
                     }
                 }
             }
+            return lst;
+        }
+
+        public static List<MEventsCategory> GetPersonalEventsCategory()
+        {
+            List<MEventsCategory> lst = null;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                var lstrecords = context.EventsCategories.OrderBy(x => x.Description).ToList();
+                lst = ModelsTransformer.TransferModelList<EventsCategory, MEventsCategory>(lstrecords);
+            }
+
             return lst;
         }
     }

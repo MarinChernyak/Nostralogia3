@@ -1,5 +1,6 @@
 ﻿using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
+using Nostralogia3.Models.Geo;
 using Nostralogia3.Models.Persons;
 using System;
 using System.Collections.Generic;
@@ -8,30 +9,37 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.UserControls
 {
-    public class PersonalEventsCollectionModel
+
+    public class PersonalEventsCollectionModel : NostraTable
     {
-        public NostraTable Eventstable { get; protected set; }
         public List<MPeopleevent> EventsCollection { get; protected set; } = new();
         public string Label { get; protected set; } = string.Empty;
+        public int Idperson { get; set; }
+
+        //public NewPersonalEventModal NewPersonalEventModal { get; set; } = new();
         public PersonalEventsCollectionModel(string label)
+            :base(label,false)
         {
             Label = label;
             InitCollection(0);
         }
         public PersonalEventsCollectionModel(int personId, string label)
+            :base(label,false)
         {
             Label = label;
             InitCollection(personId);
+            Idperson = personId;
+            //NewPersonalEventModal.DateFrom = new SimpleCalendarModel("Date From", 1, 1, 1900);
         }
         protected void InitCollection(int personId)
         {
-            List<MPeopleevent> data = EventsDataFactory.GetPersonalEventslList(835);
-            Eventstable = new NostraTable(Label, /*"500",*/false);
-            Eventstable.Labels.Add(new LabelData() { Label="Date From",Width= "200px" });
-            Eventstable.Labels.Add(new LabelData() { Label = "Place", Width = "200px" });
-            Eventstable.Labels.Add(new LabelData() { Label = "Category", Width = "300px" });
-            Eventstable.Labels.Add(new LabelData() { Label = "", Width = "50px" });
-            Eventstable.Labels.Add(new LabelData() { Label = "", Width = "50px" });
+            List<MPeopleevent> data = EventsDataFactory.GetPersonalEventslList(Idperson);
+            Labels = new List<LabelData>();
+            Labels.Add(new LabelData() { Label="Date From",Width= "200px" });
+            Labels.Add(new LabelData() { Label = "Place", Width = "200px" });
+            Labels.Add(new LabelData() { Label = "Category", Width = "300px" });
+            Labels.Add(new LabelData() { Label = "", Width = "50px" });
+            Labels.Add(new LabelData() { Label = "", Width = "50px" });
             GeoFactory gf = new GeoFactory();
             foreach (MPeopleevent pe in data)
             {
@@ -46,7 +54,7 @@ namespace Nostralogia3.Models.UserControls
                 lst.Add($"{Constants.MarkerEdit}:{pe.Idevent}");
                 lst.Add($"{Constants.MarkerDelete}:{pe.Idevent}");
 
-                Eventstable.Data.Add(lst);
+                Data.Add(lst);
             }
         }
     }

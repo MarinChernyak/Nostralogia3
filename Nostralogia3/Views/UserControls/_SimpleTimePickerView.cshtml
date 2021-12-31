@@ -3,21 +3,22 @@
 *@
 @model Nostralogia3.Models.UserControls.SimpleTimePickerModel
 
-
-<div class="row">
-    <div class="CalendarLabel text-warning">
-        @Model.MainLabel
-    </div>
-</div>
-<div class="wrapper border border-warning">
+<div class="ml-3">
     <div class="row">
-        <div class="col-sm-3 form-group">
-            @Html.LabelFor(x => x.Hour)
-            @Html.DropDownListFor(x => x.Hour, Model.Hours, null, new { id = @Model.GetIdHours(), @class = "CalendarControls" })
+        <div class="CalendarLabel text-dark">
+            @Model.MainLabel
         </div>
-        <div class="col-sm-3 form-group">
-            @Html.LabelFor(x => x.Minute)
-            @Html.DropDownListFor(x => x.Minute, Model.Minutes, null, new { id = @Model.GetIdMinutes(), @class = "CalendarControls" })
+    </div>
+    <div class="wrapper border border-secondary  BgColorControls">
+        <div class="row">
+            <div class="col-sm-3 form-group text-dark font-weight-bold">
+                @Html.LabelFor(x => x.Hour)
+                @Html.DropDownListFor(x => x.Hour, Model.Hours, null, new { id = @Model.GetIdHours(), @class = "CalendarControls" })
+            </div>
+            <div class="col-sm-3 form-group text-dark font-weight-bold">
+                @Html.LabelFor(x => x.Minute)
+                @Html.DropDownListFor(x => x.Minute, Model.Minutes, null, new { id = @Model.GetIdMinutes(), @class = "CalendarControls" })
+            </div>
         </div>
     </div>
 </div>

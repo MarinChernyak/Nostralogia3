@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.UserControls.PersonalEventsCollectionModel
+@using Nostralogia3.Models.DataWorking
+@using Nostralogia3.Models.UserControls
+
+<link rel="stylesheet" href="~/css/Nostralogia.css" />
+@Html.BeginForm("Index", "PersonalEvent", new { Id = 12345 }, FormMethod.Post)
+{
+<div class="container ">
+    <div class="container border border-secondary rounded BgColorControls">
+        <div class="container">
+            <div class="row  w-100">
+                <div class="tablelabel col-md-4">
+                    @Model.TableLabel @*Last Ten Persons Added*@
+                </div>
+                <div class="col-md-5"></div>
+                <div class="ExpandLabel col-md-1">
+                    <a id="@Model.ExpanderId()" role="button">
+                        @if (!@Model.Expanded)
+                        {
+                            <i class="fas fa-arrow-circle-down"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-arrow-circle-up"></i>
+                        }
+
+                    </a>
+                </div>
+                <div class="col-md-1 form-group mt-2 ">
+                    <button type="submit" class="btn btn-default" id="AddItem">
+                        <img src="~/Images/Partials/addMore.png" height="40" width="40" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="@Model.GetclassExpanded()" id="@Model.ExpandCollapsAreaId()">
+                <div class="container">
+                    @await Html.PartialAsync("~/Views/UserControls/Tables/_TableBaseView.cshtml", @Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+
+<script src="~/js/NostraTable.js"></script>
+<script>
+    $(document).ready(function () {
+        var nt = new NostraTable('@Model.ExpanderId()', '@Model.ExpandCollapsAreaId()');
+        $("#@Model.ExpanderId()").on("click", function () {
+            nt.OnExpanderClicked();
+        });
+    });
+</script>

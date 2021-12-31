@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.UserControls.NostraTable
+
+
+<div class="container">
+    <div class="row  w-100">
+        <div class="tablelabel col-md-10">
+            @Model.TableLabel @*Last Ten Persons Added*@
+        </div>
+        <div class="ExpandLabel col-md-1">
+            <a id="@Model.ExpanderId()" role="button">
+                @if (!@Model.Expanded)
+                {
+                    <i class="fas fa-arrow-circle-down"></i>
+                }
+                else
+                {
+                    <i class="fas fa-arrow-circle-up"></i>
+                }
+
+            </a>
+        </div>
+    </div>
+
+    <div class="@Model.GetclassExpanded()" id="@Model.ExpandCollapsAreaId()">
+        <div class="container">
+            @await Html.PartialAsync("~/Views/UserControls/Tables/_TableBaseView.cshtml", @Model)
+        </div>
+    </div>
+ </div>
+<script src="~/js/NostraTable.js"></script>
+<script>
+    $(document).ready(function () {
+        var nt = new NostraTable('@Model.ExpanderId()', '@Model.ExpandCollapsAreaId()');
+        $("#@Model.ExpanderId()").on("click", function () {
+            nt.OnExpanderClicked();
+        });
+    });
+</script>

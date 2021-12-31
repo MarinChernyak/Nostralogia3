@@ -2,44 +2,46 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model Nostralogia3.Models.Geo.EventPlaceModel
-<div class="row">
-    <div class="CalendarLabel text-warning">
-        @Model.MainLabel
+    <div class="ml-3">
+        <div class="row">
+            <div class="CalendarLabel text-dark ">
+                @Model.MainLabel
+            </div>
+        </div>
+        <div class="wrapper border border-secondary rounded BgColorControls">
+            <div class="row">
+                <fieldset id="PlaceEvent">
+
+                    <div class="col-md-3 form-group text-dark font-weight-bold">
+
+                        @Html.LabelFor(x => x.CountryId)
+                        @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, new { id = "cmbCountries" })
+                    </div>
+                    <div class="col-md-3 form-group text-dark font-weight-bold">
+                        @Html.LabelFor(x => x.StateId)
+                        @Html.DropDownListFor(x => x.StateId, Model.States, null, new { id = "cmbStates" })
+                    </div>
+                    <div class="col-md-3 form-group text-dark font-weight-bold">
+                        @Html.LabelFor(x => x.PlaceId)
+                        @Html.DropDownListFor(x => x.PlaceId, Model.Cities, null, new { id = "cmbCities" })
+                    </div>
+                </fieldset>
+            </div>
+        </div>
     </div>
-</div>
-<div class="wrapper border border-warning">
-    <div class="row">
-        <fieldset id="PlaceEvent">
-
-            <div class="col-md-3 form-group">
-
-                @Html.LabelFor(x => x.CountryId)
-                @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, new { id = "cmbCountries" })
-            </div>
-            <div class="col-md-3 form-group">
-                @Html.LabelFor(x => x.StateId)
-                @Html.DropDownListFor(x => x.StateId, Model.States, null, new { id = "cmbStates" })
-            </div>
-            <div class="col-md-3 form-group">
-                @Html.LabelFor(x => x.PlaceId)
-                @Html.DropDownListFor(x => x.PlaceId, Model.Cities, null, new { id = "cmbCities" })
-            </div>
-        </fieldset>
-    </div>
-</div>
-<script src="/JS/GeoActions.js"></script>
-<script>
-    $(document).ready(function () {
-
+    <script src="/JS/GeoActions.js"></script>
+    <script>
         $(document).ready(function () {
-            $("#cmbCountries").on("change", function () {
-                UpdateCountry();
-            });
-            $("#cmbStates").on("change", function () {
-                UpdateStates();
-            });
 
+            $(document).ready(function () {
+                $("#cmbCountries").on("change", function () {
+                    UpdateCountry();
+                });
+                $("#cmbStates").on("change", function () {
+                    UpdateStates();
+                });
+
+            });
         });
-    });
-</script>
+    </script>
 

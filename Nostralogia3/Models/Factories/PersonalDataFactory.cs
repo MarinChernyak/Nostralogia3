@@ -1,4 +1,6 @@
-﻿using Nostralogia3.Models.Persons;
+﻿using Nostralogia3.Models.DataWorking;
+using Nostralogia3.Models.Persons;
+using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,27 @@ namespace Nostralogia3.Models.Factories
                 mdata = ModelsTransformer.TransferModel<VwPersonalDisplayDatum, MVwPersonalDisplayDatum>(ldata);            }
 
             return mdata;
+        }
+        public static int AddPersonalData(MPersonalData mdata)
+        {
+            int Id =0;
+            Person data = ModelsTransformer.TransferModel<MPersonalData, Person>(mdata);
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    context.People.Add(data);
+                    context.SaveChanges();
+                    Id = data.Id;
+                }
+                catch(Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                    
+                }
+            }
+            return Id;
         }
     }
 }

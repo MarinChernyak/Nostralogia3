@@ -14,15 +14,30 @@ namespace Nostralogia3.Controllers.MainActions
             MPersonalData model = new MPersonalData();
             return View(model);
         }
+        public IActionResult EditPersonalData()
+        {
+            MPersonalData model =TempData["model"] as MPersonalData;
+            if (model != null)
+                model = new MPersonalData();
+            else
+                TempData["model"] = null;
+
+            return View(model);
+        }
         public IActionResult Consulting()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult GetModel(MPersonalData model)
+        public IActionResult AddPerson(MPersonalData model)
         {
-
-            return null;
+            if(ModelState.IsValid)
+            {
+                int Id = model.AddNew();
+                model.Id = Id;
+            }
+            
+            return View("~/Views/DataWorking/DataPerson.cshtml",model);
         }
     }
 }

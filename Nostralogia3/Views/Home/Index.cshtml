@@ -1,26 +1,36 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/Nostralogia.css" />
 
-<!-- content -->
-<div class="content_top"></div>
+    <title>Nostralogia 3.0</title>
+</head>
 
-<section id="MainHeader">
-        Nostralogia
-</section>
-@if (string.IsNullOrEmpty(@Model.UserName))
-{
-    @await Html.PartialAsync("~/Views/Authentication/_LogIn.cshtml", new Nostralogia3.Models.Authentication.LogInModel())
-}
+<body style="background-color:black;">
+    <!-- content -->
+    <div class="content_top"></div>
 
-<div class="content_bot ">
+    <section id="MainHeader2">
+        <div class="MainHeaderLabel">
+            Nostralogia
+        </div>
+    </section>
+    @if (string.IsNullOrEmpty(@Model.UserName))
+    {
+        @await Html.PartialAsync("~/Views/Authentication/_LogIn.cshtml", new Nostralogia3.Models.Authentication.LogInModel())
+    }
 
-</div>
-<script>
+    @*<div class="content_bot ">
+
+        </div>*@
+    <script>
     $(document).ready(function () {
-        $("#MainHeader").on("click", function () {
+        $("#MainHeader2").on("click", function () {
             window.location.href ='@Url.Action("HomePage", "Home")';
         });
 
     });
-</script>
+    </script>
+</body>
+</html>

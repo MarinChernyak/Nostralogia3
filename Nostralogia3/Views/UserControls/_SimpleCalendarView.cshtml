@@ -3,32 +3,33 @@
 *@
 @model Nostralogia3.Models.UserControls.SimpleCalendarModel
 
-
+<div class="ml-3">
     <div class="row">
-        <div class="CalendarLabel text-warning">
+        <div class="CalendarLabel text-dark">
             @Model.MainLabel
         </div>
     </div>
-    <div class="wrapper border border-warning">
+    <div class="wrapper border border-secondary rounded BgColorControls">
         <div class="row">
-            <div class="col-sm-3 form-group">
+            <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Day)
                 @Html.DropDownListFor(x => x.Day, Model.Days, null, new { id = @Model.GetIdDays(), @class = "CalendarControls" })
             </div>
-            <div class="col-sm-3 form-group">
+            <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Month)
                 @Html.DropDownListFor(x => x.Month, Model.Monthes, null, new { id = @Model.GetIdMonthes(), @class = "CalendarControls" })
             </div>
-            <div class="col-sm-3 form-group">
+            <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Year)
                 @Html.TextBoxFor(x => x.Year, new { id = @Model.GetIdYear(), @class = "CalendarControls", @type = "number" })
             </div>
         </div>
     </div>
-<script src="~/js/SimpleCalendar.js"></script>
+</div>
+    <script src="~/js/SimpleCalendar.js"></script>
     <script>
         $(document).ready(function () {
-            
+
 
             $("#@Model.GetIdYear()").on("change", function () {
                 UpdateMonthDays();
