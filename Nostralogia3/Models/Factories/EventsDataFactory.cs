@@ -1,6 +1,8 @@
-﻿using Nostralogia3.Models.DataWorking;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Events;
 using Nostralogia3.Models.Persons;
+using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;
 using NostralogiaDAL.NostraGeoEntities;
 using System;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {
-    public class EventsDataFactory
+    public class EventsDataFactory : BaseFactory
     {
         public static List<MVwWorldEvent> GetEventslDisplayDataList(int Nrecords = 10)
         {
@@ -30,30 +32,30 @@ namespace Nostralogia3.Models.Factories
                 using (NostraGeoContext geocontext = new NostraGeoContext())
                 {
                     List<VwPeopleEvent> lstrecords = context.VwPeopleEvents.Where(x => x.Idperson == idPerson).ToList();
-                           
-                    
-                    foreach(VwPeopleEvent item in lstrecords)
+
+
+                    foreach (VwPeopleEvent item in lstrecords)
                     {
-                        int idplace = item.PlaceEvent??0;
+                        int idplace = item.PlaceEvent ?? 0;
                         string fordisplay = string.Empty;
-                        if(idplace>0)
+                        if (idplace > 0)
                         {
                             City place = geocontext.Cities.FirstOrDefault(x => x.Id == idplace);
                             Country country = null;
-                            if(place.Country>0)
+                            if (place.Country > 0)
                             {
                                 country = geocontext.Countries.FirstOrDefault(x => x.Id == place.Country);
                             }
-                            if (place!=null)
+                            if (place != null)
                             {
                                 fordisplay = place.CityName;
                             }
-                            if(country!=null)
+                            if (country != null)
                             {
                                 fordisplay = $"{fordisplay} ({country.Acronym})";
                             }
                         }
-                        
+
                         MPeopleevent mpe = ModelsTransformer.TransferModel<VwPeopleEvent, MPeopleevent>(item);
                         mpe.EventPlaceDisplay = fordisplay;
                         lst.Add(mpe);
@@ -63,16 +65,58 @@ namespace Nostralogia3.Models.Factories
             return lst;
         }
 
-        public static List<MEventsCategory> GetPersonalEventsCategory()
+        public static List<SelectListItem> GetPersonalEventsKinds(int idCategory)
         {
-            List<MEventsCategory> lst = null;
+            List<SelectListItem> myColection = new List<SelectListItem>();
             using (NostradamusContext context = new NostradamusContext())
             {
-                var lstrecords = context.EventsCategories.OrderBy(x => x.Description).ToList();
-                lst = ModelsTransformer.TransferModelList<EventsCategory, MEventsCategory>(lstrecords);
-            }
+                try
+                {
+                    IQueryable<Eventslist> colection = context.Eventslists.Where(x => x.CategoryId == (byte)idCategory);
+                    if(colection.Any())
+                    {
+                        myColection =(List < SelectListItem >) colection.OrderBy(x => x.Description).Select(x => new SelectListItem
+                        {
+                            Text = x.Description,
+                            Value = x.Idevent.ToString()
+                        }).ToList();                        
+                    }
+                    InsertSelectItem(myColection);
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
 
-            return lst;
+                }
+            }
+            return myColection;
         }
+
+        public static List<SelectListItem> GetPersonalEventsCategory()
+        {
+            List<SelectListItem> myColection = null;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    myColection = (List<SelectListItem>)context.EventsCategories.OrderBy(x => x.Description).Select(x => new SelectListItem
+                    {
+                        Text = x.Description,
+                        Value = x.Idcat.ToString()
+                    }).ToList();
+                    InsertSelectItem(myColection);
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+
+                }
+            }
+            InsertSelectItem(myColection);
+            return myColection;
+        }
+
     }
 }

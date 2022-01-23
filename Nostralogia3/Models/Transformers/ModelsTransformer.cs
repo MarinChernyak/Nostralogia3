@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -82,6 +83,6 @@ namespace Nostralogia3.Models
                 TTo model = TransferModel<TFrom, TTo>(f);
                 modelto.Add(model);
             }
-        }
+        }        
     }
 }

@@ -19,7 +19,7 @@ namespace Nostralogia3.Models.Utilities
         public void SetLog(string log)
         {
             DateTime dt = DateTime.Now;
-            string filename = $"Nostralogia3_{dt.ToShortDateString()}.log";
+            string filename = $"Nostralogia3_{dt.ToShortDateString().Replace("/","_")}.log";
             if(!File.Exists($"{Path}\\{filename}"))
             {
                 using (StreamWriter sw = File.CreateText($"{Path}\\{filename}"))

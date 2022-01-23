@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,19 @@ namespace Nostralogia3.Models.Factories
     public class BaseFactory
     {
 
-        public BaseFactory(IConfigurationRoot config)
+        protected static void InsertSelectItem(List<SelectListItem> list)
         {
-            CustomConfiguration.BuildConfiguration();
-        }
-        protected string GetConnectionString(string strName)
-        {
-            return CustomConfiguration.config.GetConnectionString(strName);
+            if(list==null)
+            {
+                list = new List<SelectListItem>();
+            }
+            SelectListItem sli = new SelectListItem()
+            {
+                Value = Constants.ZeroStringComboValue,
+                Text = Constants.ZeroStringComboText,
+                Selected = true
+            };
+            list.Insert(0, sli);
         }
 
     }

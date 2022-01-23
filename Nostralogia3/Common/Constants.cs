@@ -18,6 +18,10 @@ namespace Nostralogia3
 
         public const int PassCodeLength = 12;
         public const int SaltLength = 10;
+        public const string ItemValue = "Value";
+        public const string ItemText = "Text";
+
+
 
         public static DateTime DummyDate { get { return new DateTime(1800, 1, 1);  } }
 

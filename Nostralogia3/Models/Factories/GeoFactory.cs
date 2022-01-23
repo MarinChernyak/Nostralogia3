@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {
-    public class GeoFactory
+    public class GeoFactory :BaseFactory
     {
         public GeoFactory()
         {
@@ -27,6 +27,7 @@ namespace Nostralogia3.Models.Factories
                     });
                 }
             }
+            InsertSelectItem(lst);                
             return lst;
         }
         public List<SelectListItem> GetStatesListCollection(int IdCountry)
@@ -50,6 +51,8 @@ namespace Nostralogia3.Models.Factories
                     });
                 }
             }
+            InsertSelectItem(lst);
+
             return lst;
         }
         public List<SelectListItem> GetCitiesListCollection(int IdCountry, int IdState=0)
@@ -84,6 +87,8 @@ namespace Nostralogia3.Models.Factories
                     }
                 }
             }
+            InsertSelectItem(lst);
+
             return lst;
         }
 

@@ -1,0 +1,119 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<link rel="stylesheet" href="~/css/Nostralogia.css" />
+@using Nostralogia3.Extensions
+@model Nostralogia3.Models.UserControls.Tables.PersonalEventModel
+
+<h1>@Model.MainLabel</h1>
+@using(Html.BeginForm("SaveEvent", "PersonalEvent"))
+{
+        <section class="bg-light">
+            <div class="container ">
+                <fieldset>
+                    <div class="col-md-4 form-group text-dark font-weight-bold mt-lg-3">
+                        @Html.LabelFor(x => x.IdCategory)
+                        @Html.DropDownListFor(x => x.IdCategory, Model.Categories, null, new { id = "cmbCategories", @class = "min_width_combo" })
+                    </div>
+                    <div class="col-md-4 form-group text-dark font-weight-bold mt-lg-3">
+                        @Html.LabelFor(x => x.IdeventKind)
+                        @Html.DropDownListFor(x => x.IdeventKind, Model.EventsKinds, null, new { id = "cmbEventsKind", style = "min-width:200px;overflow:auto;" })
+                    </div>
+                    <div class="col-md-4 form-group text-dark font-weight-bold mt-lg-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                Event
+                                @Html.RadioButtonFor(x=>x.IsEvent, Model.EventValue, new { @checked = true })
+                            </div>
+                            <div class="col-md-2">
+                                Period
+                                @Html.RadioButtonFor(x => x.IsEvent, Model.PeriodValue, new { @checked = false })
+                            </div>
+                        </div>
+                    </div>
+                        @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateFrom, nameof(Model.DateFrom))
+                <div id="CalendarTo">
+
+                    @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateTo, nameof(Model.DateTo))
+                </div>
+                        <div class="col-md-5 form-group form-check text-dark font-weight-bold mt-lg-3">
+                            @Html.LabelFor(x => x.Idsource)
+                            @Html.DropDownListFor(x => x.Idsource, Model.Sources, null, new { id = "cmbSources" })
+                        </div>
+
+                        @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlace, nameof(Model.EventPlace))
+
+                        <div class="col-md-7 form-group text-dark font-weight-bold mt-lg-5 ml-lg-4">
+                            @Html.CheckBoxFor(x => x.IsDataTypeTheSame, new { @class = "form-check-input", id = "chIsTheSame" })
+                            @Html.LabelFor(x => x.IsDataTypeTheSame, new { @class = "form-check-label" })
+
+                        </div>
+                        <div class="col-md-3 form-group form-check text-dark font-weight-bold mt-lg-3" id="dvDataType">
+                            @Html.LabelFor(x => x.DataType)
+                            @Html.DropDownListFor(x => x.DataType, Model.DataTypes, null, new { id = "cmbDataTypes" })
+                        </div>
+
+                        <div class="row mt-lg-5">
+                            <div class="form-group ml-lg-4">
+                                <button type="submit" class="nostr_btn">Save</button>
+                            </div>
+                            <div class="form-group ">
+                                <button type="button" class="nostr_btn">Cancel</button>
+                            </div>
+                        </div>
+</fieldset>
+            </div>
+        </section>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CalendarTo").hide();
+        $("#dvDataType").hide();
+
+        $("#chIsTheSame").on("click", function () {
+            if ($('#chIsTheSame').is(':checked')) {
+                $("#dvDataType").hide();
+            }
+            else {
+                $("#dvDataType").show();
+            }
+
+        });
+        $("[id*=IsEvent]").on("click", function () {
+            var val = $('input[name=IsEvent]:checked').val();
+            if (val == 'Event')
+                $("#CalendarTo").hide();
+            else
+                $("#CalendarTo").show();
+        });
+
+        $("#cmbCategories").on("change", function () {
+
+            var value = $("#cmbCategories option:selected").val();
+            
+            $.ajax({
+                type: "POST",
+                url: "/PersonalEvent/EventCategoryChangedValue",
+                data: { Id: value },
+                success: function (data) {
+                    UpdateEventsKind(data);
+                    
+                },
+                fail: function (e) {
+                    alert("Events data update error");
+                }
+            });
+        });
+        function UpdateEventsKind(result) {
+            var options = $("#cmbEventsKind");
+            options.empty();
+            $.each(result, function () {
+                options.append(new Option(this.text, this.value));
+            });
+
+        }
+       
+    });
+</script>

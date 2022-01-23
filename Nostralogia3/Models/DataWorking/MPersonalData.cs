@@ -98,7 +98,8 @@ namespace Nostralogia3.Models.DataWorking
         public PersonalEventsCollectionModel EventsCollection{ get; protected set; }
     public MPersonalData()
         {
-          
+
+            Id = 433;
             EventPlaceModel = new EventPlaceModel("Birth Place");
             DateTime dt = DateTime.Now;
             SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", (byte)dt.Day, (byte)dt.Month, (short)dt.Year);
@@ -138,17 +139,11 @@ namespace Nostralogia3.Models.DataWorking
         }
         protected void FillUpDataTypeCollection(NostradamusContext context)
         {
-            DataTypeCollection = new List<SelectListItem>();
-            List<NostralogiaDAL.NostradamusEntities.Datatype> lst = context.Datatypes.OrderBy(x=>x.Idtype).ToList();
-            MDataTypes = ModelsTransformer.TransferModelList<NostralogiaDAL.NostradamusEntities.Datatype, MDataType>(lst);
-            foreach (NostralogiaDAL.NostradamusEntities.Datatype sd in lst)
+            DataTypeCollection = PersonalDataFactory.GetDataTypes();
+            var sel = DataTypeCollection.FirstOrDefault(x => x.Value == DataType.ToString());
+            if(sel!=null)
             {
-                DataTypeCollection.Add(new SelectListItem()
-                {
-                    Text = sd.Description,
-                    Value = sd.Idtype.ToString(),
-                    Selected = sd.Idtype == DataType ? true : false
-                });
+                sel.Selected = true;
             }
         }
         protected void FillUpShiftTimeCollection(NostradamusContext context)
@@ -167,17 +162,13 @@ namespace Nostralogia3.Models.DataWorking
         }
         protected void FillUpSourcedata(NostradamusContext context)
         {
-            SourceColection = new List<SelectListItem>();
-            List<Source> lst = context.Sources.ToList();
-            foreach (Source sd in lst)
+            SourceColection = PersonalDataFactory.GetDataSources();
+            var sel = SourceColection.FirstOrDefault(x => x.Value == SourceBirthTime.ToString());
+            if(sel!=null)
             {
-                SourceColection.Add(new SelectListItem()
-                {
-                    Text = sd.SourceDescription,
-                    Value = sd.Idsource.ToString(),
-                    Selected = sd.Idsource == SourceBirthTime ? true : false
-                });
-            }            
+                sel.Selected = true;
+            }
+         
         }            
         protected void FillUpSexCollection(NostradamusContext context)
         {
