@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.UserControls.Tables;
 using System;
@@ -11,9 +12,14 @@ namespace Nostralogia3.Controllers.UserControls
 {
     public class PersonalEventController : Controller
     {
-        public ActionResult PersonalEventEdit(int IdPerson)
+        public ActionResult AddPersonalEvent(int IdPerson)
         {
-            PersonalEventModel model = new PersonalEventModel(IdPerson);
+            PersonalEventModel model = new PersonalEventModel(IdPerson,0);
+            return View("~/Views/DataWorking/EditPersonalEventView.cshtml", model);
+        }
+        public ActionResult EditPersonalEvent(int IdEvent)
+        {
+            PersonalEventModel model = new PersonalEventModel(0,IdEvent);
             return View("~/Views/DataWorking/EditPersonalEventView.cshtml", model);
         }
         [HttpPost]
@@ -25,8 +31,20 @@ namespace Nostralogia3.Controllers.UserControls
         [HttpPost]
         public ActionResult SaveEvent(PersonalEventModel model)
         {
-            List<SelectListItem> lst = EventsDataFactory.GetPersonalEventsKinds(Id);
-            return Json(lst);
+            bool brez = false;
+            if(ModelState.IsValid)
+            {
+                brez=EventsDataFactory.SavePersonalEvent(model);
+            }
+            if (brez)
+            {
+                MPersonalData pmodel = PersonalDataFactory.GetPersonalData(model.IdPerson);
+                return View("~/Views/DataWorking/DaataPerson.cshtml", pmodel);
+            }
+            else
+            {
+                return View("~/Views/DataWorking/EditPersonalEventView.cshtml", model);
+            }
         }
     }
 }

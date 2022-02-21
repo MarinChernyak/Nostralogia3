@@ -205,6 +205,9 @@ namespace Nostralogia3.Models.DataWorking
                 TimeTo = new SimpleTimePickerModel("Birth Time 'To'", BirthHourTo, BirthMinTo);
                 SourceBirthTime = data.SourceBirthTime;
                 EventPlaceModel = new EventPlaceModel(data.CountryId,data.StateId, data.Place,"Birth Place");
+
+                KWCollection = new KeyWordsCollectionModel(0,Id);
+
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nostralogia3.Models.DataWorking;
+using Nostralogia3.Models.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,10 @@ namespace Nostralogia3.Controllers.MainActions
             MPersonalData model = new MPersonalData();
             return View(model);
         }
-        public IActionResult EditPersonalData()
+        public IActionResult EditPersonalData(int id)
         {
-            MPersonalData model =TempData["model"] as MPersonalData;
-            if (model != null)
-                model = new MPersonalData();
-            else
-                TempData["model"] = null;
-
-            return View(model);
+            MPersonalData model = PersonalDataFactory.GetPersonalData(id);
+            return View("~/Views/DataWorking/DataPerson.cshtml",model);
         }
         public IActionResult Consulting()
         {
@@ -31,13 +27,27 @@ namespace Nostralogia3.Controllers.MainActions
         [HttpPost]
         public IActionResult AddPerson(MPersonalData model)
         {
-            if(ModelState.IsValid)
+            int Id = 0;
+            if (ModelState.IsValid)
             {
-                int Id = model.AddNew();
-                model.Id = Id;
+                 Id=model.AddNew();                
+            }
+            if(Id>0)
+            {
+                model = new MPersonalData(Id);
             }
             
-            return View("~/Views/DataWorking/DataPerson.cshtml",model);
+            return View("~/Views/DataWorking/DataPerson.cshtml", model);
+        }
+        public IActionResult DeletePersonalData(int id)
+        {
+            bool brez = true;
+            if(ModelState.IsValid)
+            {
+                brez = PersonalDataFactory.DeletePersonalData(id);
+            }
+
+            return RedirectToAction("HomePage", "Home");
         }
     }
 }

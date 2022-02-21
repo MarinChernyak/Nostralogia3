@@ -2,6 +2,7 @@
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Events;
 using Nostralogia3.Models.Persons;
+using Nostralogia3.Models.UserControls.Tables;
 using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;
 using NostralogiaDAL.NostraGeoEntities;
@@ -116,6 +117,53 @@ namespace Nostralogia3.Models.Factories
             }
             InsertSelectItem(myColection);
             return myColection;
+        }
+
+        public static bool SavePersonalEvent(PersonalEventModel model)
+        {
+            bool bRez = true;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    Peopleevent pe = new Peopleevent()
+                    {
+                        AcessLevel = model.DataType,
+                        DayFrom = model.DateFrom.Day,
+                        DayTo = model.DateTo.Day,
+                        Event = model.IdeventKind,
+                        Id = model.Id,
+                        Idcontributor = model.Idcontributor,
+                        Idperson = model.IdPerson,
+                        IsActive = true,
+                        MonthFrom = model.DateFrom.Month,
+                        MonthTo = model.DateTo.Month,
+                        Notes = model.Notes,
+                        PlaceEvent = model.EventPlace.PlaceId,
+                        Source = model.Idsource,
+                        YearFrom = model.DateFrom.Year,
+                        YearTo = model.DateTo.Year,
+                    };
+                    if (pe.Id == 0)
+                    {
+                        context.Peopleevents.Add(pe);
+                        
+                    }
+                    else
+                    {
+                        context.Peopleevents.Update(pe);
+                    }
+                    context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                    bRez = false;
+                }
+
+                return bRez;
+            }
         }
 
     }

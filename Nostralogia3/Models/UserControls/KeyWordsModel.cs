@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nostralogia3.Models.Factories;
 using NostralogiaDAL.NostradamusEntities;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace Nostralogia3.Models
     }
     public class KeyWordsCollectionModelDD : KeyWordsCollectionModel
     {
-        public KeyWordsCollectionModelDD(int id, String schema = "dbo")
-            :base(id,schema)
+        public KeyWordsCollectionModelDD(int id,string schema = "dbo")
+            :base(id, 0,schema)
         {
 
         }
@@ -36,8 +37,8 @@ namespace Nostralogia3.Models
     }
     public class KeyWordsCollectionModelDU : KeyWordsCollectionModel
     {
-        public KeyWordsCollectionModelDU(int id, String schema = "dbo")
-            : base(id,schema)
+        public KeyWordsCollectionModelDU(int id,  String schema = "dbo")
+            : base(id, 0, schema)
         {
 
         }
@@ -70,6 +71,8 @@ namespace Nostralogia3.Models
     }
     public class KeyWordsCollectionModel :BaseModel
     {
+        //for example - Id of eprson, or Id of Event
+       public  int IdForKWStorage { get; protected set; }
         //Irt is a data source just for the DEMO puprose
         protected static List<MKeyWord> _lstMainKWCollection;
         
@@ -80,8 +83,8 @@ namespace Nostralogia3.Models
                 return _lstKeyWordsCollection.ToList();
             }
         }
-        protected IEnumerable<SelectListItem> _lstSelectedKeyWordsCollection;
-        public IEnumerable<SelectListItem> SelectedKeyWordsCollection
+        protected List<SelectListItem> _lstSelectedKeyWordsCollection;
+        public List<SelectListItem> SelectedKeyWordsCollection
         {
             get
             {
@@ -95,8 +98,8 @@ namespace Nostralogia3.Models
         public override string ToString()
         {
 
-            String sOut = "Nothing selected...";
-            if (SelectedKeyWordsCollection != null)
+            String sOut = "No keword(s) selected...";
+            if (SelectedKeyWordsCollection != null && _lstSelectedKeyWordsCollection.Count > 0)
             {
                 sOut = String.Empty;
                 foreach (SelectListItem sli in SelectedKeyWordsCollection)
@@ -110,14 +113,16 @@ namespace Nostralogia3.Models
             }
             return sOut;
         }
-        public KeyWordsCollectionModel(int id=0, String schema = "dbo")
+        public KeyWordsCollectionModel(int id=0, int idforstorage=0, String schema = "dbo")
         {
+            IdForKWStorage = idforstorage;
             InitCollection(id,schema);
 
         }
-        public KeyWordsCollectionModel(List<MKeyWord> lstKW)
+        public KeyWordsCollectionModel(List<MKeyWord> lstKW, int idforstorage = 0)
         {
-            
+
+            IdForKWStorage = idforstorage;
             if (lstKW != null)
             {
                 _lstKeyWordsCollection = from c in lstKW
@@ -140,8 +145,17 @@ namespace Nostralogia3.Models
                 {
                     List<Keyword> lst = context.Keywords.Where(x=>x.Idkw > 0).ToList();
                     _lstMainKWCollection = ModelsTransformer.TransferModelList<Keyword, MKeyWord>(lst);
-                }
-                 
+
+                    if (IdForKWStorage > 0)
+                    {
+                        _lstSelectedKeyWordsCollection = context.Peoplekeywordsstores.Join(context.Keywords, pks=>pks.KeyWord,kw=>kw.Idkw, (pks,kw)=>new {Pks = pks, Kw = kw}).
+                            Where(x=>x.Pks.IdPerson== IdForKWStorage).Select(c => new SelectListItem()
+                        {
+                            Text = c.Kw.KeyWordDescription,
+                            Value = c.Kw.Idkw.ToString()
+                        }).ToList();
+                    }
+                }                 
             }
           _lstKeyWordsCollection = _lstMainKWCollection.Where(x => x.ReferenceId == 0).Select(c => new SelectListItem()
             {
@@ -151,30 +165,10 @@ namespace Nostralogia3.Models
 
 
 
-        }
-        protected void InintMainCollection_JUST_FOR_DEMO()
-        {
-            //_lstMainKWCollection = new List<KeyWord>();
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 1, KeyWordDescription = "Plants",  ReferenceID = 0});
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 2, KeyWordDescription = "Animals", ReferenceID = 0 });
 
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 3, KeyWordDescription = "Flowers", ReferenceID = 1});
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 4, KeyWordDescription = "Trees", ReferenceID = 1 });
-
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 5, KeyWordDescription = "Carnation", ReferenceID = 3 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 6, KeyWordDescription = "Camomile", ReferenceID = 3 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 7, KeyWordDescription = "Oak", ReferenceID = 4 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 8, KeyWordDescription = "Pine", ReferenceID = 4 });
-
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 9, KeyWordDescription = "Mammals", ReferenceID = 2});
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 10, KeyWordDescription = "Birds", ReferenceID = 2 });
-
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 11, KeyWordDescription = "Elephant", ReferenceID = 9 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 12, KeyWordDescription = "Mouse", ReferenceID = 9 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 13, KeyWordDescription = "Eagle", ReferenceID = 10 });
-            //_lstMainKWCollection.Add(new KeyWord() { IDKW = 14, KeyWordDescription = "Sparrow", ReferenceID = 10 });
 
         }
+
         protected void GetUpdatedKeyWordsCollection(MKeyWord[] lstKeyWordsCollection)
         {
             if (lstKeyWordsCollection != null)
@@ -187,6 +181,11 @@ namespace Nostralogia3.Models
                                          };
             }
 
+        }
+        public virtual bool SaveForStorage()
+        {
+            bool bRez = PersonalDataFactory.UpdatePersonalKeywords(_lstSelectedKeyWordsCollection,IdForKWStorage);
+            return bRez;
         }
     }
 }

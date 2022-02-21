@@ -1,25 +1,16 @@
-﻿.KWM_MainContainer {
-    float: left;
-    width: 520px;
-    padding: 10px;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 3px;
-    color: #282828;
-    background-color: #E1E1FF;
-    margin-bottom:10px;
-}
-
+﻿
 .KWM_MainContainer_Edit {
     float: left;
-    width: 520px;
+    width: 100%;
     padding: 10px;
     border-style: solid;
     border-width: 1px;
     border-radius: 3px;
     color: #282828;
-    background-color: #ECF0F2;
-    margin-bottom:10px;
+    /*background-color: #ECF0F2;*/
+    background-color:aquamarine;
+    min-width:700px;
+    margin-bottom: 10px;
 }
 .KWM_InnerRow {
     float: left;
@@ -60,7 +51,7 @@ margin:10px auto 0 auto;
     margin:2px 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
-    background-color: #7EA9A5;
+    background-color: #9db4d4;
     border-style: solid;
     border-width: 1px;
     border-radius: 3px;
@@ -82,8 +73,9 @@ margin:10px auto 0 auto;
 }
     .KWM_lbl {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11pt;
+    font-size: 12pt;
     color: #00002B;
+    font-weight:bold;
     width:150px;
     float:left;
 }

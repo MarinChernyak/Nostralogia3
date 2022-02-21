@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 Event
-                                @Html.RadioButtonFor(x=>x.IsEvent, Model.EventValue, new { @checked = true })
+                                @Html.RadioButtonFor(x => x.IsEvent, Model.EventValue, new { @checked = true })
                             </div>
                             <div class="col-md-2">
                                 Period
@@ -32,37 +32,40 @@
                             </div>
                         </div>
                     </div>
-                        @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateFrom, nameof(Model.DateFrom))
-                <div id="CalendarTo">
+                    @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateFrom, nameof(Model.DateFrom))
+                    <div id="CalendarTo">
 
-                    @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateTo, nameof(Model.DateTo))
-                </div>
-                        <div class="col-md-5 form-group form-check text-dark font-weight-bold mt-lg-3">
-                            @Html.LabelFor(x => x.Idsource)
-                            @Html.DropDownListFor(x => x.Idsource, Model.Sources, null, new { id = "cmbSources" })
+                        @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.DateTo, nameof(Model.DateTo))
+                    </div>
+                    <div class="col-md-5 form-group form-check text-dark font-weight-bold mt-lg-3">
+                        @Html.LabelFor(x => x.Idsource)
+                        @Html.DropDownListFor(x => x.Idsource, Model.Sources, null, new { id = "cmbSources" })
+                    </div>
+
+                    @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlace, nameof(Model.EventPlace))
+
+                    <div class="col-md-7 form-group text-dark font-weight-bold mt-lg-5 ml-lg-4">
+                        @Html.CheckBoxFor(x => x.IsDataTypeTheSame, new { @class = "form-check-input", id = "chIsTheSame" })
+                        @Html.LabelFor(x => x.IsDataTypeTheSame, new { @class = "form-check-label" })
+
+                    </div>
+                    <div class="col-md-3 form-group form-check text-dark font-weight-bold mt-lg-3" id="dvDataType">
+                        @Html.LabelFor(x => x.DataType)
+                        @Html.DropDownListFor(x => x.DataType, Model.DataTypes, null, new { id = "cmbDataTypes" })
+                    </div>
+                    <div class="col-md-6 form-group form-check text-dark font-weight-bold mt-lg-3" id="dvNotes">
+                        @Html.LabelFor(x=>x.Notes)
+                        @Html.TextAreaFor(x=>x.Notes, new { @class = "form-control" , cols="40", rows="5"}) 
+                    </div>
+                    <div class="row mt-lg-5">
+                        <div class="form-group ml-lg-4">
+                            <button type="submit" class="nostr_btn">Save</button>
                         </div>
-
-                        @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlace, nameof(Model.EventPlace))
-
-                        <div class="col-md-7 form-group text-dark font-weight-bold mt-lg-5 ml-lg-4">
-                            @Html.CheckBoxFor(x => x.IsDataTypeTheSame, new { @class = "form-check-input", id = "chIsTheSame" })
-                            @Html.LabelFor(x => x.IsDataTypeTheSame, new { @class = "form-check-label" })
-
+                        <div class="form-group ">
+                            <button type="button" class="nostr_btn">Cancel</button>
                         </div>
-                        <div class="col-md-3 form-group form-check text-dark font-weight-bold mt-lg-3" id="dvDataType">
-                            @Html.LabelFor(x => x.DataType)
-                            @Html.DropDownListFor(x => x.DataType, Model.DataTypes, null, new { id = "cmbDataTypes" })
-                        </div>
-
-                        <div class="row mt-lg-5">
-                            <div class="form-group ml-lg-4">
-                                <button type="submit" class="nostr_btn">Save</button>
-                            </div>
-                            <div class="form-group ">
-                                <button type="button" class="nostr_btn">Cancel</button>
-                            </div>
-                        </div>
-</fieldset>
+                    </div>
+                </fieldset>
             </div>
         </section>
 }

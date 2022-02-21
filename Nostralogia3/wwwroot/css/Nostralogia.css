@@ -119,8 +119,9 @@ table {
     line-height: 0.5;
 }
 
-.edit_cell {
+.edit_cell{
     cursor: pointer;
+    text-decoration:none;
 }
 .delete_cell {
     cursor: pointer;

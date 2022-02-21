@@ -1,80 +1,91 @@
 ﻿@model Nostralogia3.Models.KeyWordsCollectionModel
+@*<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />*@
 
-<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />
-<div class="container mt-5 text-center">
-    <div class="KWM_MainContainer_Edit">
-        <div class="KWM_InnerRow">
-            <div class="KWM_lbl">
-                Key words
-            </div>
-            <div class="KWM_txt_data" id="dvKW_txt_data">
-                @Model.ToString()
-            </div>
-            <div class="KWM_coner_button" id="dvbutOpen">
-                <img src="~/Images/KeyWordsManager/edit.png" height="40" width="40" id="butKWOpen" data-toggle="tooltip" data-placement="top" title="Edit" />
-            </div>
-        </div>
-        <div id="dvKW_MainSelection" class="KWM_hidden">
-            <div class="KWM_InnerRow ">
-                <div class="KWM_InnerContainer" id="dvFullListKW">
-                    @Html.ListBox("lstGeneral", @Model.KeyWordsCollection, new { id = "genLeft", size = "8" })
+<div class="container ">
+    <div class="container border border-secondary rounded BgColorControls">
+        <div class="container">
+            <div class="row  w-100 mb-1">
+                <div class="font-weight-bold text-dark h5 col-3 mt-2">
+                    Key words:
                 </div>
-                <div class="KWM_ButtonsContainer">
-
-                    <div class="KWM_button" id="butAdd"> >> </div>
-
-                    <div class="KWM_button" id="butRemove"> << </div>
-
-                    <div class="KWM_button" id="butDrUp"> up </div>
-
-                    <div class="KWM_button" id="butDrDown"> down </div>
-
+                <div class="col-8 mt-2" id="dvKW_txt_data">
+                    @Model.ToString()
                 </div>
-                <div class="KWM_InnerContainer" id="dvSelListKW">
-                    @Html.ListBox("lstSelectedGeneral", @Model.SelectedKeyWordsCollection, new { id = "selRight", size = "8" })
+
+                <div class="col-1 float-right" id="dvbutOpen">
+                    <img src="~/Images/KeyWordsManager/edit.png" height="40" width="40" id="butKWOpen" data-toggle="tooltip" data-placement="top" class="float-right" title="Edit" />
                 </div>
             </div>
-            <div class="KWM_InnerRow">
-                <div class="KWM_InnerContainer">
-                    <div class="KWM_button" id="butOK"> Save </div>
-                    <div class="KWM_button" id="butCancel"> Cancel </div>
+                <div id="dvKW_MainSelection" class="d-none">
+                    <div class="row ">
+                        <div class="col-4" id="dvFullListKW">
+                            @Html.ListBox("lstGeneral", @Model.KeyWordsCollection, new { id = "genLeft", size = "8", style="width:200px;" })
+                        </div>
+                        <div class="col-2">
+                            <div class="container">
+                                <button type="button" class="btn-sm btn-secondary  btn-block " id="butAdd">>></button>
+                                <button type="button" class="btn-sm btn-secondary  mt-1 btn-block" id="butRemove"><<</button>
+                                <button type="button" class="btn-sm btn-secondary  mt-1 btn-block" id="butDrUp">up</button>
+                                <button type="button" class="btn-sm btn-secondary  mt-1 btn-block" id="butDrDown">down</button>
+                            </div>
+                        </div>
+                        <div class="col-4 " id="dvSelListKW">
+                            @Html.ListBox("lstSelectedGeneral", @Model.SelectedKeyWordsCollection, new { id = "selRight", size = "8", style = "width:200px;" })
+                        </div>
+                    </div>
+                    <div class="row mb-2 mt-1">
+                        <div class="col-1">
+                            <button type="button" class="btn-primary" id="butOK">Save</button>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-info" id="butCancel">Cancel</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <input id="hdKWIDCoolection" type="hidden" />
+                <input id="hdKWIDCoolection" type="hidden" />
+            </div>
     </div>
 </div>
-<script type="text/javascript" src="~/js/KeyWordsManager.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#butKWOpen").on("click", function () {
-            KWOpen();
-        });
-        $("#butAdd").on("click", function () {
-            AddKW();
-        });
-        $("#butRemove").on("click", function () {
-            $("#selRight option:selected").remove();
-        });
-        $("#butDrDown").on("click", function () {
-            DrillDown();
-        });
-        $("#genLeft").on("dblclick", function () {
-            var valselect = $("#genLeft option:selected").val();
-            $("#genLeft").val(valselect);
-            DrillDown();
-        });
-        $("#butDrUp").on("click", function () {
-            DrillUp();
-        });
-        $("#butOK").on("click", function () {
-            OnOK();
-        });
-        $("#butCancel").on("click", function () {
-            OnCancel();
+
+
+    <script type="text/javascript" src="~/js/KeyWordsManager.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $("#butKWOpen").on("click", function () {
+                if (@Model.IdForKWStorage> 0) {
+                    KWOpen();
+                }
+                else {
+                    alert("Please save a personal data first!")
+                }
+                
+            });
+            $("#butAdd").on("click", function () {
+                AddKW();
+            });
+            $("#butRemove").on("click", function () {
+                $("#selRight option:selected").remove();
+            });
+            $("#butDrDown").on("click", function () {
+                DrillDown();
+            });
+            $("#genLeft").on("dblclick", function () {
+                var valselect = $("#genLeft option:selected").val();
+                $("#genLeft").val(valselect);
+                DrillDown();
+            });
+            $("#butDrUp").on("click", function () {
+                DrillUp();
+            });
+            $("#butOK").on("click", function () {
+                OnOK();
+            });
+            $("#butCancel").on("click", function () {
+                OnCancel();
+            });
+
         });
 
-    });
-
-</script>
+    </script>

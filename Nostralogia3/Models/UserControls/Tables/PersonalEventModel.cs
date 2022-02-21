@@ -12,6 +12,7 @@ namespace Nostralogia3.Models.UserControls.Tables
 {
     public class PersonalEventModel
     {
+        public int Id { get; protected set; }
         public string EventValue { get { return "Event"; } }
         public string PeriodValue { get { return "Period"; } }
         public string MainLabel { get; set; }
@@ -35,17 +36,22 @@ namespace Nostralogia3.Models.UserControls.Tables
         public int Idcontributor { get; set; }
 
         public string IsEvent { get; set; }
-        private int IdPerson { get; }
+        public int IdPerson { get; protected set; }
 
         public List<SelectListItem> Categories { get; set; }
         public List<SelectListItem> Sources { get; set; }
         public List<SelectListItem> DataTypes { get; set; }
         public List<SelectListItem> EventsKinds { get; set; }
 
-        public PersonalEventModel(int idPerson, string label="")
+        public PersonalEventModel()
+        {
+            CreatePartialsModels();
+        }
+        public PersonalEventModel(int idPerson, int idEvent=0, string label="")
         {            
             IsDataTypeTheSame = true;
             MainLabel = label;
+            Id = idEvent;
             IdPerson = idPerson;
             IsDataTypeTheSame = true;
             IsEvent = EventValue;

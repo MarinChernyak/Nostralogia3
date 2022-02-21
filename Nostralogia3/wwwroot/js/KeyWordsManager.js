@@ -1,6 +1,6 @@
 ﻿function KWOpen() {    
-    $("#dvKW_MainSelection").removeClass("KWM_hidden");
-    $("#dvbutOpen").addClass("KWM_hidden");
+    $("#dvKW_MainSelection").removeClass("d-none");
+    $("#dvbutOpen").addClass("d-none");
 }
 function AddKW() {
     var selid = $("#genLeft").val();
@@ -61,9 +61,29 @@ function UpdateRightList(data) {
         $("#genLeft").html(listItems);
     }
 }
-function OnOK() {
+function onOK() {
     var selValues = '';
     var texts = '';
+    $("#selRight option").each(function () {
+        selValues += this.value + ',';
+        texts += this.textContent + ', ';
+    });
+    if (selValues.length > 0
+    {
+        
+        $.ajax({
+            type: "POST",
+            url: "/KeyWordsManager/SaveDB?id=" + selid + "&data=" + selValues,
+            datatype: "json",
+            success: function (data) {
+
+                PostOnOK();
+            }
+        });
+    }
+}
+function PostOnOK() {
+
     $("#selRight option").each(function () {
         selValues += this.value + ',';
         texts += this.textContent + ', ';
@@ -71,14 +91,14 @@ function OnOK() {
     texts = texts.substring(0, texts.length - 2);
 
     $("#hdKWIDCoolection").val(selValues);
-    $("#dvKW_MainSelection").addClass("KWM_hidden");
+    $("#dvKW_MainSelection").addClass("d-none");
     $("#dvKW_txt_data").html(texts);
-    $("#dvbutOpen").removeClass("KWM_hidden");
+    $("#dvbutOpen").removeClass("d-none");
 
 }
 function OnCancel() {
-    $("#dvbutOpen").removeClass("KWM_hidden");
-    $("#dvKW_MainSelection").addClass("KWM_hidden");
+    $("#dvbutOpen").removeClass("d-none");
+    $("#dvKW_MainSelection").addClass("d-none");
 }
 function IsAlreadySelected(id) {
     var exists = false;

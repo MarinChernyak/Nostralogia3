@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Common;
 using Nostralogia3.Models;
+using Nostralogia3.Models.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,16 @@ namespace Nostralogia3.Controllers.UserControls
             objectToSerialize.items.Add(lstKW);
 
             return objectToSerialize;
+        }
+        [HttpPost]
+        public JsonResult SaveDB(int id, string data)
+        {
+            bool bRez = true;
+            if(id>0 && !string.IsNullOrEmpty(data))
+            {
+                bRez=PersonalDataFactory.UpdatePersonalKeywords(data, id); 
+            }
+            return Json(bRez);
         }
     }
 }

@@ -135,5 +135,97 @@ namespace Nostralogia3.Models.Factories
 
             return mdata;
         }
+        public static bool DeletePersonalData(int id)
+        {
+            bool bRez = true;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                    bRez = false;
+                }
+            }
+
+            return bRez;
+        }
+        public static bool UpdatePersonalKeywords(string data, int IdPerson)
+        {
+            bool bRez = true;
+            if (!string.IsNullOrEmpty(data) && IdPerson > 0)
+            {
+                string[] arrdata = data.Split(new char[] { ',' });
+                if (arrdata.Length > 0)
+                {
+                    using (NostradamusContext context = new NostradamusContext())
+                    {
+                        try
+                        {
+                            List<Peoplekeywordsstore> toadd = new List<Peoplekeywordsstore>();
+                            List<Peoplekeywordsstore> toremove = context.Peoplekeywordsstores.Where(x => x.IdPerson == IdPerson).ToList();
+                            context.Peoplekeywordsstores.RemoveRange(toremove);
+                            foreach (string item in arrdata)
+                            {
+                                toadd.Add(new Peoplekeywordsstore()
+                                {
+                                    IdPerson = IdPerson,
+                                    IsAvailable = true,
+                                    KeyWord = Convert.ToInt16(item)
+                                });
+                            }
+                            context.Peoplekeywordsstores.AddRange(toadd);
+                            context.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            LogMaster lm = new LogMaster();
+                            lm.SetLog(e.Message);
+                            bRez = false;
+                        }
+                    }
+                }
+            }
+
+            return bRez;
+        }
+        public static bool UpdatePersonalKeywords(List<SelectListItem>lstKW, int IdPerson)
+        {
+            bool bRez = true;
+            if (lstKW != null && lstKW.Count > 0 && IdPerson>0)
+            {
+                using (NostradamusContext context = new NostradamusContext())
+                {
+                    try
+                    {
+                        List<Peoplekeywordsstore> toadd = new List<Peoplekeywordsstore>();
+                        List<Peoplekeywordsstore> toremove = context.Peoplekeywordsstores.Where(x => x.IdPerson == IdPerson).ToList();
+                        context.Peoplekeywordsstores.RemoveRange(toremove);
+                        foreach(SelectListItem item in lstKW)
+                        {
+                            toadd.Add(new Peoplekeywordsstore()
+                            {
+                                IdPerson = IdPerson,
+                                IsAvailable = true,
+                                KeyWord = Convert.ToInt16(item.Value)
+                            });
+                        }
+                        context.Peoplekeywordsstores.AddRange(toadd);
+                        context.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        LogMaster lm = new LogMaster();
+                        lm.SetLog(e.Message);
+                        bRez = false;
+                    }
+                }
+            }
+            return bRez;
+        }
     }
 }

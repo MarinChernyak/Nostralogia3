@@ -58,6 +58,16 @@ namespace Nostralogia3.Models
                 {
                     Label = "Pictures",
                     Width = "70px"
+                },
+                new LabelData()
+                {
+                    Label = "",
+                    Width = "50px"
+                },
+                new LabelData()
+                {
+                    Label = "",
+                    Width = "50px"
                 }
             };
 
@@ -71,7 +81,11 @@ namespace Nostralogia3.Models
                     $"{p.CityName} ({p.CountryAcronym})",
                     p.NumEvents.ToString(),
                     p.NumKw.ToString(),
-                    p.NumPictures.ToString()
+                    p.NumPictures.ToString(),
+                    $"{Constants.MarkerEdit}:DataWorking|EditPersonalData|{p.Id}",
+                    $"{Constants.MarkerDelete}:DataWorking|DeletePersonalData|{p.Id}"
+
+
                 });
             }
 

@@ -20,22 +20,26 @@
             @foreach (var data in row)
             {
 
-            if (@data.Contains(Constants.MarkerEdit))
-            {
-            var pos = @data.IndexOf(":");
-            var id = @data.Substring(pos);
-            <td class="edit_cell" data-edit="@id"><i class="fas fa-edit"></i> </td>
-            }
-            else if (@data.Contains(Constants.MarkerDelete))
-            {
-            var pos = @data.IndexOf(":");
-            var id = @data.Substring(pos);
-            <td class="delete_cell" data-edit="@id"><i class="far fa-trash-alt"></i> </td>
-            }
-            else
-            {
-            <td class="text-nowrap">@data </td>
-            }
+                if (@data.Contains(Constants.MarkerEdit))
+                {
+                    var pos = @data.IndexOf(":");
+                    var arr = @data.Substring(pos+1).Split(new char[] { '|' });
+                    <td class="edit_cell">
+                        <a asp-controller="@arr[0]" asp-action="@arr[1]" asp-route-id="@arr[2]" style="color:#414141"><i class="fas fa-edit"></i></a>                
+                    </td>
+                }
+                else if (@data.Contains(Constants.MarkerDelete))
+                {
+                    var pos = @data.IndexOf(":");
+                    var arr = @data.Substring(pos + 1).Split(new char[] { '|' });
+                    <td class="delete_cell" >
+                        <a asp-controller="@arr[0]" asp-action="@arr[1]" asp-route-id="@arr[2]" style="color:#414141" onclick = "return confirm('Are you sure you wish to delete this item?')"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                }
+                else
+                {
+                    <td class="text-nowrap">@data </td>
+                }
             }
         </tr>
         }
