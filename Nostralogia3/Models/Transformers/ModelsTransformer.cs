@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nostralogia3.Models.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,9 +51,10 @@ namespace Nostralogia3.Models
                     SetValue(modelTo, p.Name, value);
                 }
             }
-            catch 
+            catch(Exception e)
             {
-                throw;
+                LogMaster lm = new LogMaster();
+                lm.SetLog(e.Message);
             }
             return modelTo;
         }

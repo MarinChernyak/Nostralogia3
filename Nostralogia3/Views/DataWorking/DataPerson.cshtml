@@ -4,12 +4,13 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
     
 }
-@model Nostralogia3.Models.DataWorking.MPersonalData
+@model Nostralogia3.ViewModels.PersonalDataVM
 @using Nostralogia3.Extensions
 <div class="row">
     <div class="col-md-7 ">
-        @using (Html.BeginForm("AddPerson", "DataWorking", FormMethod.Post))
+        @using (Html.BeginForm("UpdatePersonalData", "DataWorking", FormMethod.Post))
         {
+            @Html.HiddenFor(x=>x._model.Id)
             <section class="bg-light">
                 <div class="container">
                     <div class="col-md-10 form-group">
@@ -19,12 +20,12 @@
                         <legend class="text-dark ml-lg-4 font-weight-bold">Personal Data Form</legend>
 
                         <div class="col-sm-5 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.FirstName)
-                            @Html.EditorFor(x => x.FirstName)
+                            @Html.LabelFor(x => x._model.FirstName)
+                            @Html.EditorFor(x => x._model.FirstName)
                         </div>
                         <div class="col-md-5 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.SecondName)
-                            @Html.EditorFor(x => x.SecondName)
+                            @Html.LabelFor(x => x._model.SecondName)
+                            @Html.EditorFor(x => x._model.SecondName)
                         </div>
 
 
@@ -35,35 +36,31 @@
                             @await Html.PartialAsync("~/Views/UserControls/_SimpleTimePickerView.cshtml", Model.TimeTo, nameof(Model.TimeTo))
                         </div>
                         <div class="col-md-7 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.SourceBirthTime)
-                            @Html.DropDownListFor(x => x.SourceBirthTime, Model.SourceColection, null, new { id = "cmbSource", @class = "min_width_combo" })
+                            @Html.LabelFor(x => x._model.SourceBirthTime)
+                            @Html.DropDownListFor(x => x._model.SourceBirthTime, Model.SourceColection, null, new { id = "cmbSource", @class = "min_width_combo" })
                         </div>
 
                         <div class="col-md-5 form-group text-dark font-weight-bold mt-lg-3">
-                            @Html.LabelFor(x => x.AdditionalHours)
-                            @Html.DropDownListFor(x => x.AdditionalHours, Model.TimeShifts, null, new { id = "cmbTimeShifts", @class = "min_width_combo" })
+                            @Html.LabelFor(x => x._model.AdditionalHours)
+                            @Html.DropDownListFor(x => x._model.AdditionalHours, Model.TimeShifts, null, new { id = "cmbTimeShifts", @class = "min_width_combo" })
                         </div>
                         @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlaceModel, nameof(Model.EventPlaceModel))
 
 
 
                         <div class="col-md-1 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.Sex)
-                            @Html.DropDownListFor(x => x.Sex, Model.SexCollection, null, new { id = "cmbSex", @class = "min_width_combo" })
+                            @Html.LabelFor(x => x._model.Sex)
+                            @Html.DropDownListFor(x => x._model.Sex, Model.SexCollection, null, new { id = "cmbSex", @class = "min_width_combo" })
                         </div>
                         <div class="col-md-5 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.DataType)
-                            @Html.DropDownListFor(x => x.DataType, Model.DataTypeCollection, null, new { id = "cmbDataType", @class = "j kb min_width_combo" })
+                            @Html.LabelFor(x => x._model.DataType)
+                            @Html.DropDownListFor(x => x._model.DataType, Model.DataTypeCollection, null, new { id = "cmbDataType", @class = "min_width_combo" })
                         </div>
-
-
-
-
                         <div class="col-md-2 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x.Email)
-                            @Html.EditorFor(x => x.Email)
+                            @Html.LabelFor(x => x._model.Email)
+                            @Html.EditorFor(x => x._model.Email)
                             <div class="row ml-lg-1">
-                                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(x => x._model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row mt-lg-5">
@@ -71,7 +68,7 @@
                                 <button type="submit" class="nostr_btn">Save</button>
                             </div>
                             <div class="form-group ">
-                                <button type="button" class="nostr_btn">Cancel</button>
+                                <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")';" />
                             </div>
                         </div>
                     </fieldset>
@@ -82,13 +79,16 @@
 
     </div>
     <div class="col-md-5 bg-secondary" style="min-height:300px;">
-        @if (Model.Id > 0)
+        @if (Model._model.Id > 0)
         {
             <div class="row mt-2">
-                    @await Html.PartialAsync("~/Views/UserControls/KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
+                @await Html.PartialAsync("~/Views/UserControls/_KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
             </div>
             <div class="row  mt-2">
                 @await Html.PartialAsync("~/Views/UserControls/Tables/_PersonalEventsCollectionView.cshtml", Model.EventsCollection, nameof(Model.EventsCollection))
+            </div>
+            <div class="row  mt-2">
+                @await Html.PartialAsync("~/Views/UserControls/Tables/_PictureViewerMain.cshtml", Model.EventsCollection, nameof(Model.PicturesViewer))
             </div>
         }
     </div>

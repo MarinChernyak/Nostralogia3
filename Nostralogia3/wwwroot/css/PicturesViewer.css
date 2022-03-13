@@ -1,0 +1,94 @@
+﻿
+.PV_MainContainer {
+    border: 1px solid #333333;
+    width: 410px;
+    height: 450px;
+    float: left; 
+    background-color: #CCCCCC;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.PV_MCOntainerLong {
+     height: 550px;
+}
+.PV_internal_row {
+    float:left;
+    width:100%;
+    margin-top:2px;
+    margin-bottom:8px;
+}
+.PV_right_element {
+    float: right;
+    margin-right: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 11px;
+    color: #000020;
+}
+.PV_pic_container {
+    width:100%;
+    float: left;
+    text-align: center;
+    height:350px;
+}
+
+.PV_chain_word {
+    float:left;
+    margin-left:5px;
+}
+#pv_butAdd {
+
+    margin-left:90px;
+}
+#pv_butAdd:hover{
+    cursor:pointer;
+}
+#pv_butDel {
+        margin-left:10px;
+
+}
+#pv_butDel:hover {
+    cursor:pointer;
+}
+#pv_butPrev {
+    margin-left:180px;
+}
+#pv_butPrev:hover {
+    cursor:pointer;
+}
+#pv_butNext:hover {
+        cursor:pointer;
+
+}
+.PV_hidden {
+    display:none;
+}
+.PV_left_Container {
+    margin-left:25px;
+    float:left;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman' , serif;
+    font-size: 12pt;
+    color: #000000;
+}
+.PV_Button {
+    border: 1px solid #000066;
+    border-radius: 3px;
+    float: left;
+    margin-left: 10px;
+    background-color: #006699;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: #FFFFFF;
+    padding: 0 2px 3px 2px;
+    min-width:50px;
+    height:15px;
+    text-align:center;
+    cursor:pointer
+}
+    .PV_Button:hover {
+    background-color: #CC6600;
+    color: #000000;
+}
+.PV_margilMainLeft {
+    margin-left:25px;
+}

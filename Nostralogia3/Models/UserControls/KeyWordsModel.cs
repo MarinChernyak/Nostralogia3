@@ -72,7 +72,7 @@ namespace Nostralogia3.Models
     public class KeyWordsCollectionModel :BaseModel
     {
         //for example - Id of eprson, or Id of Event
-       public  int IdForKWStorage { get; protected set; }
+       public  int IdForKWStorage { get; set; }
         //Irt is a data source just for the DEMO puprose
         protected static List<MKeyWord> _lstMainKWCollection;
         

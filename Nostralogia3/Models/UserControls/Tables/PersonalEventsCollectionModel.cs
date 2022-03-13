@@ -33,7 +33,7 @@ namespace Nostralogia3.Models.UserControls
         }
         protected void InitCollection(int personId)
         {
-            List<MPeopleevent> data = EventsDataFactory.GetPersonalEventslList(Idperson);
+            EventsCollection = EventsDataFactory.GetPersonalEventslList(personId);
             Labels = new List<LabelData>();
             Labels.Add(new LabelData() { Label="Date From",Width= "200px" });
             Labels.Add(new LabelData() { Label = "Place", Width = "200px" });
@@ -41,7 +41,7 @@ namespace Nostralogia3.Models.UserControls
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
             GeoFactory gf = new GeoFactory();
-            foreach (MPeopleevent pe in data)
+            foreach (MPeopleevent pe in EventsCollection)
             {
                 List<string> lst = new List<string>();
                 string prefixd = pe.DayFrom < 10 ? "0" : "";
@@ -51,8 +51,8 @@ namespace Nostralogia3.Models.UserControls
                 string place = pe.PlaceEvent == null ? string.Empty : gf.GetDisplayPlaceEvent((int)pe.PlaceEvent);
                 lst.Add(place);
                 lst.Add(pe.CategoryDescription);
-                lst.Add($"{Constants.MarkerEdit}:{pe.Idevent}");
-                lst.Add($"{Constants.MarkerDelete}:{pe.Idevent}");
+                lst.Add($"{Constants.MarkerEdit}:{"PersonalEvent"}|{"EditPersonalEvent"}|{pe.Idevent}");
+                lst.Add($"{Constants.MarkerDelete}:{"PersonalEvent"}|{"DeleteEvent"}|{pe.Idevent}");
 
                 Data.Add(lst);
             }

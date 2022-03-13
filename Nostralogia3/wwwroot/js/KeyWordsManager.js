@@ -68,12 +68,17 @@ function onOK() {
         selValues += this.value + ',';
         texts += this.textContent + ', ';
     });
-    if (selValues.length > 0
+    console.log("selValues => " + selValues);
+    console.log("texts => " + texts);
+
+    var IdForKWStorage = $("#IdForKWStorage").val();
+    console.log("IdForKWStorage => " + IdForKWStorage);
+    if (selValues.length > 0)
     {
         
         $.ajax({
             type: "POST",
-            url: "/KeyWordsManager/SaveDB?id=" + selid + "&data=" + selValues,
+            url: "/KeyWordsManager/SaveDB?id=" + IdForKWStorage + "&data=" + selValues,
             datatype: "json",
             success: function (data) {
 

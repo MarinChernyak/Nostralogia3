@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Events;
 using Nostralogia3.Models.Persons;
@@ -74,13 +75,13 @@ namespace Nostralogia3.Models.Factories
                 try
                 {
                     IQueryable<Eventslist> colection = context.Eventslists.Where(x => x.CategoryId == (byte)idCategory);
-                    if(colection.Any())
+                    if (colection.Any())
                     {
-                        myColection =(List < SelectListItem >) colection.OrderBy(x => x.Description).Select(x => new SelectListItem
+                        myColection = (List<SelectListItem>)colection.OrderBy(x => x.Description).Select(x => new SelectListItem
                         {
                             Text = x.Description,
                             Value = x.Idevent.ToString()
-                        }).ToList();                        
+                        }).ToList();
                     }
                     InsertSelectItem(myColection);
                 }
@@ -119,7 +120,7 @@ namespace Nostralogia3.Models.Factories
             return myColection;
         }
 
-        public static bool SavePersonalEvent(PersonalEventModel model)
+        public static async Task<bool> SavePersonalEvent(PersonalEventModel model)
         {
             bool bRez = true;
             using (NostradamusContext context = new NostradamusContext())
@@ -146,14 +147,15 @@ namespace Nostralogia3.Models.Factories
                     };
                     if (pe.Id == 0)
                     {
-                        context.Peopleevents.Add(pe);
-                        
+                        context.Entry(pe).State = EntityState.Added;
+
                     }
                     else
                     {
-                        context.Peopleevents.Update(pe);
+                        context.Entry(pe).State = EntityState.Modified;
+
                     }
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
@@ -165,6 +167,48 @@ namespace Nostralogia3.Models.Factories
                 return bRez;
             }
         }
+        public static async Task<int> DeleteEvent(int Id)
+        {
+            int personId =0;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    Peopleevent pe = context.Peopleevents.FirstOrDefault(x => x.Id == Id);
+                    personId = pe.Idperson;
+                    context.Entry(pe).State = EntityState.Deleted;
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                   
+                }
+            }
 
+            return personId;
+        }
+        public static MPeopleevent GetPersonalEvent(int Id)
+        {
+            MPeopleevent mevent = null;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    Peopleevent pe = context.Peopleevents.FirstOrDefault(x => x.Id == Id);
+                    mevent = ModelsTransformer.TransferModel<Peopleevent, MPeopleevent>(pe);
+                    mevent.CategoryId = context.Eventslists.FirstOrDefault(x => x.Idevent == pe.Event).CategoryId;
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+
+                }
+            }
+
+            return mevent;
+        }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.UserControls.Tables;
+using Nostralogia3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace Nostralogia3.Controllers.UserControls
             PersonalEventModel model = new PersonalEventModel(IdPerson,0);
             return View("~/Views/DataWorking/EditPersonalEventView.cshtml", model);
         }
-        public ActionResult EditPersonalEvent(int IdEvent)
+        public ActionResult EditPersonalEvent(int Id)
         {
-            PersonalEventModel model = new PersonalEventModel(0,IdEvent);
+            PersonalEventModel model = new PersonalEventModel(0,Id);
             return View("~/Views/DataWorking/EditPersonalEventView.cshtml", model);
         }
         [HttpPost]
@@ -28,18 +29,25 @@ namespace Nostralogia3.Controllers.UserControls
             List<SelectListItem> lst = EventsDataFactory.GetPersonalEventsKinds(Id);
             return Json(lst);
         }
+        public ActionResult DeleteEvent(int Id)
+        {
+            int personId = EventsDataFactory.DeleteEvent(Id).Result;
+            PersonalDataVM pmodel = new PersonalDataVM(personId);
+            return View("~/Views/DataWorking/DataPerson.cshtml", pmodel);
+        }
         [HttpPost]
         public ActionResult SaveEvent(PersonalEventModel model)
         {
             bool brez = false;
             if(ModelState.IsValid)
             {
-                brez=EventsDataFactory.SavePersonalEvent(model);
+                brez=EventsDataFactory.SavePersonalEvent(model).Result;
             }
             if (brez)
             {
-                MPersonalData pmodel = PersonalDataFactory.GetPersonalData(model.IdPerson);
-                return View("~/Views/DataWorking/DaataPerson.cshtml", pmodel);
+                PersonalDataVM pmodel = new PersonalDataVM(model.IdPerson);
+                //MPersonalData pmodel = PersonalDataFactory.GetPersonalData(model.IdPerson);
+                return View("~/Views/DataWorking/DataPerson.cshtml", pmodel);
             }
             else
             {
