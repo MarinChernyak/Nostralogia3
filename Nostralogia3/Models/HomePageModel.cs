@@ -82,8 +82,8 @@ namespace Nostralogia3.Models
                     p.NumEvents.ToString(),
                     p.NumKw.ToString(),
                     p.NumPictures.ToString(),
-                    $"{Constants.MarkerEdit}:DataWorking|EditPersonalData|{p.Id}",
-                    $"{Constants.MarkerDelete}:DataWorking|DeletePersonalData|{p.Id}"
+                    $"{Constants.Values.MarkerEdit}:DataWorking|EditPersonalData|{p.Id}",
+                    $"{Constants.Values.MarkerDelete}:DataWorking|DeletePersonalData|{p.Id}"
 
 
                 });

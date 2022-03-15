@@ -32,10 +32,10 @@
                     @{
                         string name = "";
                         int level = 0;
-                        if(Context.Session.GetString(Constants.SessionUName)!=null)
+                        if(Context.Session.GetString(Constants.SessionCoockies.SessionUName)!=null)
                         {
-                            name = Context.Session.GetString(Constants.SessionUName).ToString();
-                            level =  Context.Session.GetString(Constants.SessionULevel)==null? 0: Convert.ToInt32(Context.Session.GetString(Constants.SessionULevel)) ;
+                            name = Context.Session.GetString(Constants.SessionCoockies.SessionUName).ToString();
+                            level =  Context.Session.GetString(Constants.SessionCoockies.SessionULevel)==null? 0: Convert.ToInt32(Context.Session.GetString(Constants.SessionCoockies.SessionULevel)) ;
                         }
                         if (!string.IsNullOrEmpty(name))
                         {

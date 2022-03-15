@@ -46,7 +46,7 @@ namespace Nostralogia3.Models.Authentication
             using (SMGeneralContext context = new SMGeneralContext())
             {
                 var uar = context.UserAppRoles.Join(context.Roles, uappr => uappr.RoleId, r => r.RoleId,
-                (uappr, r) => new { Uapr = uappr, R = r }).Where(z => z.R.AppId == Constants.ApplicationId && z.Uapr.UserId == Id).FirstOrDefault();
+                (uappr, r) => new { Uapr = uappr, R = r }).Where(z => z.R.AppId == Constants.Values.ApplicationId && z.Uapr.UserId == Id).FirstOrDefault();
                 if (uar != null)
                 {
                     RoleId = uar.R.RoleId;

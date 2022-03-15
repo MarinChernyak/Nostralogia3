@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models.DataWorking;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +12,7 @@ namespace Nostralogia3.Models.PicturesViewer
     {
         //private readonly IWebHostEnvironment webHostEnvironment;
         public int RefID { get; set; }
-        protected List<PicturesData> _pictures;
+        protected List<MPicture> _pictures;
         public int NumPictures { get { return _pictures!=null?_pictures.Count:0; } }
 
         public int GetID(int index)
@@ -19,7 +20,7 @@ namespace Nostralogia3.Models.PicturesViewer
             int id = -1;
             if (_pictures != null && NumPictures > 0 && index >= 0 && index < _pictures.Count)
             {
-                id = _pictures[index].IDPicture;
+                id = _pictures[index].Idpicture;
             }
 
             return id;
@@ -33,7 +34,7 @@ namespace Nostralogia3.Models.PicturesViewer
             UpdateImgDimentions();
       
         }
-        public PictureViewerBaseModel(List<PicturesData> _lst,int IDRef, int currentindex = 0, int icategory = 0)
+        public PictureViewerBaseModel(List<MPicture> _lst,int IDRef, int currentindex = 0, int icategory = 0)
         {
             RefID = IDRef;
             _pictures = _lst;
@@ -128,19 +129,5 @@ namespace Nostralogia3.Models.PicturesViewer
              }
 
         }
-        #region LOCALIZATION
-        //protected override List<String> CreateListIDS()
-        //{
-        //    List < String >  lst = base.CreateListIDS();
-        //    lst.Add("SMEntity_WRD_PICT");//picture 
-        //    lst.Add("SMEntity_WRD_OF");// of 
-        //    return lst;
-        //}
-        //protected override void UpdateSpecialStrings()
-        //{
-        //}
-
-        #endregion
-
     }
 }

@@ -16,14 +16,14 @@ namespace Nostralogia3.Controllers
     {
         protected void SetSessionVariables(MUserBase model)
         {
-            HttpContext.Session.SetString(Constants.SessionUName, model.UserName);
-            HttpContext.Session.SetString(Constants.SessionULevel, model.UserLevel.ToString());
+            HttpContext.Session.SetString(Constants.SessionCoockies.SessionUName, model.UserName);
+            HttpContext.Session.SetString(Constants.SessionCoockies.SessionULevel, model.UserLevel.ToString());
 
         }
         protected void DeleteSessionVariables()
         {
-            HttpContext.Session.Remove(Constants.SessionUName);
-            HttpContext.Session.Remove(Constants.SessionULevel);
+            HttpContext.Session.Remove(Constants.SessionCoockies.SessionUName);
+            HttpContext.Session.Remove(Constants.SessionCoockies.SessionULevel);
 
         }
     }
@@ -41,7 +41,7 @@ namespace Nostralogia3.Controllers
         {
 
             
-            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.SessionCoockies.CoockieToken);
             LogInModel model = new LogInModel(token);
             if(!string.IsNullOrEmpty(model.UserName))
             {
@@ -53,7 +53,7 @@ namespace Nostralogia3.Controllers
 
         public IActionResult HomePage()
         {
-            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.SessionCoockies.CoockieToken);
             LogInModel model = new LogInModel(token);
             if (!string.IsNullOrEmpty(model.UserName))
             {

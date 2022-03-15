@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.Helpers;
 using Nostralogia3.Models.Utilities;
 using Nostralogia3.Utilities;
@@ -29,29 +30,15 @@ namespace Nostralogia3.Models.Authentication
         {
             IsActive = true;
         }
-        protected int GetUserLevel(string username)
-        {
-            int level = 0;
-            using (SMGeneralContext _context = new SMGeneralContext())
-            {
-                User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
-                var vlevel = _context.UserAppRoles.Join(_context.Roles, uappr => uappr.RoleId, r => r.RoleId,
-                    (uappr, r) => new { Uapr = uappr, R = r }).Where(z => z.R.AppId == Constants.ApplicationId && z.Uapr.UserId == user.Id).FirstOrDefault();
-                if (vlevel != null)
-                {
-                    level = vlevel.R.AccessLevel;
-                }
-            }
-            return level;
-        }
+
         protected void GetSaltPasscode(out string salt, out string passcode)
         {
             salt = string.Empty;
             passcode = string.Empty;
 
-            StringGenerator strgen = new StringGenerator(Constants.SaltLength);
+            StringGenerator strgen = new StringGenerator(Constants.Values.SaltLength);
             salt = strgen.GenericString;
-            strgen = new StringGenerator(Constants.PassCodeLength);
+            strgen = new StringGenerator(Constants.Values.PassCodeLength);
             strgen.Generate();
             passcode = strgen.GenericString;
         }
@@ -83,7 +70,7 @@ namespace Nostralogia3.Models.Authentication
         }
         public LogInModel(HttpContext context)
         {
-            string token = CoockiesHelper.GetCockie(context, Constants.CoockieToken);
+            string token = CoockiesHelper.GetCockie(context, Constants.SessionCoockies.CoockieToken);
             using (SMGeneralContext _context = new SMGeneralContext())
             {
                 User user = _context.Users.FirstOrDefault(x => x.Token == token);
@@ -92,7 +79,7 @@ namespace Nostralogia3.Models.Authentication
                     UserName = user.UserName;
                     EncryptDataUpdater datapdater = new EncryptDataUpdater();
                     token = datapdater.SetToken(user.UserName);
-                    CoockiesHelper.SetCockie(context, Constants.CoockieToken, token);
+                    CoockiesHelper.SetCockie(context, Constants.SessionCoockies.CoockieToken, token);
                 }
             }
         }
@@ -110,7 +97,7 @@ namespace Nostralogia3.Models.Authentication
                     string decrpass = datapdater.DecryptStringVal(UserName, user.Password);
                     if (decrpass == Password)
                     {
-                        UserLevel = GetUserLevel(user.UserName);
+                        UserLevel = UsersFactory.GetUserLevel(user.Id);
                         UserName = user.UserName;
                         bIsOK = true;
                         datapdater.UpdateEncryptedData(UserName);

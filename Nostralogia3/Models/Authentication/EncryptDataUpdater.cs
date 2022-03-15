@@ -1,4 +1,5 @@
-﻿using Nostralogia3.Models.Utilities;
+﻿using Nostralogia3.Models.Factories;
+using Nostralogia3.Models.Utilities;
 using Nostralogia3.Utilities;
 using NostralogiaDAL.SMGeneralEntities;
 using System;
@@ -23,8 +24,7 @@ namespace Nostralogia3.Models.Authentication
                 User user = _context.Users.FirstOrDefault(x => x.Token == token);
                 if (user != null)
                 {
-                    UserName = user.UserName;
-                    UserLevel = GetUserLevel(user.UserName);
+                    UserLevel = UsersFactory.GetUserLevel(user.Id);
                     bRez = true;
                 }
             }

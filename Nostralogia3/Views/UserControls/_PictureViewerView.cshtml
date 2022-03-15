@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Nostralogia3.Models.PicturesViewer.PicturesViewerPersonalPreviewModel
+
+<div class="container w-100">
+    <div class="container border border-secondary rounded BgColorControls">
+        <div class="container">
+            <div class="row w-100 mb-1">
+                <div class="h5 col-4 mt-3 font-weight-bold">
+                    Pictures Viewer
+                </div>
+                <div class="col-3"></div>
+
+                <div class="col-4 mt-2 ">
+                   Number of the images: @Model.NumPictures
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img src="~/Repository/PeopleImages/M_NoPict.JPG" />
+                </div>
+                <div class="col-1">
+                    <div class="row mb-3 ml-3">
+                        <a id=btnNext role="button"><i class="fa-solid fa-circle-arrow-left fa-xl"></i></a>
+                    </div>
+                    <div class="row mb-3 ml-3">
+                        <a id=btnPrev role="button"><i class="fa-solid fa-circle-arrow-right fa-xl"></i></a>
+                    </div> 
+                    <div class="row mb-3 ml-3">
+                        <a id=btnAddImg role="button"><i class="fa-solid fa-circle-plus fa-xl"></i></a>
+                    </div>
+                    <div class="row mb-3 ml-3">
+                        <a id=btnDelImage role="button"><i class="far fa-trash-alt fa-xl"></i></a>
+                    </div>
+                </div>
+                <div class="col-6">
+                </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-5">
+                        <span class="h6 font-weight-bold mr-2">File Name:</span><span class="font-weight-normal"> SomeFile.jpg</span>
+                    </div>
+                    <div class="col-5">
+                        <input id="File1" type="file" />
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+    });
+</script>

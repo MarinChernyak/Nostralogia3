@@ -13,7 +13,7 @@ namespace Nostralogia3.Controllers.Authentication
     {
         public IActionResult ReLogIn()
         {
-            string token = CoockiesHelper.GetCockie(HttpContext, Constants.CoockieToken);
+            string token = CoockiesHelper.GetCockie(HttpContext, Constants.SessionCoockies.CoockieToken);
             if (!string.IsNullOrEmpty(token))
             {
                 EncryptDataUpdater updater = new EncryptDataUpdater();
@@ -21,15 +21,15 @@ namespace Nostralogia3.Controllers.Authentication
                 if (bRez)
                 {
                     token = updater.SetToken(updater.UserName);
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionUName, updater.UserName);
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionULevel, updater.UserLevel.ToString());
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUName, updater.UserName);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionULevel, updater.UserLevel.ToString());
 
-                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
+                    CoockiesHelper.SetCockie(HttpContext, Constants.SessionCoockies.CoockieToken, token);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    CoockiesHelper.DeleteCockie(HttpContext, Constants.CoockieToken);
+                    CoockiesHelper.DeleteCockie(HttpContext, Constants.SessionCoockies.CoockieToken);
                 }
             }
             LogInModel model = new LogInModel();
@@ -52,11 +52,11 @@ namespace Nostralogia3.Controllers.Authentication
             {
                 if (model.ShouldRemember && !string.IsNullOrEmpty(token))
                 {
-                    CoockiesHelper.SetCockie(HttpContext, Constants.CoockieToken, token);
+                    CoockiesHelper.SetCockie(HttpContext, Constants.SessionCoockies.CoockieToken, token);
                     SetSessionVariables(model);
                 }
-                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionUName, model.UserName);
-                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionULevel, model.UserLevel.ToString());
+                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUName, model.UserName);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionULevel, model.UserLevel.ToString());
 
                 return RedirectToAction("HomePage", "Home");
             }
@@ -98,7 +98,7 @@ namespace Nostralogia3.Controllers.Authentication
         }
         public ActionResult LogOut()
         {
-            CoockiesHelper.DeleteCockie(HttpContext, Constants.CoockieToken);
+            CoockiesHelper.DeleteCockie(HttpContext, Constants.SessionCoockies.CoockieToken);
             DeleteSessionVariables();
 
             return RedirectToAction("HomePage", "Home");
@@ -127,7 +127,7 @@ namespace Nostralogia3.Controllers.Authentication
         }
         public ActionResult MyAccount()
         {
-            string username = SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionUName);
+            string username = SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUName);
             MyAccount model = new MyAccount(username);
             return View("~/Views/Authentication/MyAccount.cshtml", model);
         }

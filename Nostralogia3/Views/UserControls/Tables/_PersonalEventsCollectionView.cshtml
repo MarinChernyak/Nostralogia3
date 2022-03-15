@@ -4,61 +4,71 @@
 @model Nostralogia3.Models.UserControls.PersonalEventsCollectionModel
 
 <link rel="stylesheet" href="~/css/Nostralogia.css" />
-    @using (Html.BeginForm("AddPersonalEvent", "PersonalEvent", new { IdPerson = @Model.Idperson }))
-    {
 
-    <div class="container" style="min-width:795px;">
+
+    <div class="container">
         <div class="container border border-secondary rounded BgColorControls">
             <div class="container">
-                <div class="row">
-                    <div class="h5 col-4 mt-3 font-weight-bold">
-                        @Model.TableLabel 
-                    </div>
-                    <div class="col-md-5"></div>
-                    <div class="ExpandLabel col-md-1 ">
-                        @if(Model.EventsCollection.Count>0)
-                        { 
-                            <a id="@Model.ExpanderId()" role="button">
-                                @if (!@Model.Expanded)
-                                {
-                                    <i class="fas fa-arrow-circle-down"></i>
-                                }
-                                else
-                                {
-                                    <i class="fas fa-arrow-circle-up"></i>
-                                }
-                            </a>
-                         }
+                @using (Html.BeginForm("AddPersonalEvent", "PersonalEvent", new { IdPerson = @Model.Idperson }))
+                {
 
-                        
-                    </div>
-                    <div class="col-md-1 mt-2 ">
-                        <button type="submit" class="btn btn-default" id="AddItem">
-                            <img src="~/Images/Partials/addMore.png" height="40" width="40" />
-                        </button>
-                    </div>
-                </div>
-
-                <div class="@Model.GetclassExpanded()" id="@Model.ExpandCollapsAreaId()">
-             
-                    @if (Model.EventsCollection.Count > 0)
-                    {
-                        @await Html.PartialAsync("~/Views/UserControls/Tables/_TableBaseView.cshtml", @Model)
-                    }
-                    else
-                    {
-                        <div class="h6" style="width:550px;">                                
-                                No event(s) added to the collection
-                                
+                    <div class="row w-100 mb-1">
+                        <div class="h5 col-6 mt-3 font-weight-bold">
+                            @Model.TableLabel
                         </div>
-                    }
-                  
-                </div>
+                        <div class="col-4"></div>
+                        <div class="ExpandLabel col-1 ">
+                            @if (Model.EventsCollection.Count > 0)
+                            {
+                                <a id="@Model.ExpanderId()" role="button">
+                                    @if (!@Model.Expanded)
+                                    {
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    }
+                                </a>
+                            }
+
+
+                        </div>
+                        <div class="col-1 mt-2 ">
+                            <button type="submit" class="btn btn-default" id="AddItem">
+                                <img src="~/Images/Partials/addMore.png" height="40" width="40" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row w-100 mb-1">
+                        <div class="@Model.GetclassExpanded()" id="@Model.ExpandCollapsAreaId()">
+
+                            @if (Model.EventsCollection.Count > 0)
+                            {
+                                @await Html.PartialAsync("~/Views/UserControls/Tables/_TableBaseView.cshtml", @Model)
+                            }
+                            else
+                            {
+                                <div class="container">
+                                    <span class="h6"> No event(s) added to the collection</span>
+                                </div>
+                            }
+
+                        </div>
+                        @if (Model.EventsCollection.Count > 0)
+                        {
+                            <div id="@Model.ExpandCollapsMessageAreaId()" class="container">
+                                <span class="h6">There are added:</span><span> @Model.EventsCollection.Count event(s) added.</span>
+                            </div>
+                        }
+                    </div>
+
+                @Html.HiddenFor(x => x.Idperson)
+                }
             </div>
         </div>
     </div>
-    @Html.HiddenFor(x=>x.Idperson)
-    }
+
 
 
 
@@ -68,6 +78,8 @@
         var nt = new NostraTable('@Model.ExpanderId()', '@Model.ExpandCollapsAreaId()');
         $("#@Model.ExpanderId()").on("click", function () {
             nt.OnExpanderClicked();
+
+            $("@Model.ExpandCollapsMessageAreaId()").toggle();
         });
     });
 </script>

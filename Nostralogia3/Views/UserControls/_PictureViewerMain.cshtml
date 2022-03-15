@@ -2,86 +2,88 @@
 <script type="text/javascript" src="~/scripts/jquery-1.8.2.js"></script>
 <link href="@Url.Content("~/CSS/PicturesViewer.css")" rel="stylesheet" type="text/css" />
 
-<div class="PV_MainContainer" id="MainContainer">
+<div class="container">
+    <div class="PV_MainContainer" id="MainContainer">
 
-    <div class="PV_internal_row">
-        <div class="PV_right_element">
-            <div class="PV_chain_word">Picture </div>
-            <div class="PV_chain_word" id ="dvPictNumber"></div>
-            <div class="PV_chain_word">Of</div>
-            <div class="PV_chain_word" id ="dvPictAmount" ></div>
+        <div class="PV_internal_row">
+            <div class="PV_right_element">
+                <div class="PV_chain_word">Picture </div>
+                <div class="PV_chain_word" id="dvPictNumber"></div>
+                <div class="PV_chain_word">Of</div>
+                <div class="PV_chain_word" id="dvPictAmount"></div>
+            </div>
         </div>
-    </div>
-    <div class="PV_internal_row">
-        <div class="PV_pic_container" data-index="0" id="dv_pict_container">
-        
-           @{
-               
-                for(int index=0; index<Model.NumPictures; index++)
-                {
-                    String id = "img_" + index.ToString();
-                    String src = Model.GetImgPath(index);
-                    String cls = "PV_hidden";
-                    if(index==Model.NumPictures-1)
+        <div class="PV_internal_row">
+            <div class="PV_pic_container" data-index="0" id="dv_pict_container">
+
+                @{
+
+                    for (int index = 0; index < Model.NumPictures; index++)
                     {
-                        cls = "";
+                        String id = "img_" + index.ToString();
+                        String src = Model.GetImgPath(index);
+                        String cls = "PV_hidden";
+                        if (index == Model.NumPictures - 1)
+                        {
+                            cls = "";
+                        }
+                        <img id="@id" src="@src" data-pictid="@Model.GetID(index)" alt="" width="@Model.GetImgWidth(index)" height="@Model.GetImgHeight(index)" class="@cls" />
                     }
-                    <img id="@id" src="@src" data-pictid="@Model.GetID(index)" alt="" width="@Model.GetImgWidth(index)" height="@Model.GetImgHeight(index)" class="@cls"/>
-                }                
-                
-            }
-            
+
+                }
+
+            </div>
         </div>
-    </div>
-
-    
-    <div class="PV_internal_row">
 
 
-                <img src="~/Images/PicturesViewer/Prev.png" id="pv_butPrev" width="20"  height="20"/> 
-                <img src="~/Images/PicturesViewer/Next.png" id="pv_butNext" width="20"  height="20"/>
-                <img src="~/Images/PicturesViewer/add_pict.png" id="pv_butAdd" width="31"  height="30"/> 
-                <img src="~/Images/PicturesViewer/delete.png" id="pv_butDel" width="23"  height="30"/> 
-  
-    </div>
-    <div class="PV_internal_row  PV_hidden" id="dvAddPicture">
         <div class="PV_internal_row">
-            <div class="PV_left_Container">
-                Browse...
+
+
+            <img src="~/Images/PicturesViewer/Prev.png" id="pv_butPrev" width="20" height="20" />
+            <img src="~/Images/PicturesViewer/Next.png" id="pv_butNext" width="20" height="20" />
+            <img src="~/Images/PicturesViewer/add_pict.png" id="pv_butAdd" width="31" height="30" />
+            <img src="~/Images/PicturesViewer/delete.png" id="pv_butDel" width="23" height="30" />
+
+        </div>
+        <div class="PV_internal_row  PV_hidden" id="dvAddPicture">
+            <div class="PV_internal_row">
+                <div class="PV_left_Container">
+                    Browse...
+                </div>
+            </div>
+            <div class="PV_internal_row">
+                <div class="PV_left_Container">
+                    <input id="File1" type="file" />
+                </div>
+            </div>
+            <div class="PV_internal_row">
+
+                <div class="PV_Button PV_margilMainLeft" id="butUpload">
+                    Upload
+                </div>
+                <div class="PV_Button" id="butUploadCancel">
+                    Cancel
+                </div>
+
             </div>
         </div>
-        <div class="PV_internal_row">
-            <div class="PV_left_Container">
-                <input id="File1" type="file" />
-            </div>
-        </div>
-         <div class="PV_internal_row">
+        <div class="PV_internal_row  PV_hidden" id="dvDelPicture">
+            <div class="PV_internal_row">
+                <div class="PV_left_Container">
+                    Are you sure?
+                </div>
+                <div class="PV_internal_row">
 
-              <div class="PV_Button PV_margilMainLeft" id="butUpload">
-                Upload
-            </div>
-            <div class="PV_Button" id="butUploadCancel">
-                Cancel
-            </div>
-          
-         </div>
-    </div>
-    <div class="PV_internal_row  PV_hidden" id="dvDelPicture">
-       <div class="PV_internal_row">
-            <div class="PV_left_Container">
-                Are you sure?
-            </div>
-           <div class="PV_internal_row">
+                    <div class="PV_Button PV_margilMainLeft" id="butYDel">
+                        Yes
+                    </div>
 
-              <div class="PV_Button PV_margilMainLeft" id="butYDel">
-                Yes
+                    <div class="PV_Button" id="butNDel">
+                        No
+                    </div>
+
+                </div>
             </div>
-          
-           <div class="PV_Button" id="butNDel">
-                No
-            </div>
-          
-         </div>
         </div>
     </div>
 </div>

@@ -19,14 +19,14 @@ namespace Nostralogia3.Models.UserControls
         public string MainLabel { get; set; }
         public SimpleTimePickerModel()
         {
-            _index = Constants.Counter;
+            _index = Constants.Values.Counter;
             FillHours();
             FillMinutes();
         }
         public SimpleTimePickerModel(string label, int H, int Min)
         {
             MainLabel = label;
-            _index = Constants.Counter;
+            _index = Constants.Values.Counter;
             Hour = H;
             Minute = Min;
             FillHours();

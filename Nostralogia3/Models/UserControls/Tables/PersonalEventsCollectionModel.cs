@@ -51,8 +51,8 @@ namespace Nostralogia3.Models.UserControls
                 string place = pe.PlaceEvent == null ? string.Empty : gf.GetDisplayPlaceEvent((int)pe.PlaceEvent);
                 lst.Add(place);
                 lst.Add(pe.CategoryDescription);
-                lst.Add($"{Constants.MarkerEdit}:{"PersonalEvent"}|{"EditPersonalEvent"}|{pe.Idevent}");
-                lst.Add($"{Constants.MarkerDelete}:{"PersonalEvent"}|{"DeleteEvent"}|{pe.Idevent}");
+                lst.Add($"{Constants.Values.MarkerEdit}:{"PersonalEvent"}|{"EditPersonalEvent"}|{pe.Idevent}");
+                lst.Add($"{Constants.Values.MarkerDelete}:{"PersonalEvent"}|{"DeleteEvent"}|{pe.Idevent}");
 
                 Data.Add(lst);
             }

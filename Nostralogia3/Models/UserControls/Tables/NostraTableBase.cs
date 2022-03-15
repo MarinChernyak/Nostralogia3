@@ -18,7 +18,7 @@ namespace Nostralogia3.Models.UserControls
         protected int index { get; }
         public NostraTableBase()
         {
-            index = Constants.Counter;
+            index = Constants.Values.Counter;
         }
         public string GetTbleId()
         {

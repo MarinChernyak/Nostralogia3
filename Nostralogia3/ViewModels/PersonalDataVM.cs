@@ -80,6 +80,7 @@ namespace Nostralogia3.ViewModels
             TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo);
             KWCollection = new KeyWordsCollectionModel(0, Id);
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person");
+            PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
             FillUpCollections();
         }
         public void FillUpCollections()

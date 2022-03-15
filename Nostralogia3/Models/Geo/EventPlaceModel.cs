@@ -74,8 +74,8 @@ namespace Nostralogia3.Models.Geo
             Countries = fact.GetCountriesListCollection();
             Countries.Insert(0, new SelectListItem()
             {
-                Text = Constants.ZeroStringComboText,
-                Value = Constants.ZeroStringComboValue
+                Text = Constants.Values.ZeroStringComboText,
+                Value = Constants.Values.ZeroStringComboValue
             });
             SelectListItem item = Countries.FirstOrDefault(x => x.Value == CountryId.ToString());
             if(item!=null)

@@ -19,8 +19,8 @@ namespace Nostralogia3.Models.Factories
             }
             SelectListItem sli = new SelectListItem()
             {
-                Value = Constants.ZeroStringComboValue,
-                Text = Constants.ZeroStringComboText,
+                Value = Constants.Values.ZeroStringComboValue,
+                Text = Constants.Values.ZeroStringComboText,
                 Selected = true
             };
             list.Insert(0, sli);

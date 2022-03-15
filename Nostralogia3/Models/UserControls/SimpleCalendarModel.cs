@@ -26,7 +26,7 @@ namespace Nostralogia3.Models.UserControls
         public string MainLabel { get; protected set; }
         public SimpleCalendarModel()
         {
-            _index = Constants.Counter;
+            _index = Constants.Values.Counter;
             MainLabel = "Today:";
             Day =(byte) DateTime.Now.Day;
             Month = (byte)DateTime.Now.Month;
@@ -38,7 +38,7 @@ namespace Nostralogia3.Models.UserControls
         public SimpleCalendarModel(string label, byte day, byte month, short year)
         {
             MainLabel = label;
-            _index = Constants.Counter;
+            _index = Constants.Values.Counter;
             Day = day;
             Month = month;
             Year = year;

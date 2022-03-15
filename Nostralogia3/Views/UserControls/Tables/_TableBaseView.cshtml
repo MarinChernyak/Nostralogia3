@@ -20,7 +20,7 @@
             @foreach (var data in row)
             {
 
-                if (@data.Contains(Constants.MarkerEdit))
+                if (@data.Contains(Constants.Values.MarkerEdit))
                 {
                     var pos = @data.IndexOf(":");
                     var arr = @data.Substring(pos+1).Split(new char[] { '|' });
@@ -28,7 +28,7 @@
                         <a asp-controller="@arr[0]" asp-action="@arr[1]" asp-route-id="@arr[2]" style="color:#414141"><i class="fas fa-edit"></i></a>                
                     </td>
                 }
-                else if (@data.Contains(Constants.MarkerDelete))
+                else if (@data.Contains(Constants.Values.MarkerDelete))
                 {
                     var pos = @data.IndexOf(":");
                     var arr = @data.Substring(pos + 1).Split(new char[] { '|' });

@@ -92,7 +92,7 @@ namespace Nostralogia3.Models.Authentication
                             using (MailMessage msg = new MailMessage())
                             {
 
-                                msg.From = new MailAddress(Constants.EmailFrom);
+                                msg.From = new MailAddress(Constants.Connections.EmailFrom);
                                 msg.To.Add(muser.Email);
                                 msg.Subject = "Password Changed";
                                 msg.Body = body.ToString(); ;
@@ -103,7 +103,7 @@ namespace Nostralogia3.Models.Authentication
                                 {
                                     client.EnableSsl = true;
                                     client.UseDefaultCredentials = false;
-                                    client.Credentials = new NetworkCredential(Constants.EmailFrom, Constants.PassFrom);
+                                    client.Credentials = new NetworkCredential(Constants.Connections.EmailFrom, Constants.Connections.PassFrom);
                                     client.Host = "smtp.gmail.com";
                                     client.Port = 587;
                                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -132,7 +132,7 @@ namespace Nostralogia3.Models.Authentication
         }
         protected void UpdateDates()
         {
-            Dob = Constants.DummyDate;
+            Dob = Constants.Values.DummyDate;
             ActivationDate = DateTime.Now;
         }       
     }

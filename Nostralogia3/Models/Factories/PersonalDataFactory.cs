@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Persons;
+using Nostralogia3.Models.PicturesViewer;
 using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;
 using System;
@@ -266,6 +267,24 @@ namespace Nostralogia3.Models.Factories
                 }
             }
             return bRez;
+        }
+        public static List<MPicture> GetPictures(int IdPerson)
+        {
+            List<MPicture> pictures = null;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    List<Picture> lst = context.Pictures.Where(x => x.IdReference == IdPerson).ToList();
+                    pictures =  ModelsTransformer.TransferModelList<Picture, MPicture>(lst);                    
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return pictures;
         }
         public static bool UpdatePersonalKeywords(List<SelectListItem>lstKW, int IdPerson)
         {
