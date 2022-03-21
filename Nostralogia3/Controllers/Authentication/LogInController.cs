@@ -20,9 +20,10 @@ namespace Nostralogia3.Controllers.Authentication
                 bool bRez = updater.CheckToken(token);
                 if (bRez)
                 {
-                    token = updater.SetToken(updater.UserName);
+                    token = updater.SetToken(updater.UserId);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUName, updater.UserName);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionULevel, updater.UserLevel.ToString());
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUID, updater.Id.ToString());
 
                     CoockiesHelper.SetCockie(HttpContext, Constants.SessionCoockies.CoockieToken, token);
                     return RedirectToAction("Index", "Home");
@@ -57,6 +58,7 @@ namespace Nostralogia3.Controllers.Authentication
                 }
                 SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUName, model.UserName);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionULevel, model.UserLevel.ToString());
+                SessionHelper.SetObjectAsJson(HttpContext.Session, Constants.SessionCoockies.SessionUID, model.Id.ToString());
 
                 return RedirectToAction("HomePage", "Home");
             }

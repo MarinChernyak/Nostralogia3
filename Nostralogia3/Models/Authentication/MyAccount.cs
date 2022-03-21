@@ -31,7 +31,7 @@ namespace Nostralogia3.Models.Authentication
         protected void InitData()
         {
             EncryptDataUpdater updater = new EncryptDataUpdater();
-            MUser muser = updater.GetDecryptedUser(UserName);
+            MUser muser = updater.GetDecryptedUser(UserId);
             FirstName = muser.FirstName;
             MidleName = muser.MidleName;
             Password = muser.Password;
@@ -58,7 +58,7 @@ namespace Nostralogia3.Models.Authentication
         {
             bool bRez = false;
             EncryptDataUpdater updater = new EncryptDataUpdater();
-            MUser muser = updater.GetDecryptedUser(UserName);
+            MUser muser = updater.GetDecryptedUser(UserId);
             muser.FirstName= FirstName;
             muser.MidleName = MidleName;
             muser.LastName= LastName;

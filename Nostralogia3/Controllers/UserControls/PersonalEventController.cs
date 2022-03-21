@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
@@ -13,6 +14,11 @@ namespace Nostralogia3.Controllers.UserControls
 {
     public class PersonalEventController : Controller
     {
+        protected ISession _session { get; set; }
+        public PersonalEventController()
+        {
+            _session = HttpContext.Session;
+        }
         public ActionResult AddPersonalEvent(int IdPerson)
         {
             PersonalEventModel model = new PersonalEventModel(IdPerson,0);
@@ -32,7 +38,7 @@ namespace Nostralogia3.Controllers.UserControls
         public ActionResult DeleteEvent(int Id)
         {
             int personId = EventsDataFactory.DeleteEvent(Id).Result;
-            PersonalDataVM pmodel = new PersonalDataVM(personId);
+            PersonalDataVM pmodel = new PersonalDataVM(personId, _session);
             return View("~/Views/DataWorking/DataPerson.cshtml", pmodel);
         }
         [HttpPost]
@@ -45,7 +51,7 @@ namespace Nostralogia3.Controllers.UserControls
             }
             if (brez)
             {
-                PersonalDataVM pmodel = new PersonalDataVM(model.IdPerson);
+                PersonalDataVM pmodel = new PersonalDataVM(model.IdPerson, _session);
                 //MPersonalData pmodel = PersonalDataFactory.GetPersonalData(model.IdPerson);
                 return View("~/Views/DataWorking/DataPerson.cshtml", pmodel);
             }

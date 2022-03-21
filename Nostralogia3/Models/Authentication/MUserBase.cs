@@ -26,6 +26,7 @@ namespace Nostralogia3.Models.Authentication
         public string Password { get; set; }
 
         public int UserLevel { get; protected set; }
+        public int UserId { get; protected set; }
         public MUserBase()
         {
             IsActive = true;
@@ -62,10 +63,10 @@ namespace Nostralogia3.Models.Authentication
                 bool brez = updater.CheckToken(token);
                 if (brez)
                 {
-                    UserName = updater.UserName;
+                    UserId = updater.UserId;
                     UserLevel = updater.UserLevel;
+                    UserName = updater.UserName;
                 }
-
             }
         }
         public LogInModel(HttpContext context)
@@ -78,7 +79,7 @@ namespace Nostralogia3.Models.Authentication
                 {
                     UserName = user.UserName;
                     EncryptDataUpdater datapdater = new EncryptDataUpdater();
-                    token = datapdater.SetToken(user.UserName);
+                    token = datapdater.SetToken(user.Id);
                     CoockiesHelper.SetCockie(context, Constants.SessionCoockies.CoockieToken, token);
                 }
             }
@@ -89,21 +90,21 @@ namespace Nostralogia3.Models.Authentication
             bool bIsOK = false;
             using (SMGeneralContext _context = new SMGeneralContext())
             {
-                User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
+                User user = _context.Users.FirstOrDefault(x => x.Id == UserId);
 
                 if (user != null)
                 {
                     EncryptDataUpdater datapdater = new EncryptDataUpdater();
-                    string decrpass = datapdater.DecryptStringVal(UserName, user.Password);
+                    string decrpass = datapdater.DecryptStringVal(UserId, user.Password);
                     if (decrpass == Password)
                     {
                         UserLevel = UsersFactory.GetUserLevel(user.Id);
                         UserName = user.UserName;
                         bIsOK = true;
-                        datapdater.UpdateEncryptedData(UserName);
+                        datapdater.UpdateEncryptedData(UserId);
                         if (ShouldRemember)
                         {
-                            token = datapdater.SetToken(UserName);
+                            token = datapdater.SetToken(UserId);
                         }
                     }
                 }

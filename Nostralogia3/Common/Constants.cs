@@ -11,6 +11,7 @@ namespace Nostralogia3
         {
             public static String SessionID { get { return "Nostra_SESSION_ID"; } }
             public static String SessionUName { get { return "Nostra_SESSION_UserName"; } }
+            public static String SessionUID { get { return "Nostra_SESSION_UserID"; } }
             public static String SessionULevel { get { return "Nostra_SESSION_UserLevel"; } }
 
             public static String CoockieToken { get { return "Nostra_COCKIE_Token"; } }
@@ -36,6 +37,17 @@ namespace Nostralogia3
             public const int SaltLength = 10;
             public const string ItemValue = "Value";
             public const string ItemText = "Text";
+
+            public const int CAN_VIEW = 1;
+            public const int CAN_EDIT = 2;
+            public const int CAN_ADD = 4;
+            public const int CAN_DEACTIVATE = 8;
+            public const int CAN_DELETE = 16;
+
+            public const int VOLUNTIER_RIGHTS = 1;
+            public const int RESEARCHER_RIGHTS = 2;
+            public const int TEAMLEAD_RIGHTS = 3;
+            public const int ADMIN_RIGHTS = 4;
             public static DateTime DummyDate { get { return new DateTime(1800, 1, 1); } }
             public const string ZeroStringComboText = "Select...";
             public const string ZeroStringComboValue = "-1";

@@ -99,6 +99,9 @@ namespace NostralogiaDAL.SMGeneralEntities
                 entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(200);
+
+                entity.Property(e => e.UserId).IsRequired();
+                    
             });
 
             modelBuilder.Entity<TempPass>(entity =>

@@ -23,9 +23,9 @@ namespace Nostralogia3.Models.Factories
 
             return ModelsTransformer.TransferModelList<User, MUserBase>(users);
         }
-        public static bool CanUserViewData(int UserId, int PersonalDataId )
+        public static int GetUserRightData(int UserId, int PersonalDataId )
         {
-            bool bRez = false;
+            int Rights=0;
             User user = null;
             Person person = null;
             int? idContributor = 0;
@@ -44,10 +44,7 @@ namespace Nostralogia3.Models.Factories
                     idContributor = person.IdContributor;
                     DataType = person.DataType;
                 }
-                if(UserLevel>=DataType|| UserId == idContributor)
-                {
-                    bRez = true;
-                }
+                Rights = CommonFunctionsFactory.GetRights(user.Id, person.IdContributor ?? 0, UserLevel, DataType);
 
             }
             catch (Exception e)
@@ -55,7 +52,7 @@ namespace Nostralogia3.Models.Factories
                 LogMaster lm = new LogMaster();
                 lm.SetLog(e.Message);
             }
-            return bRez;
+            return Rights;
         }
         public static int GetUserLevel(int UserId)
         {
@@ -71,6 +68,36 @@ namespace Nostralogia3.Models.Factories
                 }
             }
             return level;
+        }
+        public static int GetUserRightsForPersonalEvent(int UserId, int EventId)
+        {
+            int Rights = 0;
+            User user = null;
+            Peopleevent pe = null;
+            int? idContributor = 0;
+            int UserLevel = GetUserLevel(UserId);
+            int DataType = 0;
+            try
+            {
+                using (var context = new SMGeneralContext())
+                {
+                    if (context != null)
+                        user = context.Users.FirstOrDefault(x => x.Id == UserId);
+                }
+                using (NostradamusContext context = new NostradamusContext())
+                {
+                    pe = context.Peopleevents.FirstOrDefault(x => x.Id == EventId);
+                    idContributor = pe.Idcontributor;
+                    DataType = pe.AcessLevel;
+                }
+                Rights = CommonFunctionsFactory.GetRights(UserId, idContributor??0, UserLevel, DataType);
+            }
+            catch (Exception e)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLog(e.Message);
+            }
+            return Rights;
         }
     }
 }

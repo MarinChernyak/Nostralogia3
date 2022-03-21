@@ -1,6 +1,8 @@
-﻿using Nostralogia3.Models.DataWorking;
+﻿using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.Geo;
+using Nostralogia3.Models.Helpers;
 using Nostralogia3.Models.Persons;
 using System;
 using System.Collections.Generic;
@@ -15,31 +17,47 @@ namespace Nostralogia3.Models.UserControls
         public List<MPeopleevent> EventsCollection { get; protected set; } = new();
         public string Label { get; protected set; } = string.Empty;
         public int Idperson { get; set; }
+        public bool CanDelete { get; set; }
+        
 
         //public NewPersonalEventModal NewPersonalEventModal { get; set; } = new();
-        public PersonalEventsCollectionModel(string label)
-            :base(label,false)
+        public PersonalEventsCollectionModel(string label, ISession session)
+            :base(label, session,false)
         {
+            _session = session;
             Label = label;
-            InitCollection(0);
+            InitCollection();
+
         }
-        public PersonalEventsCollectionModel(int personId, string label)
-            :base(label,false)
+        public PersonalEventsCollectionModel(int personId, string label, ISession session)
+            :base(label, session,false)
         {
+            _session = session;
             Label = label;
-            InitCollection(personId);
             Idperson = personId;
-            //NewPersonalEventModal.DateFrom = new SimpleCalendarModel("Date From", 1, 1, 1900);
+            InitCollection();
+            
+
         }
-        protected void InitCollection(int personId)
+        public int GetRights(int eventId)
         {
-            EventsCollection = EventsDataFactory.GetPersonalEventslList(personId);
+            int rights = 0;
+            if (UserId > 0)
+            {
+                rights = UsersFactory.GetUserRightsForPersonalEvent(UserId, eventId);
+            }
+            return rights;
+        }
+        protected void InitCollection()
+        { 
+            EventsCollection = EventsDataFactory.GetPersonalEventslList(Idperson);
             Labels = new List<LabelData>();
             Labels.Add(new LabelData() { Label="Date From",Width= "200px" });
             Labels.Add(new LabelData() { Label = "Place", Width = "200px" });
             Labels.Add(new LabelData() { Label = "Category", Width = "300px" });
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
+            
             GeoFactory gf = new GeoFactory();
             foreach (MPeopleevent pe in EventsCollection)
             {
@@ -52,7 +70,15 @@ namespace Nostralogia3.Models.UserControls
                 lst.Add(place);
                 lst.Add(pe.CategoryDescription);
                 lst.Add($"{Constants.Values.MarkerEdit}:{"PersonalEvent"}|{"EditPersonalEvent"}|{pe.Idevent}");
-                lst.Add($"{Constants.Values.MarkerDelete}:{"PersonalEvent"}|{"DeleteEvent"}|{pe.Idevent}");
+                int rights = GetRights(pe.Idevent);
+                if ((rights & Constants.Values.CAN_DELETE) > 0)
+                {
+                    lst.Add($"{Constants.Values.MarkerDelete}:{"PersonalEvent"}|{"DeleteEvent"}|{pe.Idevent}");
+                }
+                else
+                {
+                    lst.Add("");
+                }
 
                 Data.Add(lst);
             }

@@ -75,9 +75,9 @@ namespace Nostralogia3.Models.Authentication
             {
                 using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    SecurityProtocol prot = _context.SecurityProtocols.FirstOrDefault(x => x.UserName == UserName);
+                    SecurityProtocol prot = _context.SecurityProtocols.FirstOrDefault(x => x.UserId == UserId);
                     EncryptDataUpdater datapdater = new EncryptDataUpdater();
-                    MUser muser = datapdater.GetDecryptedUser(UserName);
+                    MUser muser = datapdater.GetDecryptedUser(UserId);
                     if (!string.IsNullOrEmpty(muser.Email))
                     {
                         StringGenerator gen = new StringGenerator(8, true, false, true, true);

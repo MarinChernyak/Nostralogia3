@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nostralogia3.Models.PicturesViewer;
+using Microsoft.AspNetCore.Http;
 
 namespace Nostralogia3.ViewModels
 {
@@ -34,9 +35,11 @@ namespace Nostralogia3.ViewModels
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
         public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
+        protected ISession _session { get; set; }
 
-        public PersonalDataVM()
+        public PersonalDataVM(ISession session)
         {
+            _session = session;
             _model = new MPersonalData();
             EventPlaceModel = new EventPlaceModel("Birth Place");
             DateTime dt = DateTime.Now;
@@ -44,12 +47,13 @@ namespace Nostralogia3.ViewModels
             TimeFrom = new SimpleTimePickerModel("Birth Time From:", 0, 0);
             TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0);
             KWCollection = new KeyWordsCollectionModel(0);
-            EventsCollection = new PersonalEventsCollectionModel("Events of the person");
+            EventsCollection = new PersonalEventsCollectionModel("Events of the person", _session);
             FillUpCollections();
 
         }
-        public PersonalDataVM(int Id)
+        public PersonalDataVM(int Id, ISession session)
         {
+            _session = session;
             UpdateFormDetails(Id);
         }
         protected void UpdateFormDetails(int Id)
@@ -79,7 +83,7 @@ namespace Nostralogia3.ViewModels
             TimeFrom = new SimpleTimePickerModel("Birth Time 'From'", _model.BirthHourFrom, _model.BirthMinFrom);
             TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo);
             KWCollection = new KeyWordsCollectionModel(0, Id);
-            EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person");
+            EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
             PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
             FillUpCollections();
         }

@@ -25,19 +25,21 @@ namespace Nostralogia3.Models.Authentication
                 if (user != null)
                 {
                     UserLevel = UsersFactory.GetUserLevel(user.Id);
+                    UserName =  user.UserName;
+                    UserId = user.Id;
                     bRez = true;
                 }
             }
 
             return bRez;
         }
-        public string SetToken(string username)
+        public string SetToken(int userId)
         {
             
             string token  = Guid.NewGuid().ToString();
             using (SMGeneralContext _context = new SMGeneralContext())
             {
-                User user = _context.Users.Where(x => x.UserName == username).First();
+                User user = _context.Users.Where(x => x.Id==userId).First();
                 if (user != null)
                 {
                     user.Token = token;
@@ -47,14 +49,14 @@ namespace Nostralogia3.Models.Authentication
             }
             return token;
         }
-        public string EncryptStringVal(string username, string strtoencrypt)
+        public string EncryptStringVal(int userId, string strtoencrypt)
         {
             string encryptstr = string.Empty;
             try
             {
                 using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    var secprot = _context.SecurityProtocols.FirstOrDefault(x => x.UserId == userId);
                     if (secprot != null)
                     {
                         string salt = secprot.Salt;
@@ -72,14 +74,14 @@ namespace Nostralogia3.Models.Authentication
 
             return encryptstr;
         }
-        public string DecryptStringVal(string username, string encryptedstr)
+        public string DecryptStringVal(int userId, string encryptedstr)
         {
             string decryptstr = string.Empty;
             try
             {
                 using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    var secprot = _context.SecurityProtocols.FirstOrDefault(x=>x.UserId==userId);
                     if (secprot != null)
                     {
                         string salt = secprot.Salt;
@@ -96,7 +98,7 @@ namespace Nostralogia3.Models.Authentication
             }
             return decryptstr;
         }
-        public Dictionary<string, string> DecryptMapStrings(string username, Dictionary<string,string> map)
+        public Dictionary<string, string> DecryptMapStrings(int userId, Dictionary<string,string> map)
         {
             Dictionary<string, string> mapout = new Dictionary<string, string>();
            
@@ -104,7 +106,7 @@ namespace Nostralogia3.Models.Authentication
             {
                 using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    var secprot = _context.SecurityProtocols.FirstOrDefault(x=>x.UserId==userId);
                     if (secprot != null)
                     {
                         string salt = secprot.Salt;
@@ -124,7 +126,7 @@ namespace Nostralogia3.Models.Authentication
             }
             return mapout;
         }
-        public Dictionary<string, string> EncryptMapStrings(string username, Dictionary<string, string> map)
+        public Dictionary<string, string> EncryptMapStrings(int userId, Dictionary<string, string> map)
         {
             Dictionary<string, string> mapout = new Dictionary<string, string>();
 
@@ -132,7 +134,7 @@ namespace Nostralogia3.Models.Authentication
             {
                 using (SMGeneralContext _context = new SMGeneralContext())
                 {
-                    var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                    var secprot = _context.SecurityProtocols.FirstOrDefault(x=>x.UserId==userId);
                     if (secprot != null)
                     {
                         string salt = secprot.Salt;
@@ -152,16 +154,16 @@ namespace Nostralogia3.Models.Authentication
             }
             return mapout;
         }
-        public void UpdateEncryptedData(string username)
+        public void UpdateEncryptedData(int userId)
         {
             int SaltLength = 10;
             int PascodeLength = 12;
             using (SMGeneralContext _context = new SMGeneralContext())
             {
-                var secprot = _context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id).First();
+                var secprot = _context.SecurityProtocols.FirstOrDefault(x=>x.UserId==userId);
                 if (secprot != null)
                 {
-                    User user = _context.Users.Where(x => x.UserName == username).First();
+                    User user = _context.Users.FirstOrDefault(x=>x.Id==userId);
                     string salt = secprot.Salt;
                     string passcode = secprot.Passcode;
 
@@ -201,37 +203,29 @@ namespace Nostralogia3.Models.Authentication
 
         }
 
-        public MUser GetDecryptedUser(string username)
+        public MUser GetDecryptedUser(int userId)
         {
             MUser model = null;
             try
             {
                 using (SMGeneralContext context = new SMGeneralContext())
                 {
-                    var vsecprot = context.SecurityProtocols.Where(x => x.UserName == username).OrderByDescending(x => x.Id);
+                    var vsecprot = context.SecurityProtocols.FirstOrDefault(x=>x.UserId==userId);
                     if (vsecprot != null)
                     {
-                        var secprot = vsecprot.First();
-                        if (secprot != null)
-                        {
-                            User user = context.Users.Where(x => x.UserName == username).First();
-                            string salt = secprot.Salt;
-                            string passcode = secprot.Passcode;
+                        User user = context.Users.FirstOrDefault(x => x.Id ==userId);
+                        string salt = vsecprot.Salt;
+                        string passcode = vsecprot.Passcode;
 
-                            RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
-                            user.Password = encryptor.Decrypt(user.Password);
-                            user.FirstName = encryptor.Decrypt(user.FirstName);
-                            user.Email = encryptor.Decrypt(user.Email);
-                            user.LastName = encryptor.Decrypt(user.LastName);
-                            user.MidleName = encryptor.Decrypt(user.MidleName);
-
-
-                            model = ModelsTransformer.TransferModel<User, MUser>(user);
-
-                        }
+                        RijndaelEncryptor encryptor = new RijndaelEncryptor(salt, passcode);
+                        user.Password = encryptor.Decrypt(user.Password);
+                        user.FirstName = encryptor.Decrypt(user.FirstName);
+                        user.Email = encryptor.Decrypt(user.Email);
+                        user.LastName = encryptor.Decrypt(user.LastName);
+                        user.MidleName = encryptor.Decrypt(user.MidleName);
+                        model = ModelsTransformer.TransferModel<User, MUser>(user);                        
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -259,7 +253,7 @@ namespace Nostralogia3.Models.Authentication
                     muser.Password = encryptor.Encrypt(muser.Password);
 
                     User user = ModelsTransformer.TransferModel<MUser, User>(muser);
-                    bool bExists = _context.SecurityProtocols.Any(x => x.UserName == muser.UserName);
+                    bool bExists = _context.SecurityProtocols.Any(x => x.UserId == muser.UserId);
 
                     using (var dbContextTransaction = _context.Database.BeginTransaction())
                     {
@@ -298,5 +292,7 @@ namespace Nostralogia3.Models.Authentication
 
             return bRez;
         }
+
+
     }
 }

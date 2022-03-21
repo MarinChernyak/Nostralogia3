@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
 using Nostralogia3.ViewModels;
@@ -11,14 +12,19 @@ namespace Nostralogia3.Controllers.MainActions
 {
     public class DataWorking : Controller
     {
+        protected ISession _session { get
+            {
+                return HttpContext.Session;
+            }
+        }
         public IActionResult DataPerson()
         {
-            PersonalDataVM model = new PersonalDataVM();
+            PersonalDataVM model = new PersonalDataVM(_session);
             return View(model);
         }
         public IActionResult EditPersonalData(int id)
         {
-            PersonalDataVM model = new PersonalDataVM(id);
+            PersonalDataVM model = new PersonalDataVM(id, _session);
             return View("~/Views/DataWorking/DataPerson.cshtml",model);
         }
         public IActionResult Consulting()
