@@ -180,7 +180,7 @@ namespace Nostralogia3.Models.Factories
             bool bRez = true;
             if (!string.IsNullOrEmpty(data) && IdPerson > 0)
             {
-                string[] arrdata = data.Split(new char[] { ',' });
+                string[] arrdata = data.TrimEnd(',').Split(new char[] { ',' });
                 if (arrdata.Length > 0)
                 {
                     using (NostradamusContext context = new NostradamusContext())

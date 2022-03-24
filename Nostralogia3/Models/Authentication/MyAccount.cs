@@ -42,7 +42,7 @@ namespace Nostralogia3.Models.Authentication
             Sex = muser.Sex;
             Dob = muser.Dob;
             ActivationDate = muser.ActivationDate;
-            EventPlaceModel = new EventPlaceModel(muser.CountryId, muser.StateId, muser.PlaceId, "Where you are?");
+            EventPlaceModel = new EventPlaceModel(muser.CountryId, muser.StateId, muser.PlaceId, "Where you are?",false);
             using (SMGeneralContext context = new SMGeneralContext())
             {
                 var uar = context.UserAppRoles.Join(context.Roles, uappr => uappr.RoleId, r => r.RoleId,

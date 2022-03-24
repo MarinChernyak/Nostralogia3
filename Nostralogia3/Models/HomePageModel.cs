@@ -19,9 +19,14 @@ namespace Nostralogia3.Models
         public HomePeopleTable PeopleTable { get; protected set; }
         public NostraTable EventTable { get; protected set; }
         protected ISession _session { get; set; }
+
+        public bool ReadOnly { get; }
         public HomePageModel(ISession session)
         {
             _session = session;
+            
+            //ReadOnly = level>
+
             PeopleTable = new HomePeopleTable("Last 10 people added", session,false);
             EventTable = new WorldEventsTable("Last 10 world events added", session);
         }

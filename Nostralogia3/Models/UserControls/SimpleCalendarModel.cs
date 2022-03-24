@@ -19,6 +19,7 @@ namespace Nostralogia3.Models.UserControls
         public short Year { get; set; }
 
         protected int _index;
+        public bool ReadOnly { get; protected set; }
         public List<SelectListItem> Days { get; protected set; }
         public List<SelectListItem> Monthes { get; protected set; }
         protected string[] _monthes = { "January", "February", "March", "April", "May", "June", "July","August","September","October","November","December" };
@@ -31,17 +32,19 @@ namespace Nostralogia3.Models.UserControls
             Day =(byte) DateTime.Now.Day;
             Month = (byte)DateTime.Now.Month;
             Year = (short)DateTime.Now.Year;
+            ReadOnly = false;
             FillUpdays();
             FillUpMonths();
            
         }
-        public SimpleCalendarModel(string label, byte day, byte month, short year)
+        public SimpleCalendarModel(string label, byte day, byte month, short year, bool readOnly)
         {
             MainLabel = label;
             _index = Constants.Values.Counter;
             Day = day;
             Month = month;
             Year = year;
+            ReadOnly = readOnly;
             FillUpdays();
             FillUpMonths();
             Year = (short)DateTime.Now.Year;

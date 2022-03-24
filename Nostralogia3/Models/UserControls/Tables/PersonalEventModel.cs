@@ -69,9 +69,9 @@ namespace Nostralogia3.Models.UserControls.Tables
                 MPeopleevent mpe = EventsDataFactory.GetPersonalEvent(idEvent);
                 IdCategory = mpe.CategoryId.Value;
                 DataType = (byte)mpe.AcessLevel;
-                DateFrom = new SimpleCalendarModel(LabelDateEventFrom, mpe.DayFrom, mpe.MonthFrom, mpe.YearFrom);
-                DateTo = new SimpleCalendarModel(LabelDateEventTo, mpe.DayTo, mpe.MonthTo, mpe.YearTo);
-                EventPlace = new EventPlaceModel(mpe.PlaceEvent.Value, LabelPlaceEvent);
+                DateFrom = new SimpleCalendarModel(LabelDateEventFrom, mpe.DayFrom, mpe.MonthFrom, mpe.YearFrom, false);
+                DateTo = new SimpleCalendarModel(LabelDateEventTo, mpe.DayTo, mpe.MonthTo, mpe.YearTo, false);
+                EventPlace = new EventPlaceModel(mpe.PlaceEvent.Value, LabelPlaceEvent,false);
                 Idsource = mpe.Source;
                 Notes = mpe.Notes;
                 IdCategory = (short)mpe.CategoryId;
@@ -114,8 +114,8 @@ namespace Nostralogia3.Models.UserControls.Tables
         protected void CreatePartialsModels()
         {
             DateTime dt = DateTime.Today;
-            DateFrom = new SimpleCalendarModel(LabelDateEventFrom, (byte)dt.Day, (byte)dt.Month, (short)dt.Year);
-            DateTo = new SimpleCalendarModel(LabelDateEventTo, (byte)dt.Day, (byte)dt.Month, (short)dt.Year);
+            DateFrom = new SimpleCalendarModel(LabelDateEventFrom, (byte)dt.Day, (byte)dt.Month, (short)dt.Year, false);
+            DateTo = new SimpleCalendarModel(LabelDateEventTo, (byte)dt.Day, (byte)dt.Month, (short)dt.Year, false);
             EventPlace = new EventPlaceModel(LabelPlaceEvent);
 
         }

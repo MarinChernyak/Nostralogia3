@@ -61,15 +61,15 @@ function UpdateRightList(data) {
         $("#genLeft").html(listItems);
     }
 }
-function onOK() {
+function OnOK() {
     var selValues = '';
     var texts = '';
     $("#selRight option").each(function () {
         selValues += this.value + ',';
         texts += this.textContent + ', ';
     });
-    console.log("selValues => " + selValues);
-    console.log("texts => " + texts);
+    //console.log("selValues => " + selValues);
+    //console.log("texts => " + texts);
 
     var IdForKWStorage = $("#IdForKWStorage").val();
     console.log("IdForKWStorage => " + IdForKWStorage);
@@ -81,14 +81,15 @@ function onOK() {
             url: "/KeyWordsManager/SaveDB?id=" + IdForKWStorage + "&data=" + selValues,
             datatype: "json",
             success: function (data) {
-
+                //console.log("data => " + data);
                 PostOnOK();
             }
         });
     }
 }
 function PostOnOK() {
-
+    var selValues = "";
+    var texts = "";
     $("#selRight option").each(function () {
         selValues += this.value + ',';
         texts += this.textContent + ', ';

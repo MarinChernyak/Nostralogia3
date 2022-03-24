@@ -21,24 +21,29 @@ namespace Nostralogia3.Models.Geo
         public List<SelectListItem> Countries { get; protected set; }
         public List<SelectListItem> States { get; protected set; }
         public List<SelectListItem> Cities { get; protected set; }
+
+        public bool ReadOnly { get; protected set; }
         public EventPlaceModel(string label)
         {
             FillUpCountries();
             MainLabel = label;
+            ReadOnly = false;
             States = new List<SelectListItem>();
             Cities = new List<SelectListItem>();
         }
-        public EventPlaceModel(int cityId, string label)
+        public EventPlaceModel(int cityId, string label, bool readOnly)
         {
             MainLabel = label;
+            ReadOnly = readOnly;
             int idState = 0;
             int idCountry = 0;
             GeoFactory fact = new GeoFactory();
             fact.GetCountryStateByCity(cityId,out idCountry,out idState);
             FillUpAll((short)idCountry, idState, cityId);
         }
-        public EventPlaceModel(short? countryId, int? stateId, int? cityId, string label)
+        public EventPlaceModel(short? countryId, int? stateId, int? cityId, string label, bool readOnly)
         {
+            ReadOnly = readOnly;
             MainLabel = label;
             FillUpAll(countryId, stateId, cityId);
         }

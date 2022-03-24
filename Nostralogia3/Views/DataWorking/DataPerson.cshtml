@@ -6,6 +6,7 @@
 }
 @model Nostralogia3.ViewModels.PersonalDataVM
 @using Nostralogia3.Extensions
+
 <div class="row">
     <div class="col-md-7 ">
         @using (Html.BeginForm("UpdatePersonalData", "DataWorking", FormMethod.Post))
@@ -18,14 +19,15 @@
                     </div>
                     <fieldset>
                         <legend class="text-dark ml-lg-4 font-weight-bold">Personal Data Form</legend>
-
                         <div class="col-sm-5 form-group text-dark font-weight-bold">
-                            @Html.LabelFor(x => x._model.FirstName)
-                            @Html.EditorFor(x => x._model.FirstName)
-                        </div>
-                        <div class="col-md-5 form-group text-dark font-weight-bold">
+                            @Html.LabelFor(x => x._model.FirstName)                           
+                            @Html.EditorFor(x => x._model.FirstName, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl" } } : new { htmlAttributes = new { @class = "form-control" } })
+                       
+                       </div>
+
+                       <div class="col-md-5 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.SecondName)
-                            @Html.EditorFor(x => x._model.SecondName)
+                            @Html.EditorFor(x => x._model.SecondName, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl " } } : new { htmlAttributes = new { @class = "form-control" } })
                         </div>
 
 
@@ -37,12 +39,12 @@
                         </div>
                         <div class="col-md-7 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.SourceBirthTime)
-                            @Html.DropDownListFor(x => x._model.SourceBirthTime, Model.SourceColection, null, new { id = "cmbSource", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.SourceBirthTime, Model.SourceColection, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbSource", @class = "min_width_combo disabledctrl" } : new { id = "cmbSource", @class = "min_width_combo" } )
                         </div>
 
                         <div class="col-md-5 form-group text-dark font-weight-bold mt-lg-3">
                             @Html.LabelFor(x => x._model.AdditionalHours)
-                            @Html.DropDownListFor(x => x._model.AdditionalHours, Model.TimeShifts, null, new { id = "cmbTimeShifts", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.AdditionalHours, Model.TimeShifts, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbTimeShifts", @class = "min_width_combo disabledctrl" } : new { id = "cmbTimeShifts", @class = "min_width_combo" })
                         </div>
                         @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlaceModel, nameof(Model.EventPlaceModel))
 
@@ -50,27 +52,30 @@
 
                         <div class="col-md-1 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.Sex)
-                            @Html.DropDownListFor(x => x._model.Sex, Model.SexCollection, null, new { id = "cmbSex", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.Sex, Model.SexCollection, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbSex", @class = "min_width_combo disabledctrl" } :  new { id = "cmbSex", @class = "min_width_combo" })
                         </div>
                         <div class="col-md-5 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.DataType)
-                            @Html.DropDownListFor(x => x._model.DataType, Model.DataTypeCollection, null, new { id = "cmbDataType", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.DataType, Model.DataTypeCollection, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbDataType", @class = "min_width_combo disabledctrl" } : new { id = "cmbDataType", @class = "min_width_combo" })
                         </div>
-                        <div class="col-md-2 form-group text-dark font-weight-bold">
+                        <div class="col-md-5 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.Email)
-                            @Html.EditorFor(x => x._model.Email)
+                            @Html.EditorFor(x => x._model.Email, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl", width = "300px" } } : new { htmlAttributes = new { @class = "form-control", width = "300px" } })
                             <div class="row ml-lg-1">
                                 @Html.ValidationMessageFor(x => x._model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row mt-lg-5">
-                            <div class="form-group ml-lg-4">
-                                <button type="submit" class="nostr_btn">Save</button>
+                            @if (!Model.ReadOnly)
+                            {
+                                <div class="form-group ml-lg-4">
+                                    <button type="submit" class="nostr_btn">Save</button> 
+                                </div>
+                            }
+                                <div class="@Model.GetClassCancel()">
+                                    <input type="button" value="@Model.GetCancelLabel()" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn"/>
+                                </div>
                             </div>
-                            <div class="form-group ">
-                                <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")';" />
-                            </div>
-                        </div>
                     </fieldset>
 
                 </div>
@@ -95,7 +100,16 @@
 </div>
 
 <script>
+
+    @*if ('@Model.ReadOnly' == true) {
+        alert(1);
+        console.log($(".NostraEdit").length);
+        $(".NostraEdit").prop('readonly', true);
+    }*@
     $(document).ready(function () {
+
+
+
         $("#cmbSource").on("change", function () {
             var id = $("#cmbSource option=selected").val();
             if (id != 1 && id != 2 && id != 3 && id != 7 && id != 10 && id != 11 && id != 12) {

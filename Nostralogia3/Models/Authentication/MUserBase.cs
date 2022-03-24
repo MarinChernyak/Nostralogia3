@@ -90,15 +90,15 @@ namespace Nostralogia3.Models.Authentication
             bool bIsOK = false;
             using (SMGeneralContext _context = new SMGeneralContext())
             {
-                User user = _context.Users.FirstOrDefault(x => x.Id == UserId);
-
+                User user = _context.Users.FirstOrDefault(x => x.UserName == UserName);
+                UserId = user.Id;
                 if (user != null)
                 {
                     EncryptDataUpdater datapdater = new EncryptDataUpdater();
                     string decrpass = datapdater.DecryptStringVal(UserId, user.Password);
                     if (decrpass == Password)
                     {
-                        UserLevel = UsersFactory.GetUserLevel(user.Id);
+                        UserLevel = UsersFactory.GetUserLevel(UserId);
                         UserName = user.UserName;
                         bIsOK = true;
                         datapdater.UpdateEncryptedData(UserId);

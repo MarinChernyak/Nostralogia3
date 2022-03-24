@@ -13,18 +13,21 @@ namespace Nostralogia3.Models.UserControls
         public int Hour { get; set; }
         [DisplayName("Minutes")]
         public int Minute { get; set; }
+        public bool ReadOnly { get; protected set; }
         public List<SelectListItem> Hours { get; protected set; }
         public List<SelectListItem> Minutes { get; protected set; }
         protected int _index;
         public string MainLabel { get; set; }
         public SimpleTimePickerModel()
         {
+            ReadOnly = false;
             _index = Constants.Values.Counter;
             FillHours();
             FillMinutes();
         }
-        public SimpleTimePickerModel(string label, int H, int Min)
+        public SimpleTimePickerModel(string label, int H, int Min, bool readOnly)
         {
+            ReadOnly = readOnly;
             MainLabel = label;
             _index = Constants.Values.Counter;
             Hour = H;

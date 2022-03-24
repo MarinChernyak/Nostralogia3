@@ -12,16 +12,16 @@
     <div class="wrapper border border-secondary rounded BgColorControls">
         <div class="row">
             <div class="col-sm-3 form-group text-dark font-weight-bold">
-                @Html.LabelFor(x => x.Day)
-                @Html.DropDownListFor(x => x.Day, Model.Days, null, new { id = @Model.GetIdDays(), @class = "CalendarControls" })
+                @Html.LabelFor(x => x.Day) 
+                @Html.DropDownListFor(x => x.Day, Model.Days, null, Model.ReadOnly ? new { @disabled = "disabled", id = @Model.GetIdDays(), @class = "CalendarControls disabledctrl" }: new { id = @Model.GetIdDays(), @class = "CalendarControls" })
             </div>
             <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Month)
-                @Html.DropDownListFor(x => x.Month, Model.Monthes, null, new { id = @Model.GetIdMonthes(), @class = "CalendarControls" })
+                @Html.DropDownListFor(x => x.Month, Model.Monthes, null, Model.ReadOnly ? new { @disabled = "disabled", id = @Model.GetIdMonthes(), @class = "CalendarControls disabledctrl" } : new { id = @Model.GetIdMonthes(), @class = "CalendarControls" })
             </div>
             <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Year)
-                @Html.TextBoxFor(x => x.Year, new { id = @Model.GetIdYear(), @class = "CalendarControls", @type = "number" })
+                @Html.TextBoxFor(x => x.Year, Model.ReadOnly ? new { @disabled = "disabled", id = @Model.GetIdYear(), @class = "CalendarControls disabledctrl" } : new { id = @Model.GetIdYear(), @class = "CalendarControls", @type = "number" })
             </div>
         </div>
     </div>

@@ -26,13 +26,11 @@ namespace Nostralogia3.Models
         protected override void InitCollection(int idKW, string schema = "dbo")
         {
             if (_lstMainKWCollection == null || _lstMainKWCollection.Count == 0)
-                base.InitCollection(idKW, schema);
-
-            _lstKeyWordsCollection = _lstMainKWCollection.Where(x => x.ReferenceId == idKW).Select(c => new SelectListItem()
             {
-                Text = c.KeyWordDescription,
-                Value = c.Idkw.ToString()
-            });
+                _lstMainKWCollection = KeyWordsFactory.GetRootKWList();
+            }
+
+            _lstKeyWordsCollection = KeyWordsFactory.GetKWSelectListByRef(idKW);
         }
     }
     public class KeyWordsCollectionModelDU : KeyWordsCollectionModel
@@ -44,27 +42,17 @@ namespace Nostralogia3.Models
         }
         protected override void InitCollection(int idKW, string schema = "dbo")
         {
-            if (_lstMainKWCollection == null || _lstMainKWCollection.Count == 0)
-                InitCollection(idKW, schema);
+            
 
-            MKeyWord kw = _lstMainKWCollection.Where(x => x.Idkw == idKW).First();
-
-            kw = _lstMainKWCollection.Where(x => x.Idkw == kw.ReferenceId).FirstOrDefault();
+            MKeyWord kw = KeyWordsFactory.GetKeyWord(idKW);
+            kw = KeyWordsFactory.GetKeyWordByRef(kw.ReferenceId);
             if (kw != null)
             {
-                _lstKeyWordsCollection = _lstMainKWCollection.Where(x => x.ReferenceId == kw.ReferenceId).Select(c => new SelectListItem()
-                {
-                    Text = c.KeyWordDescription,
-                    Value = c.Idkw.ToString()
-                });
+                _lstKeyWordsCollection = KeyWordsFactory.GetKWSelectListByRef(kw.ReferenceId);
             }
             else
             {
-                _lstKeyWordsCollection = _lstMainKWCollection.Where(x => x.ReferenceId == 0).Select(c => new SelectListItem()
-                {
-                    Text = c.KeyWordDescription,
-                    Value = c.Idkw.ToString()
-                });
+                _lstKeyWordsCollection = KeyWordsFactory.GetRootKWSelectList();
             }
 
         }
@@ -138,50 +126,17 @@ namespace Nostralogia3.Models
         protected virtual void InitCollection(int idRef,String schema = "dbo")
         {
             /// Here add your code to obtain a full collection. "dbo" - is a default schems in your DB in SQL Server.
-            if(_lstMainKWCollection==null || _lstMainKWCollection.Count==0)
+            if(_lstSelectedKeyWordsCollection == null || _lstSelectedKeyWordsCollection.Count==0)
             {
-                
-                using(NostradamusContext context = new NostralogiaDAL.NostradamusEntities.NostradamusContext())
-                {
-                    List<Keyword> lst = context.Keywords.Where(x=>x.Idkw > 0).ToList();
-                    _lstMainKWCollection = ModelsTransformer.TransferModelList<Keyword, MKeyWord>(lst);
-
-                    if (IdForKWStorage > 0)
-                    {
-                        _lstSelectedKeyWordsCollection = context.Peoplekeywordsstores.Join(context.Keywords, pks=>pks.KeyWord,kw=>kw.Idkw, (pks,kw)=>new {Pks = pks, Kw = kw}).
-                            Where(x=>x.Pks.IdPerson== IdForKWStorage).Select(c => new SelectListItem()
-                        {
-                            Text = c.Kw.KeyWordDescription,
-                            Value = c.Kw.Idkw.ToString()
-                        }).ToList();
-                    }
-                }                 
+                _lstSelectedKeyWordsCollection = KeyWordsFactory.GetPersonalKWList(IdForKWStorage);        
             }
-          _lstKeyWordsCollection = _lstMainKWCollection.Where(x => x.ReferenceId == 0).Select(c => new SelectListItem()
+            if (_lstKeyWordsCollection == null || _lstKeyWordsCollection.Count() == 0)
             {
-                Text = c.KeyWordDescription,
-                Value = c.Idkw.ToString()
-            });
+                _lstKeyWordsCollection = KeyWordsFactory.GetRootKWSelectList();
 
-
-
-
-
+            }
         }
 
-        protected void GetUpdatedKeyWordsCollection(MKeyWord[] lstKeyWordsCollection)
-        {
-            if (lstKeyWordsCollection != null)
-            {
-                _lstKeyWordsCollection = from c in lstKeyWordsCollection                                         
-                                         select new SelectListItem
-                                         {
-                                             Text = c.KeyWordDescription,
-                                             Value = c.Idkw.ToString()
-                                         };
-            }
-
-        }
         public virtual bool SaveForStorage()
         {
             bool bRez = PersonalDataFactory.UpdatePersonalKeywords(_lstSelectedKeyWordsCollection,IdForKWStorage);

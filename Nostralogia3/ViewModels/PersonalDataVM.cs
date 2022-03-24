@@ -17,7 +17,7 @@ namespace Nostralogia3.ViewModels
     public class PersonalDataVM
     {
         public MPersonalData _model { get; set; }
-
+        public bool ReadOnly { get; protected set; }
         public virtual List<MMapNote> MapNotes { get; set; } = new();
         public SimpleTimePickerModel TimeFrom { get; set; } = new();
         public SimpleTimePickerModel TimeTo { get; set; } = new();
@@ -40,12 +40,13 @@ namespace Nostralogia3.ViewModels
         public PersonalDataVM(ISession session)
         {
             _session = session;
+            ReadOnly = false;
             _model = new MPersonalData();
             EventPlaceModel = new EventPlaceModel("Birth Place");
             DateTime dt = DateTime.Now;
-            SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", (byte)dt.Day, (byte)dt.Month, (short)dt.Year);
-            TimeFrom = new SimpleTimePickerModel("Birth Time From:", 0, 0);
-            TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0);
+            SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", (byte)dt.Day, (byte)dt.Month, (short)dt.Year, ReadOnly);
+            TimeFrom = new SimpleTimePickerModel("Birth Time From:", 0, 0, ReadOnly);
+            TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0);
             EventsCollection = new PersonalEventsCollectionModel("Events of the person", _session);
             FillUpCollections();
@@ -78,10 +79,18 @@ namespace Nostralogia3.ViewModels
                 _model.DataType = data.DataType;
                 _model.Id = Id;
             }
-            EventPlaceModel = new EventPlaceModel(data.CountryId, data.StateId, data.Place, "Birth Place");
-            SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", _model.BirthDay, _model.BirthMonth, _model.BirthYear);
-            TimeFrom = new SimpleTimePickerModel("Birth Time 'From'", _model.BirthHourFrom, _model.BirthMinFrom);
-            TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo);
+            string suserlevel = _session.GetString(Constants.SessionCoockies.SessionULevel);
+            string suserID = _session.GetString(Constants.SessionCoockies.SessionUID);
+            int userlevel = 0;
+            int.TryParse(suserlevel, out userlevel);
+            int userID = 0;
+            int.TryParse(suserID, out userID);
+            ReadOnly = CommonFunctionsFactory.IsReadOnly(userID, _model.IdContributor ?? 0, userlevel, _model.DataType);
+
+            EventPlaceModel = new EventPlaceModel(data.CountryId, data.StateId, data.Place, "Birth Place",ReadOnly);
+            SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", _model.BirthDay, _model.BirthMonth, _model.BirthYear, ReadOnly);
+            TimeFrom = new SimpleTimePickerModel("Birth Time 'From'", _model.BirthHourFrom, _model.BirthMinFrom, ReadOnly);
+            TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0, Id);
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
             PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
@@ -167,6 +176,14 @@ namespace Nostralogia3.ViewModels
             UpdateModel();
             _model.IsAvailable = true;
             return PersonalDataFactory.UpdatePersonalData(_model);
+        }
+        public string GetCancelLabel()
+        {
+            return ReadOnly? "Close" : "Cancel";
+        }
+        public string GetClassCancel()
+        {
+            return ReadOnly? "form-group ml-lg-4" : "form-group";
         }
     }
 }

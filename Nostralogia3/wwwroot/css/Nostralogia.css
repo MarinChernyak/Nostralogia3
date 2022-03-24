@@ -150,3 +150,10 @@ table {
     min-width: 500px;
     overflow: auto;
 }
+/* enabled-disabled*/
+.disabledctrl {
+    color: black;
+    font-weight:600;
+    background-color: #EfEfEf;
+    border:solid 1px black;
+}

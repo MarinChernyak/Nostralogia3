@@ -15,15 +15,15 @@
                     <div class="col-md-3 form-group text-dark font-weight-bold">
 
                         @Html.LabelFor(x => x.CountryId)
-                        @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, new { id = "cmbCountries" })
+                        @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbCountries", @class = "CalendarControls disabledctrl" } : new { id = "cmbCountries", @class = "CalendarControls" })
                     </div>
                     <div class="col-md-3 form-group text-dark font-weight-bold">
                         @Html.LabelFor(x => x.StateId)
-                        @Html.DropDownListFor(x => x.StateId, Model.States, null, new { id = "cmbStates" })
+                        @Html.DropDownListFor(x => x.StateId, Model.States, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbStates", @class = "CalendarControls disabledctrl" } : new { id = "cmbStates", @class = "CalendarControls" })
                     </div>
                     <div class="col-md-3 form-group text-dark font-weight-bold">
                         @Html.LabelFor(x => x.PlaceId)
-                        @Html.DropDownListFor(x => x.PlaceId, Model.Cities, null, new { id = "cmbCities" })
+                        @Html.DropDownListFor(x => x.PlaceId, Model.Cities, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbCities", @class = "CalendarControls disabledctrl" } : new { id = "cmbCities", @class = "CalendarControls" })
                     </div>
                 </fieldset>
             </div>

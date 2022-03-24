@@ -28,5 +28,10 @@ namespace Nostralogia3.Models.Factories
             }
             return Rights;
         }
+        public static bool IsReadOnly(int UserId, int idContributor, int UserLevel, int DataType)
+        {
+            int rights = GetRights(UserId, idContributor, UserLevel, DataType);
+            return !((rights & Constants.Values.CAN_EDIT) > 0);
+        }
     }
 }

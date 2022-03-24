@@ -13,11 +13,11 @@
         <div class="row">
             <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Hour)
-                @Html.DropDownListFor(x => x.Hour, Model.Hours, null, new { id = @Model.GetIdHours(), @class = "CalendarControls" })
+                @Html.DropDownListFor(x => x.Hour, Model.Hours, null, Model.ReadOnly ? new { @disabled = "disabled", id = @Model.GetIdHours(), @class = "CalendarControls disabledctrl" } : new { id = @Model.GetIdHours(), @class = "CalendarControls" })
             </div>
             <div class="col-sm-3 form-group text-dark font-weight-bold">
                 @Html.LabelFor(x => x.Minute)
-                @Html.DropDownListFor(x => x.Minute, Model.Minutes, null, new { id = @Model.GetIdMinutes(), @class = "CalendarControls" })
+                @Html.DropDownListFor(x => x.Minute, Model.Minutes, null, Model.ReadOnly ? new { @disabled = "disabled", id = @Model.GetIdMinutes(), @class = "CalendarControls disabledctrl" } : new { id = @Model.GetIdMinutes(), @class = "CalendarControls" })
             </div>
         </div>
     </div>
