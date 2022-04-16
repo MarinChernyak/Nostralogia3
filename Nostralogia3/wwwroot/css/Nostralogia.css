@@ -142,11 +142,19 @@ table {
         background-color:#bfbfbf;
         color:navy;
     }
+
 .btn:focus {
     outline: none;
     box-shadow: none;
 }
-.min_width_combo {
+.fa-xl:hover, fa-lg:hover {
+    cursor: pointer;
+    color: navy;
+}
+.fa-lg:hover {
+    cursor: pointer;
+}
+    .min_width_combo {
     min-width: 500px;
     overflow: auto;
 }

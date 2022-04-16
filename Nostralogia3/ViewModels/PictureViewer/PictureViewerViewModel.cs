@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Nostralogia3.Models.DataWorking;
+﻿using Nostralogia3.Models.DataWorking;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 
-namespace Nostralogia3.Models.PicturesViewer
+namespace Nostralogia3.ViewModels.PictureViewer
 {
-    public abstract class PictureViewerBaseModel :BaseModel
+    public class PictureViewerViewModel : PictureViewerBase
     {
         //private readonly IWebHostEnvironment webHostEnvironment;
         public int RefID { get; set; }
@@ -26,26 +22,29 @@ namespace Nostralogia3.Models.PicturesViewer
             return id;
         }
 
-        public PictureViewerBaseModel(int IDRef, int icategory = 0)
+        public PictureViewerViewModel(int IDRef, int icategory = 0)
         {
-
-            RefID = IDRef;
-            GetPictures(IDRef);
-            UpdateImgDimentions();
+            if (IDRef > 0)
+            {
+                RefID = IDRef;
+                //GetPictures(IDRef);
+                UpdateImgDimentions();
+            }
       
         }
-        public PictureViewerBaseModel(List<MPicture> _lst,int IDRef, int currentindex = 0, int icategory = 0)
+        public PictureViewerViewModel(List<MPicture> _lst,int IDRef, int currentindex = 0, int icategory = 0)
         {
             RefID = IDRef;
             _pictures = _lst;
             UpdateImgDimentions();
        }
-        protected abstract void GetPictures(int IDRef);
-        protected abstract String GeDefaultPict();
+        //protected abstract void GetPictures(int IDRef);
+        //protected abstract String GeDefaultPict();
 
         public String GetImgPath(int index)
         {
-            String sout = GeDefaultPict();
+            String sout = "";
+           //String sout = GeDefaultPict();
             if (_pictures != null && index >= 0 && index<_pictures.Count)
             {
 
@@ -54,8 +53,7 @@ namespace Nostralogia3.Models.PicturesViewer
             }
             return sout;
         }
-        protected abstract double GetMaxWidth();
-        protected abstract double GetMaxHeigth();
+
         protected void UpdateImgDimentions()
         {
             //if(_pictures != null && _pictures.Count>0)
@@ -95,7 +93,7 @@ namespace Nostralogia3.Models.PicturesViewer
             int iW=0;
             if (_pictures != null && index >= 0 && index < _pictures.Count)
             {
-                UpdateDimentions(index);
+                //UpdateDimentions(index);
                 iW = _pictures[index].Width;                
             }
             return iW;
@@ -105,29 +103,16 @@ namespace Nostralogia3.Models.PicturesViewer
             int iH = 0;
             if (_pictures != null && index >= 0 && index < _pictures.Count)
             {               
-                 UpdateDimentions(index);
+                 //UpdateDimentions(index);
                  iH = _pictures[index].Height;
                 
             }
             return iH;
         }
 
-        protected void UpdateDimentions(int index)
+        public override bool IsEdit()
         {
-             double relationW= _pictures[index].Width / GetMaxWidth();
-             double relationH = _pictures[index].Height / GetMaxHeigth();
-
-             if (relationW > relationH)
-             {
-                 _pictures[index].Width = (int)(_pictures[index].Width / relationW);
-                 _pictures[index].Height = (int)(_pictures[index].Height / relationW);
-             }
-             else
-             {
-                 _pictures[index].Width = (int)(_pictures[index].Width / relationH);
-                 _pictures[index].Height = (int)(_pictures[index].Height / relationH);
-             }
-
+            return false;
         }
     }
 }

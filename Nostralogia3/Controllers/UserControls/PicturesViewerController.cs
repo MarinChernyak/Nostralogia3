@@ -1,29 +1,29 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using Nostralogia3.Models.PicturesViewer;
+using Nostralogia3.ViewModels.PictureViewer;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sadalmelik3.Controllers
 {
+
     public class PicturesViewerController : Controller
     {
+        public ActionResult PictureViewerEdit(int id)
+        {
 
+            //PicturesViewerEditViewModel _model = new PicturesViewerEditViewModel(id);
+            //return View("~/Views/DataWorking/PicturesViewerEdit.cshtml", _model);
+            EmployeeCreateViewModel _model = new EmployeeCreateViewModel();
+            return View("~/Views/DataWorking/CreateEmployee.cshtml", _model);
+        }
+        [HttpPost]
         public ActionResult PictureViewerMain(int id)
         {
 
-            PicturesViewerPersonalPreviewModel    _model = new PicturesViewerPersonalPreviewModel(id);
-            return PartialView(_model);
-        }
-        [HttpPost]
-        public PartialViewResult GetPictureViewer(int id)
-        {
-            PicturesViewerPersonalPreviewModel _model = new PicturesViewerPersonalPreviewModel(id);
-            return PartialView("~/Views/Controls/PicturesViewer/PictureViewerMain.cshtml",_model);
+            PicturesViewerEditViewModel    _model = new PicturesViewerEditViewModel(id);
+            return RedirectToAction("PictureViewerEdit", new { id = id });
         }
         //
         public ActionResult Create()
@@ -203,22 +203,60 @@ namespace Sadalmelik3.Controllers
             return View();
         }
 
-        //
-        // POST: /PicturesViewer/Delete/5
+        [HttpPost]
+        public async Task<IActionResult> Upload(PicturesViewerEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(model.Photo!=null)
+                {
+                    bool bRez = await UploadFile(model.Photo);
+                }
+                
+                TempData["msg"] = "File Upload OK";
+            }
+            return RedirectToAction();
+        }
+        public async Task<bool> UploadFile(IFormFile file)
+        {
+            string path = "";
+            bool iscopied = true;
+            try
+            {
+                if (file.Length > 0)
+                {
+                    string filename = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Repository"));
+                    if (Directory.Exists(path))
+                    {
+                        using (var filestream = new FileStream(Path.Combine(path, filename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(filestream);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                iscopied = false;
+            }
+            return iscopied;
+        }
+        [HttpPost]
+        public IActionResult Create(EmployeeCreateViewModel model)
+        {
 
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = null;
+                if (model.Photo != null)
+                {
+                    bool bRez = UploadFile(model.Photo).Result;
+                }
 
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            }
+
+            return View();
+        }
     }
 }

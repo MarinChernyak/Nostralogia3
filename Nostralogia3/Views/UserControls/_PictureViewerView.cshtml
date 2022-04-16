@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Nostralogia3.Models.PicturesViewer.PicturesViewerPersonalPreviewModel
+@model Nostralogia3.ViewModels.PictureViewer.PictureViewerViewModel
 
 <div class="container w-100">
     <div class="container border border-secondary rounded BgColorControls">
@@ -21,36 +21,62 @@
                     <img src="~/Repository/PeopleImages/M_NoPict.JPG" />
                 </div>
                 <div class="col-1">
-                    <div class="row mb-3 ml-3">
+                    <div class="row mb-3 ml-2">
                         <a id=btnNext role="button"><i class="fa-solid fa-circle-arrow-left fa-xl"></i></a>
                     </div>
-                    <div class="row mb-3 ml-3">
+                    <div class="row mb-3 ml-2">
                         <a id=btnPrev role="button"><i class="fa-solid fa-circle-arrow-right fa-xl"></i></a>
-                    </div> 
-                    <div class="row mb-3 ml-3">
-                        <a id=btnAddImg role="button"><i class="fa-solid fa-circle-plus fa-xl"></i></a>
                     </div>
-                    <div class="row mb-3 ml-3">
-                        <a id=btnDelImage role="button"><i class="far fa-trash-alt fa-xl"></i></a>
-                    </div>
+                    @if (!Model.IsEdit())
+                    {
+                        @using (Html.BeginForm("PictureViewerEdit", "PicturesViewer", new { Id = @Model.RefID }))
+                        {
+                            <div class="row mb-3">
+                                <button type="submit" class="btn btn-default" id="btnAddImg"><i class="fa-solid fa-circle-plus fa-xl"></i></button>
+                            </div>
+                        }
+                    }
+                    @if (Model.IsEdit())
+                    {
+                        <div class="row mb-3 ml-2">
+                            <a id=btnDelImage role="button"><i class="far fa-trash-alt fa-xl"></i></a>
+                        </div>
+                    }
                 </div>
-                <div class="col-6">
-                </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-5">
-                        <span class="h6 font-weight-bold mr-2">File Name:</span><span class="font-weight-normal"> SomeFile.jpg</span>
-                    </div>
-                    <div class="col-5">
-                        <input id="File1" type="file" />
-                    </div>
+                <div class="col-8 ">
+                   <textarea id="txtComments" disabled="disabled" cols="50" rows="8">No comments found...</textarea>
                 </div>
             </div>
+            <div class="row mb-3">
+                
+            </div>
+        </div>
     </div>
+    @Html.HiddenFor(x=>x.RefID, new { id = "hdId" })
 </div>
-
+<script src="~/js/PicturesViewer2.js" ></script>
 <script>
     $(document).ready(function () {
+        var id = $("#hdId").val();
+        console.log("id => " + id);
+        //$("#btnAddImg").on("click", function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/PicturesViewer/PictureViewerMain",
+        //        data: { Id: id },
+        //        success: function () {                    
 
+        //        },
+        //        fail: function (e) {
+        //            alert("Pictures data update error");
+        //        }
+        //    });
+        //});
+        $("#btnUploadCancel").on("click", function () {
+            $("#dvFile").removeClass("visible").addClass("invisible");
+        });
+        $("#btnUpload").on("click", function () {
+            $("#frmPictView").submit();
+        });
     });
 </script>

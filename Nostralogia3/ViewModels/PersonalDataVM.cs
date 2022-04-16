@@ -9,8 +9,8 @@ using NostralogiaDAL.NostradamusEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nostralogia3.Models.PicturesViewer;
 using Microsoft.AspNetCore.Http;
+using Nostralogia3.ViewModels.PictureViewer;
 
 namespace Nostralogia3.ViewModels
 {
@@ -34,7 +34,8 @@ namespace Nostralogia3.ViewModels
         public SimpleCalendarModel SimpleCalendarModel { get; protected set; } = new();
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
-        public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
+        //public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
+        public PictureViewerViewModel PicturesViewer { get; protected set; }
         protected ISession _session { get; set; }
 
         public PersonalDataVM(ISession session)
@@ -93,7 +94,8 @@ namespace Nostralogia3.ViewModels
             TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0, Id);
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
-            PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
+            //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
+            PicturesViewer = new PictureViewerViewModel(_model.Id);
             FillUpCollections();
         }
         public void FillUpCollections()
