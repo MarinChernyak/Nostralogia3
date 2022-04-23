@@ -52,13 +52,6 @@ namespace Nostralogia3.ViewModels.PictureViewer
         {
             var pict = PersonalDataFactory.GetPicturesCollection(IdRef);
             UpdatePictures(pict);
-            //if(pict != null && pict.Count>0)
-            //{
-            //    for(int i=0; i<pict.Count;++i)
-            //    {
-            //        UpdateDimentions(i);
-            //    }
-            //}
         }
         public String DeleteImage(int idImage)
         {
@@ -103,28 +96,5 @@ namespace Nostralogia3.ViewModels.PictureViewer
                 }
             }
         }
-        //protected void UpdateDimentions( int index)
-        //{
-        //    System.Drawing.Image img = System.Drawing.Image.FromFile($"{NewPictureData.FullPath}\\{_pictures[index].FileName}");
-        //    if (img != null)
-        //    {
-        //        double relationW = img.Width / GetMaxWidth();
-        //        double relationH = img.Height / GetMaxHeigth();
-
-        //        if (relationW > relationH)
-        //        {
-        //            _pictures[index].Width = /*(int)*/(img.Width / relationW);
-        //            _pictures[index].Height = /*(int)*/(img.Height / relationW);
-        //        }
-        //        else
-        //        {
-        //            _pictures[index].Width = /*(int)*/(img.Width / relationH);
-        //            _pictures[index].Height = /*(int)*/(img.Height / relationH);
-        //        }
-        //    }
-
-        //}
-
-
     }
 }

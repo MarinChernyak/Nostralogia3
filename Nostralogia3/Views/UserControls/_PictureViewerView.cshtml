@@ -69,24 +69,14 @@
     var cur_index = 0;
     var model = '@Html.Raw(Json.Serialize(@Model._pictures))';
     var pictures = JSON.parse(model);
-    console.log(pictures);
-    
-    for (var i = 0; i < pictures.length; ++i) {
-        if (pictures[i]["width"] != undefined && pictures[i]["height"] != undefined && pictures[i]["fileName"] != undefined) {
-            console.log("<img  src=  '" + FullPath + pictures[i]["fileName"] + "' id='imgPresent" + i + "' width='" + pictures[i]["width"] + "'" + " height='" + pictures[i]["height"] + "' />");
-        }
-        else {
-            console.log("ERROR loop :  width='" + pictures[i]["width"] + "' height='" + pictures[i]["height"] + "' src=  '" + pictures[i]["fileName"]);
-        }
-    }
-    console.log("loop end");
+
     InitPicture();
     function InitPicture() {
 
         if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
-            console.log("InitPicture start");
+            //console.log("InitPicture start");
             var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"]+ "' />";
-            console.log("newimg => " + newimg);
+            //console.log("newimg => " + newimg);
             $("#imgContainer").empty();
             $("#imgContainer").append(newimg);
             $("#txtComments").val(pictures[cur_index]["comments"]);
