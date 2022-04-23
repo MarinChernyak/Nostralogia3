@@ -27,7 +27,7 @@
                     else
                     {
                         <div class="col-6" id="imgContainer">
-                        </div>                        
+                        </div>
                     }
 
                     <div class="col-1">
@@ -44,7 +44,10 @@
                             </div>
                         }
                         <div class="row mb-3">
-                            <button id=btnDelImage type="button" class="btn btn-default"><i class="far fa-trash-alt fa-xl"></i></button>
+                            <button id=btnDeactivateImage type="button" class="btn btn-default"><i class="far fa-trash-alt fa-xl"></i></button>
+                        </div>
+                        <div class="row mb-3">
+                            <button id=btnDelImage type="button" class="btn btn-default text-danger"><i class="far fa-trash-alt fa-xl"></i></button>
                         </div>
 
 
@@ -64,22 +67,31 @@
     
 <script src="~/js/PicturesViewer2.js"></script>
 <script>
-
+    var UserLevel = @Model.GetUserLevel();
+    console.log("UserLevel =>" + UserLevel);
     var FullPath = '@Url.Content("~/Repository/PeopleImages/")';
     var cur_index = 0;
     var model = '@Html.Raw(Json.Serialize(@Model._pictures))';
     var pictures = JSON.parse(model);
-
+    console.log("pictures L =>" + pictures.length);
+    console.log(pictures);
     InitPicture();
     function InitPicture() {
 
-        if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
-            //console.log("InitPicture start");
-            var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"]+ "' />";
-            //console.log("newimg => " + newimg);
-            $("#imgContainer").empty();
-            $("#imgContainer").append(newimg);
-            $("#txtComments").val(pictures[cur_index]["comments"]);
+        if ((pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == true) ||
+            (pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == false && UserLevel > 2))
+            {
+            if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
+                //console.log("InitPicture start");
+                var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"] + "' />";
+                console.log("newimg => " + newimg);
+                $("#imgContainer").empty();
+                $("#imgContainer").append(newimg);
+                $("#txtComments").val(pictures[cur_index]["comments"]);
+                if (pictures[cur_index]["isAvailable"] == false) {
+                    $("#imgContainer").addClass("border border-warning border-3");
+                }
+            }
         }
         else {
             console.log("ERROR :  width='" + pictures[cur_index]["width"] + "' height='" + pictures[cur_index]["height"] + "' src=  '" + pictures[cur_index]["fileName"]);
@@ -118,8 +130,6 @@
             }
             $("#btnDelImage").on("click", function () {
                 var url = "/PicturesViewer/DeletePicture?id=" + pictures[cur_index]["idpicture"];
-                UpdateCursor(1);
-                InitPicture();
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -127,12 +137,28 @@
                     success: function (data) {
 
                         pictures = data;
-                        console.log("data => " + data);
+                        //console.log("data => " + data);
                         location.reload();
 
                     }
 
                 });
             });
+            $("#btnDeactivateImage").on("click", function () {
+                var url = "/PicturesViewer/DeactivatePicture?id=" + pictures[cur_index]["idpicture"];
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    datatype: "json",
+                    success: function (data) {
+
+                        pictures = data;
+                        location.reload();
+
+                    }
+
+                });
+            });
+
         });
 </script>

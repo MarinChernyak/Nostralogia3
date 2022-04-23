@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Controllers.Authentication
 {
-    public class LogInController : BaseSessionController
+    public class LogInController : BaseController
     {
         public IActionResult ReLogIn()
         {

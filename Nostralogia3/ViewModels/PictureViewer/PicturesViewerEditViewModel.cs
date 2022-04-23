@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.PictureViewer
 {
-    public class PicturesViewerEditViewModel 
+    public class PicturesViewerEditViewModel : ViewModelBase
     {
         protected String _defaultPicture = "M_NoPict.JPG";
         public bool Expanded { get; set;  }
@@ -40,17 +40,19 @@ namespace Nostralogia3.ViewModels.PictureViewer
             IsEdit = false;
         }
 
-        public PicturesViewerEditViewModel(int IDperson)
+        public PicturesViewerEditViewModel(int IDperson, ISession session)
         {
             IsEdit = false;
             Expanded = false;
             IdRef = IDperson;
+            _session = session;
             InitCollection();
         }
 
         protected void InitCollection()
         {
-            var pict = PersonalDataFactory.GetPicturesCollection(IdRef);
+            int ilevel = GetUserLevel();
+            var pict = PersonalDataFactory.GetPicturesCollection(IdRef, ilevel > 2);
             UpdatePictures(pict);
         }
         public String DeleteImage(int idImage)

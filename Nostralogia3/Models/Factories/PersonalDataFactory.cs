@@ -339,7 +339,7 @@ namespace Nostralogia3.Models.Factories
             return iNum;
         }
 
-        public static List<MPicture> GetPicturesCollection(int idRef)
+        public static List<MPicture> GetPicturesCollection(int idRef, bool includeInactive=false)
         {
             List<MPicture> lst = new List<MPicture>();
             using (NostradamusContext context = new NostradamusContext())
@@ -347,6 +347,10 @@ namespace Nostralogia3.Models.Factories
                 try
                 {
                     List<Picture> pict = context.Pictures.Where(x => x.IdReference == idRef).ToList();
+                    if(!includeInactive)
+                    {
+                        pict = pict.Where(x => x.IsAvailable == true).ToList();
+                    }
                     lst = ModelsTransformer.TransferModelList<Picture, MPicture>(pict);
                 }
                 catch (Exception e)
@@ -406,6 +410,39 @@ namespace Nostralogia3.Models.Factories
                     LogMaster lm = new LogMaster();
                     lm.SetLog(e.Message);
                     
+                }
+            }
+
+            return idRef;
+        }
+
+        public static int DeactivatePicture(int IdPicture)
+        {
+            int idRef = 0;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    var picture = context.Pictures.FirstOrDefault(x => x.Idpicture == IdPicture);
+                    string deleteFile = picture.FileName;
+                    idRef = picture.IdReference;
+                    
+                    picture.IsAvailable = false;
+                    context.Entry(picture).State = EntityState.Modified;
+                    context.SaveChanges();
+                    //string FullPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), Constants.Paths.ImageRepository, deleteFile));
+                    //if (File.Exists(FullPath))
+                    //{
+                    //    System.GC.Collect();
+                    //    System.GC.WaitForPendingFinalizers();
+                    //    File.Delete(FullPath);
+                    //}
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+
                 }
             }
 

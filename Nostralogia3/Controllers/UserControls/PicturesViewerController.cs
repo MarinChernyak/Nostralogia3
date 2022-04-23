@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nostralogia3.Models.Factories;
+using Nostralogia3.Models.Helpers;
 using Nostralogia3.ViewModels.PictureViewer;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace Nostralogia3.Controllers.UserControls
 {
 
-    public class PicturesViewerController : Controller
+    public class PicturesViewerController : BaseController
     {
         public ActionResult PictureViewerEdit(int id)
         {
@@ -21,10 +22,11 @@ namespace Nostralogia3.Controllers.UserControls
         [HttpPost]
         public ActionResult PictureViewerMain(int id)
         {
-
-            PicturesViewerEditViewModel    _model = new PicturesViewerEditViewModel(id);
+            PicturesViewerEditViewModel _model = new PicturesViewerEditViewModel(id, HttpContext.Session);
+            UpdateUserData(_model);
             return RedirectToAction("PictureViewerEdit", new { id = id });
         }
+
         [HttpPost]
         public JsonResult DeletePicture(int id)
         {
@@ -32,14 +34,26 @@ namespace Nostralogia3.Controllers.UserControls
             string jsonout = string.Empty;
             if(idRef>0)
             {
-                PicturesViewerEditViewModel model = new PicturesViewerEditViewModel(idRef);
+                PicturesViewerEditViewModel model = new PicturesViewerEditViewModel(idRef, HttpContext.Session);
+                UpdateUserData(model);
                 jsonout = JsonSerializer.Serialize(model._pictures);
             }
             return new JsonResult(jsonout);
         }
 
-
-
+        [HttpPost]
+        public JsonResult DeactivatePicture(int id)
+        {
+            int idRef =  PersonalDataFactory.DeactivatePicture(id);
+            string jsonout = string.Empty;
+            if(idRef>0)
+            {
+                PicturesViewerEditViewModel model = new PicturesViewerEditViewModel(idRef, HttpContext.Session);
+                UpdateUserData(model);
+                jsonout = JsonSerializer.Serialize(model._pictures);
+            }
+            return new JsonResult(jsonout);
+        }
         public async Task<IActionResult> CreateAsync(NewPictureData model)
         {
 

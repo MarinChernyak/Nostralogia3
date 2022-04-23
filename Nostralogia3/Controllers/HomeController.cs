@@ -12,22 +12,7 @@ using System.Threading.Tasks;
 namespace Nostralogia3.Controllers
 {
 
-    public class BaseSessionController: Controller
-    {
-        protected void SetSessionVariables(MUserBase model)
-        {
-            HttpContext.Session.SetString(Constants.SessionCoockies.SessionUName, model.UserName);
-            HttpContext.Session.SetString(Constants.SessionCoockies.SessionUID, model.UserId.ToString());
-            HttpContext.Session.SetString(Constants.SessionCoockies.SessionULevel, model.UserLevel.ToString());
-        }
-        protected void DeleteSessionVariables()
-        {
-            HttpContext.Session.Remove(Constants.SessionCoockies.SessionUName);
-            HttpContext.Session.Remove(Constants.SessionCoockies.SessionULevel);
-            HttpContext.Session.Remove(Constants.SessionCoockies.SessionUID);
-        }
-    }
-    public class HomeController : BaseSessionController
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -58,6 +43,7 @@ namespace Nostralogia3.Controllers
                 SetSessionVariables(model);
             }
             HomePageModel mopdel = new HomePageModel(HttpContext.Session);
+            UpdateUserData(mopdel);
             return View(mopdel);
         }
         public IActionResult Privacy()

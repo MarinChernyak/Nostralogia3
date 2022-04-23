@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Controllers.MainActions
 {
-    public class DataWorking : Controller
+    public class DataWorking : BaseController
     {
         protected ISession _session { get
             {
@@ -20,11 +20,13 @@ namespace Nostralogia3.Controllers.MainActions
         public IActionResult DataPerson()
         {
             PersonalDataVM model = new PersonalDataVM(_session);
+            UpdatePersonalData(model);
             return View(model);
         }
         public IActionResult EditPersonalData(int id)
         {
             PersonalDataVM model = new PersonalDataVM(id, _session);
+            UpdatePersonalData(model);
             return View("~/Views/DataWorking/DataPerson.cshtml",model);
         }
         public IActionResult Consulting()

@@ -5,6 +5,7 @@ using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.Persons;
 using Nostralogia3.Models.UserControls;
 using Nostralogia3.Models.UserControls.Tables;
+using Nostralogia3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,12 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models
 {
-    public class HomePageModel :BaseModel
+    public class HomePageModel :ViewModelBase
     { 
 
 
         public HomePeopleTable PeopleTable { get; protected set; }
         public NostraTable EventTable { get; protected set; }
-        protected ISession _session { get; set; }
-
         public bool ReadOnly { get; }
         public HomePageModel(ISession session)
         {

@@ -26,6 +26,8 @@
   <ItemGroup>
     <Compile Remove="Controllers\UserControls\CalendarController.cs" />
     <Compile Remove="Models\Utilities\SMRijndaelEncryption.cs" />
+    <Compile Remove="ViewModels\PictureViewer\PictureViewerBase.cs" />
+    <Compile Remove="ViewModels\PictureViewer\PictureViewerViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

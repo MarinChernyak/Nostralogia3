@@ -14,7 +14,7 @@ using Nostralogia3.ViewModels.PictureViewer;
 
 namespace Nostralogia3.ViewModels
 {
-    public class PersonalDataVM
+    public class PersonalDataVM : ViewModelBase
     {
         public MPersonalData _model { get; set; }
         public bool ReadOnly { get; protected set; }
@@ -36,7 +36,7 @@ namespace Nostralogia3.ViewModels
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
         //public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
         public PicturesViewerEditViewModel PicturesViewer { get; protected set; }
-        protected ISession _session { get; set; }
+        
 
         public PersonalDataVM(ISession session)
         {
@@ -95,7 +95,7 @@ namespace Nostralogia3.ViewModels
             KWCollection = new KeyWordsCollectionModel(0, Id);
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
             //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
-            PicturesViewer = new PicturesViewerEditViewModel(_model.Id);
+            PicturesViewer = new PicturesViewerEditViewModel(_model.Id,_session);
             FillUpCollections();
         }
         public void FillUpCollections()
