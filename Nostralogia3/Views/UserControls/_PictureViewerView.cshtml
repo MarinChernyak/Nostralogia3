@@ -1,82 +1,148 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Nostralogia3.ViewModels.PictureViewer.PictureViewerViewModel
+@model Nostralogia3.ViewModels.PictureViewer.PicturesViewerEditViewModel
 
-<div class="container w-100">
-    <div class="container border border-secondary rounded BgColorControls">
-        <div class="container">
-            <div class="row w-100 mb-1">
-                <div class="h5 col-4 mt-3 font-weight-bold">
-                    Pictures Viewer
-                </div>
-                <div class="col-3"></div>
+    <div class="container w-100">
+        <div class="container border border-secondary rounded BgColorControls">
+            <div class="container">
+                <div class="row w-100 mb-1">
+                    <div class="h5 col-4 mt-3 font-weight-bold">
+                        Pictures Viewer
+                    </div>
+                    <div class="col-3"></div>
 
-                <div class="col-4 mt-2 ">
-                   Number of the images: @Model.NumPictures
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <img src="~/Repository/PeopleImages/M_NoPict.JPG" />
-                </div>
-                <div class="col-1">
-                    <div class="row mb-3 ml-2">
-                        <a id=btnNext role="button"><i class="fa-solid fa-circle-arrow-left fa-xl"></i></a>
+                    <div class="col-4 mt-2 ">
+                        Number of the images:  @Model._pictures.Count
                     </div>
-                    <div class="row mb-3 ml-2">
-                        <a id=btnPrev role="button"><i class="fa-solid fa-circle-arrow-right fa-xl"></i></a>
-                    </div>
-                    @if (!Model.IsEdit())
+                </div>
+                
+                <div class="row w-100">
+                    @if (@Model._pictures.Count == 0)
                     {
-                        @using (Html.BeginForm("PictureViewerEdit", "PicturesViewer", new { Id = @Model.RefID }))
+                        <div class="col-6">
+                            <img src="~/Repository/PeopleImages/M_NoPict.JPG" id="imgPresent0" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-6" id="imgContainer">
+                        </div>                        
+                    }
+
+                    <div class="col-1">
+                        <div class="row mb-3 ">
+                            <button id=btnNext type="button" class="btn btn-default"><i class="fa-solid fa-circle-arrow-right fa-xl"></i></button>
+                        </div>
+                        <div class="row mb-3">
+                            <button id=btnPrev type="button" class="btn btn-default"><i class="fa-solid fa-circle-arrow-left fa-xl"></i></button>
+                        </div>
+                        @using (Html.BeginForm("PictureViewerEdit", "PicturesViewer", new { id = Model.IdRef }))
                         {
                             <div class="row mb-3">
                                 <button type="submit" class="btn btn-default" id="btnAddImg"><i class="fa-solid fa-circle-plus fa-xl"></i></button>
                             </div>
                         }
-                    }
-                    @if (Model.IsEdit())
-                    {
-                        <div class="row mb-3 ml-2">
-                            <a id=btnDelImage role="button"><i class="far fa-trash-alt fa-xl"></i></a>
+                        <div class="row mb-3">
+                            <button id=btnDelImage type="button" class="btn btn-default"><i class="far fa-trash-alt fa-xl"></i></button>
                         </div>
-                    }
+
+
+                    </div>
+
+                    <div class="col-5 ">
+                        <textarea id="txtComments" disabled="disabled" cols="35" rows="8">No comments found...</textarea>
+                    </div>
                 </div>
-                <div class="col-8 ">
-                   <textarea id="txtComments" disabled="disabled" cols="50" rows="8">No comments found...</textarea>
-                </div>
-            </div>
-            <div class="row mb-3">
+                    <div class="row mb-3">
+
+                    </div>
                 
-            </div>
+             </div>
         </div>
     </div>
-    @Html.HiddenFor(x=>x.RefID, new { id = "hdId" })
-</div>
-<script src="~/js/PicturesViewer2.js" ></script>
+    
+<script src="~/js/PicturesViewer2.js"></script>
 <script>
-    $(document).ready(function () {
-        var id = $("#hdId").val();
-        console.log("id => " + id);
-        //$("#btnAddImg").on("click", function () {
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/PicturesViewer/PictureViewerMain",
-        //        data: { Id: id },
-        //        success: function () {                    
 
-        //        },
-        //        fail: function (e) {
-        //            alert("Pictures data update error");
-        //        }
-        //    });
-        //});
-        $("#btnUploadCancel").on("click", function () {
-            $("#dvFile").removeClass("visible").addClass("invisible");
+    var FullPath = '@Url.Content("~/Repository/PeopleImages/")';
+    var cur_index = 0;
+    var model = '@Html.Raw(Json.Serialize(@Model._pictures))';
+    var pictures = JSON.parse(model);
+    console.log(pictures);
+    
+    for (var i = 0; i < pictures.length; ++i) {
+        if (pictures[i]["width"] != undefined && pictures[i]["height"] != undefined && pictures[i]["fileName"] != undefined) {
+            console.log("<img  src=  '" + FullPath + pictures[i]["fileName"] + "' id='imgPresent" + i + "' width='" + pictures[i]["width"] + "'" + " height='" + pictures[i]["height"] + "' />");
+        }
+        else {
+            console.log("ERROR loop :  width='" + pictures[i]["width"] + "' height='" + pictures[i]["height"] + "' src=  '" + pictures[i]["fileName"]);
+        }
+    }
+    console.log("loop end");
+    InitPicture();
+    function InitPicture() {
+
+        if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
+            console.log("InitPicture start");
+            var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"]+ "' />";
+            console.log("newimg => " + newimg);
+            $("#imgContainer").empty();
+            $("#imgContainer").append(newimg);
+            $("#txtComments").val(pictures[cur_index]["comments"]);
+        }
+        else {
+            console.log("ERROR :  width='" + pictures[cur_index]["width"] + "' height='" + pictures[cur_index]["height"] + "' src=  '" + pictures[cur_index]["fileName"]);
+        }
+    }
+
+        $(document).ready(function () {
+
+            $("#btnUploadCancel").on("click", function () {
+                $("#dvFile").removeClass("visible").addClass("invisible");
+            });
+            $('.custom-file-input').on('change', function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            });
+            $("#btnPrev").on("click", function () {
+                console.log("prev");
+                UpdateCursor(-1);
+                InitPicture();
+            });
+            $("#btnNext").on("click", function () {
+                console.log("next");
+                UpdateCursor(1);
+                InitPicture();
+            });
+
+            function UpdateCursor(increment) {
+                var L = pictures.length;
+                cur_index += increment;
+                if (cur_index == L) {
+                    cur_index = 0;
+                }
+                else if(cur_index<0){
+                    cur_index = L - 1;
+                }
+            }
+            $("#btnDelImage").on("click", function () {
+                var url = "/PicturesViewer/DeletePicture?id=" + pictures[cur_index]["idpicture"];
+                UpdateCursor(1);
+                InitPicture();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    datatype: "json",
+                    success: function (data) {
+
+                        pictures = data;
+                        console.log("data => " + data);
+                        location.reload();
+
+                    }
+
+                });
+            });
         });
-        $("#btnUpload").on("click", function () {
-            $("#frmPictView").submit();
-        });
-    });
 </script>

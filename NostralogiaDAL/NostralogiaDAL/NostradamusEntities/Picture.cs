@@ -12,6 +12,7 @@ namespace NostralogiaDAL.NostradamusEntities
         public string FileName { get; set; }
         public int FileSize { get; set; }
         public bool? IsAvailable { get; set; }
+        public string Comments { get; set; }
 
         public virtual Person IdReferenceNavigation { get; set; }
     }

@@ -66,7 +66,6 @@ namespace NostralogiaDAL.NostradamusEntities
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-LE4MQKM2;Database=NostradamusTest;Trusted_Connection=True;");
             }
         }
@@ -156,12 +155,10 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.Idtype).HasColumnName("IDType");
 
                 entity.Property(e => e.Adv)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("ADV");
 
                 entity.Property(e => e.AdvAppl)
-                    .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnName("ADV_APPL");
 
@@ -438,7 +435,9 @@ namespace NostralogiaDAL.NostradamusEntities
             {
                 entity.ToTable("impact_related_sectors", "we");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID");
 
                 entity.Property(e => e.Details)
                     .IsRequired()
@@ -456,9 +455,7 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.ToTable("KeyWords", "we");
 
-                entity.Property(e => e.Idkw)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDKW");
+                entity.Property(e => e.Idkw).HasColumnName("IDKW");
 
                 entity.Property(e => e.AdvKeyWord)
                     .IsRequired()
@@ -647,6 +644,12 @@ namespace NostralogiaDAL.NostradamusEntities
                     .HasMaxLength(50)
                     .HasColumnName("Second_Name")
                     .HasDefaultValueSql("(N'Unknown')");
+
+                entity.HasOne(d => d.DataTypeNavigation)
+                    .WithMany(p => p.People)
+                    .HasForeignKey(d => d.DataType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_people_datatype");
             });
 
             modelBuilder.Entity<Picture>(entity =>
@@ -655,13 +658,11 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.ToTable("pictures");
 
-                entity.Property(e => e.Idpicture)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDPicture");
+                entity.Property(e => e.Idpicture).HasColumnName("IDPicture");
 
-                entity.Property(e => e.FileName).IsRequired();
-
-                entity.Property(e => e.FileSize).ValueGeneratedOnAdd();
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.IdReference).HasColumnName("ID_Reference");
 
@@ -716,7 +717,9 @@ namespace NostralogiaDAL.NostradamusEntities
             {
                 entity.ToTable("potential_severity", "we");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID");
 
                 entity.Property(e => e.Severity)
                     .IsRequired()
@@ -1180,6 +1183,8 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
                 entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
+
+                entity.Property(e => e.Email).HasMaxLength(100);
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(50)

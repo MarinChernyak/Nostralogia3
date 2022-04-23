@@ -9,6 +9,7 @@ namespace NostralogiaDAL.NostradamusEntities
     {
         public Datatype()
         {
+            People = new HashSet<Person>();
             Worldevents = new HashSet<Worldevent>();
         }
 
@@ -18,6 +19,7 @@ namespace NostralogiaDAL.NostradamusEntities
         public string DataType1 { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<Worldevent> Worldevents { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Nostralogia3.Models.DataWorking;
+﻿using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models.DataWorking;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,10 @@ namespace Nostralogia3.ViewModels.PictureViewer
 
             return id;
         }
+        public PictureViewerViewModel()
+        {
 
+        }
         public PictureViewerViewModel(int IDRef, int icategory = 0)
         {
             if (IDRef > 0)
@@ -94,7 +98,7 @@ namespace Nostralogia3.ViewModels.PictureViewer
             if (_pictures != null && index >= 0 && index < _pictures.Count)
             {
                 //UpdateDimentions(index);
-                iW = _pictures[index].Width;                
+                iW = (int)_pictures[index].Width;                
             }
             return iW;
         }
@@ -104,7 +108,7 @@ namespace Nostralogia3.ViewModels.PictureViewer
             if (_pictures != null && index >= 0 && index < _pictures.Count)
             {               
                  //UpdateDimentions(index);
-                 iH = _pictures[index].Height;
+                 iH = (int)_pictures[index].Height;
                 
             }
             return iH;

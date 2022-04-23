@@ -6,6 +6,7 @@ using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -267,24 +268,7 @@ namespace Nostralogia3.Models.Factories
             }
             return bRez;
         }
-        public static List<MPicture> GetPictures(int IdPerson)
-        {
-            List<MPicture> pictures = null;
-            using (NostradamusContext context = new NostradamusContext())
-            {
-                try
-                {
-                    List<Picture> lst = context.Pictures.Where(x => x.IdReference == IdPerson).ToList();
-                    pictures =  ModelsTransformer.TransferModelList<Picture, MPicture>(lst);                    
-                }
-                catch (Exception e)
-                {
-                    LogMaster lm = new LogMaster();
-                    lm.SetLog(e.Message);
-                }
-            }
-            return pictures;
-        }
+
         public static bool UpdatePersonalKeywords(List<SelectListItem>lstKW, int IdPerson)
         {
             bool bRez = true;
@@ -319,5 +303,114 @@ namespace Nostralogia3.Models.Factories
             }
             return bRez;
         }
+
+        #region Pictures
+
+        public async static Task<int> GetValidPictNum(int idRef)
+        {
+            int iNum = 1;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    List<Picture> pict = await context.Pictures.Where(x => x.IdReference == idRef).OrderByDescending(x=>x.FileName).ToListAsync();
+                    if(pict!=null && pict.Count>0)
+                    {
+                        string fname = pict[0].FileName;
+                        string[] arr = fname.Split(new char[] { '_' });
+                        if (arr != null && arr.Length == 2)
+                        {
+                            int pos = arr[1].IndexOf('.');
+                            string snum = arr[1].Substring(0, pos);
+                            if (int.TryParse(snum,out iNum))
+                            {
+                                iNum++;
+                            }
+                        }
+                        
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return iNum;
+        }
+
+        public static List<MPicture> GetPicturesCollection(int idRef)
+        {
+            List<MPicture> lst = new List<MPicture>();
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    List<Picture> pict = context.Pictures.Where(x => x.IdReference == idRef).ToList();
+                    lst = ModelsTransformer.TransferModelList<Picture, MPicture>(pict);
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return lst;
+        }
+        public static int AddNewPicture(MPicture mpict)
+        {
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    Picture pict = ModelsTransformer.TransferModel<MPicture, Picture>(mpict);
+                    if(pict!=null && pict.IdReference>0)
+                    {
+                        context.Entry(pict).State = EntityState.Added;
+                        context.SaveChanges();
+                        mpict.Idpicture = pict.Idpicture;
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return mpict.Idpicture;
+        }
+
+        public static int DeletePicturePsonal(int IdPicture)
+        {
+            int idRef = 0;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    var picture = context.Pictures.FirstOrDefault(x => x.Idpicture == IdPicture);
+                    string deleteFile = picture.FileName;
+                    idRef = picture.IdReference;
+                    context.Remove(picture);
+                    context.SaveChanges();
+
+                    string FullPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), Constants.Paths.ImageRepository,deleteFile));
+                    if (File.Exists(FullPath))
+                    {
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(FullPath);
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                    
+                }
+            }
+
+            return idRef;
+        }
+        #endregion
     }
 }

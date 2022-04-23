@@ -35,7 +35,7 @@ namespace Nostralogia3.ViewModels
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
         //public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
-        public PictureViewerViewModel PicturesViewer { get; protected set; }
+        public PicturesViewerEditViewModel PicturesViewer { get; protected set; }
         protected ISession _session { get; set; }
 
         public PersonalDataVM(ISession session)
@@ -95,7 +95,7 @@ namespace Nostralogia3.ViewModels
             KWCollection = new KeyWordsCollectionModel(0, Id);
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
             //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
-            PicturesViewer = new PictureViewerViewModel(_model.Id);
+            PicturesViewer = new PicturesViewerEditViewModel(_model.Id);
             FillUpCollections();
         }
         public void FillUpCollections()

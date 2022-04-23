@@ -56,7 +56,10 @@ namespace Nostralogia3
             public static string MarkerEdit { get { return "[EDIT]"; } }            public static string MarkerDelete { get { return "[DELETE]"; } }
         }
 
-
+       public class Paths
+        {
+            public static string ImageRepository { get { return "wwwroot/Repository/PeopleImages";  } }
+        }
 
 
     }

@@ -38,6 +38,7 @@ namespace NostralogiaDAL.NostradamusEntities
         public bool? IsAvailable { get; set; }
         public int? Sex { get; set; }
 
+        public virtual Datatype DataTypeNavigation { get; set; }
         public virtual ICollection<MapNote> MapNotes { get; set; }
         public virtual ICollection<PeopleUser> PeopleUsers { get; set; }
         public virtual ICollection<Peopleevent> Peopleevents { get; set; }
