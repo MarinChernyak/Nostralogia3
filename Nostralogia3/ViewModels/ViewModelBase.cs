@@ -9,7 +9,25 @@ namespace Nostralogia3.ViewModels
     public class ViewModelBase
     {
         protected ISession _session { get; set; }
-        public int UserId { get; set; }
+        public void SetSession (ISession session)
+        {
+            _session = session;
+        }
+        public int GetUID()
+        {
+            int uid = 0;
+            string suid = _session.GetString(Constants.SessionCoockies.SessionUID);
+            if (!string.IsNullOrEmpty(suid))
+            {
+                uid = Convert.ToInt32(suid);
+            }
+            return uid;
+
+        }
+        public void SetUserId(int UID)
+        {
+            _session.SetString(Constants.SessionCoockies.SessionULevel, UID.ToString());
+        }
         public int GetUserLevel()
         {
             int level = 0;

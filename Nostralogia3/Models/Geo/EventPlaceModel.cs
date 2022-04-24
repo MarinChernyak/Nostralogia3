@@ -23,6 +23,11 @@ namespace Nostralogia3.Models.Geo
         public List<SelectListItem> Cities { get; protected set; }
 
         public bool ReadOnly { get; protected set; }
+
+        public EventPlaceModel()
+        {
+
+        }
         public EventPlaceModel(string label)
         {
             FillUpCountries();

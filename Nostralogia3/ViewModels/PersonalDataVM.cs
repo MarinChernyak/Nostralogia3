@@ -22,22 +22,21 @@ namespace Nostralogia3.ViewModels
         public SimpleTimePickerModel TimeFrom { get; set; } = new();
         public SimpleTimePickerModel TimeTo { get; set; } = new();
         public EventPlaceModel EventPlaceModel { get; set; }
-        public virtual List<MPeopleevent> Peopleevents { get; set; } = new();
-        public virtual List<MPeoplekeywordsstore> Peoplekeywordsstores { get; set; } = new();
         public virtual ICollection<MPicture> Pictures { get; set; }
         public List<SelectListItem> SexCollection { get; protected set; } = new();
         public List<SelectListItem> SourceColection { get; protected set; } = new();
         public List<SelectListItem> TimeShifts { get; protected set; } = new();
         public List<SelectListItem> DataTypeCollection { get; protected set; } = new();
-        public List<MDataType> MDataTypes { get; protected set; } = new();
         public string ErrorMessage { get; protected set; }
         public SimpleCalendarModel SimpleCalendarModel { get; protected set; } = new();
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
-        //public PicturesViewerPersonalPreviewModel PicturesViewer { get; protected set; } 
         public PicturesViewerEditViewModel PicturesViewer { get; protected set; }
-        
 
+        public PersonalDataVM()
+        {
+
+        }
         public PersonalDataVM(ISession session)
         {
             _session = session;
@@ -80,13 +79,8 @@ namespace Nostralogia3.ViewModels
                 _model.DataType = data.DataType;
                 _model.Id = Id;
             }
-            string suserlevel = _session.GetString(Constants.SessionCoockies.SessionULevel);
-            string suserID = _session.GetString(Constants.SessionCoockies.SessionUID);
-            int userlevel = 0;
-            int.TryParse(suserlevel, out userlevel);
-            int userID = 0;
-            int.TryParse(suserID, out userID);
-            ReadOnly = CommonFunctionsFactory.IsReadOnly(userID, _model.IdContributor ?? 0, userlevel, _model.DataType);
+
+            ReadOnly = CommonFunctionsFactory.IsReadOnly(GetUID(), _model.IdContributor ?? 0, GetUserLevel(), _model.DataType);
 
             EventPlaceModel = new EventPlaceModel(data.CountryId, data.StateId, data.Place, "Birth Place",ReadOnly);
             SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", _model.BirthDay, _model.BirthMonth, _model.BirthYear, ReadOnly);
@@ -164,6 +158,7 @@ namespace Nostralogia3.ViewModels
             _model.BirthMinFrom = (byte)TimeFrom.Minute;
             _model.BirthHourTo = (byte)TimeTo.Hour;
             _model.BirthMinTo = (byte)TimeTo.Minute;
+            
         }
         public int AddNew()
         {

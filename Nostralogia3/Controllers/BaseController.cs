@@ -17,7 +17,7 @@ namespace Nostralogia3.Controllers
             string userid = SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID);
             if (!string.IsNullOrEmpty(userid))
             {
-                model.UserId = Convert.ToInt32(userid);
+                model.SetUserId(Convert.ToInt32(userid));
             }
             string userlevel = SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionULevel);
             if (!string.IsNullOrEmpty(userlevel))

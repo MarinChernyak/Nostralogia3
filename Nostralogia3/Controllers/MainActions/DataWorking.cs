@@ -26,7 +26,6 @@ namespace Nostralogia3.Controllers.MainActions
         public IActionResult EditPersonalData(int id)
         {
             PersonalDataVM model = new PersonalDataVM(id, _session);
-            UpdatePersonalData(model);
             return View("~/Views/DataWorking/DataPerson.cshtml",model);
         }
         public IActionResult Consulting()
@@ -45,6 +44,7 @@ namespace Nostralogia3.Controllers.MainActions
                 }
                 else
                 {
+                    model.SetSession(HttpContext.Session);
                     model.UpdateData();
                 }
             }          
