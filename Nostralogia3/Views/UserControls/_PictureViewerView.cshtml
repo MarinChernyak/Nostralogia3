@@ -73,8 +73,8 @@
     var cur_index = 0;
     var model = '@Html.Raw(Json.Serialize(@Model._pictures))';
     var pictures = JSON.parse(model);
-    console.log("pictures L =>" + pictures.length);
-    console.log(pictures);
+    //console.log("pictures L =>" + pictures.length);
+    //console.log(pictures);
     InitPicture();
     function InitPicture() {
 
@@ -84,13 +84,17 @@
             if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
                 //console.log("InitPicture start");
                 var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"] + "' />";
-                console.log("newimg => " + newimg);
+                //console.log("newimg => " + newimg);
                 $("#imgContainer").empty();
                 $("#imgContainer").append(newimg);
                 $("#txtComments").val(pictures[cur_index]["comments"]);
                 if (pictures[cur_index]["isAvailable"] == false) {
-                    $("#imgContainer").addClass("border border-warning border-3");
+                    $("#imgContainer").addClass("bg-warning");
                 }
+                else {
+                    $("#imgContainer").removeClass("bg-warning");
+                }
+
             }
         }
         else {

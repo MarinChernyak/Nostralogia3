@@ -20,7 +20,7 @@ namespace Nostralogia3.ViewModels.PictureViewer
         public int IdRef { get; set; }
         public bool IsEdit { get; set; }
 
-        public List<MPictureView> _pictures { get; protected set; } = new();
+        public List<MPicture> _pictures { get; protected set; } = new();
 
         //This list and a property People are just for demo
         protected double GetMaxHeigth()
@@ -52,20 +52,20 @@ namespace Nostralogia3.ViewModels.PictureViewer
         protected void InitCollection()
         {
             int ilevel = GetUserLevel();
-            var pict = PersonalDataFactory.GetPicturesCollection(IdRef, ilevel > 2);
-            UpdatePictures(pict);
+            _pictures = PersonalDataFactory.GetPicturesCollection(IdRef, ilevel > 2);
+            UpdatePictures();
         }
         public String DeleteImage(int idImage)
         {
             return "OK";
         }
-        protected void UpdatePictures(List<MPicture> pict)
+        protected void UpdatePictures()
         {
-            if (pict != null && pict.Count > 0)
+            if (_pictures != null && _pictures.Count > 0)
             {
-                for (int i = 0; i < pict.Count; ++i)
+                for (int i = 0; i < _pictures.Count; ++i)
                 {
-                    System.Drawing.Image img = System.Drawing.Image.FromFile($"{NewPictureData.FullPath}\\{pict[i].FileName}");
+                    System.Drawing.Image img = System.Drawing.Image.FromFile($"{NewPictureData.FullPath}\\{_pictures[i].FileName}");
                     if (img != null)
                     {
                         double relationW = img.Width / GetMaxWidth();
@@ -73,28 +73,15 @@ namespace Nostralogia3.ViewModels.PictureViewer
 
                         if (relationW > relationH)
                         {
-                            pict[i].Width = (int)(img.Width / relationW);
-                            pict[i].Height = (int)(img.Height / relationW);
+                            _pictures[i].Width = (int)(img.Width / relationW);
+                            _pictures[i].Height = (int)(img.Height / relationW);
                         }
                         else
                         {
-                            pict[i].Width = (int)(img.Width / relationH);
-                            pict[i].Height = (int)(img.Height / relationH);
+                            _pictures[i].Width = (int)(img.Width / relationH);
+                            _pictures[i].Height = (int)(img.Height / relationH);
                         }
                     }
-                    MPictureView mpv = new MPictureView()
-                    {
-                        Comments = pict[i].Comments,
-                        FileName = pict[i].FileName,
-                        FileSize = pict[i].FileSize,
-                        Height = pict[i].Height.ToString(),
-                        Idpicture = pict[i].Idpicture,
-                        IdReference = pict[i].IdReference,
-                        IsAvailable = pict[i].IsAvailable,
-                        Width = pict[i].Width.ToString()
-                    };
-
-                    _pictures.Add(mpv);
                 }
             }
         }
