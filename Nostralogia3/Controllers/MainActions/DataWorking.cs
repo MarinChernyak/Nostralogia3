@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
+using Nostralogia3.Models.Helpers;
 using Nostralogia3.ViewModels;
+using Nostralogia3.ViewModels.MapNotes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,7 @@ namespace Nostralogia3.Controllers.MainActions
                     model.SetSession(HttpContext.Session);
                     model.UpdateData();
                 }
+                model = new PersonalDataVM(model._model.Id, HttpContext.Session);
             }          
             return View("~/Views/DataWorking/DataPerson.cshtml", model);
         }
@@ -58,6 +61,14 @@ namespace Nostralogia3.Controllers.MainActions
                 brez = PersonalDataFactory.DeletePersonalData(id);
             }
             return RedirectToAction("HomePage", "Home");
+        }
+        [HttpPost]
+        public async Task<JsonResult> CreateNewMapNote(int idRef, string newNote)
+        {
+            int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            int id=await PersonalDataFactory.CreaNewMapNote(idRef,newNote, userid);
+            //return RedirectToAction("DataPerson");
+            return Json(id);
         }
     }
 }

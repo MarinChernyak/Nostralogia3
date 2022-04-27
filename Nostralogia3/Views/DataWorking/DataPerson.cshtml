@@ -31,7 +31,13 @@
                         </div>
 
 
+
                         @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.SimpleCalendarModel, nameof(Model.SimpleCalendarModel))
+
+                        <div class="mt-5 mb-4 ml-3">
+                            <span class="text-dark ">It is Exact time:</span> <span>@Html.RadioButtonFor(m => m.IsInterval, false, new { id="rbExact"}) </span>
+                            <span class="text-dark ml-3 "> Interval: </span>  <span> @Html.RadioButtonFor(m => m.IsInterval, true, new { id = "rbInterval" }) </span>
+                        </div>
 
                         @await Html.PartialAsync("~/Views/UserControls/_SimpleTimePickerView.cshtml", Model.TimeFrom, nameof(Model.TimeFrom))
                         <div id="timeTo">
@@ -39,12 +45,12 @@
                         </div>
                         <div class="col-md-7 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.SourceBirthTime)
-                            @Html.DropDownListFor(x => x._model.SourceBirthTime, Model.SourceColection, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbSource", @class = "min_width_combo disabledctrl" } : new { id = "cmbSource", @class = "min_width_combo" } )
+                            @Html.DropDownListFor(x => x._model.SourceBirthTime, Model.SourceColection, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbSource", @class = "min_width_combo disabledctrl" } : new { id = "cmbSource", @class = "min_width_combo" })
                         </div>
-
+                        
                         <div class="col-md-5 form-group text-dark font-weight-bold mt-lg-3">
                             @Html.LabelFor(x => x._model.AdditionalHours)
-                            @Html.DropDownListFor(x => x._model.AdditionalHours, Model.TimeShifts, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbTimeShifts", @class = "min_width_combo disabledctrl" } : new { id = "cmbTimeShifts", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.AdditionalHours, Model.TimeShifts, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbTimeShifts", @class = "min_width_combo disabledctrl" } : new { id = "cmbTimeShifts", @class = "min_width_combo" })
                         </div>
                         @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.EventPlaceModel, nameof(Model.EventPlaceModel))
 
@@ -52,7 +58,7 @@
 
                         <div class="col-md-1 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.Sex)
-                            @Html.DropDownListFor(x => x._model.Sex, Model.SexCollection, null, Model.ReadOnly ?  new { @disabled = "disabled", id = "cmbSex", @class = "min_width_combo disabledctrl" } :  new { id = "cmbSex", @class = "min_width_combo" })
+                            @Html.DropDownListFor(x => x._model.Sex, Model.SexCollection, null, Model.ReadOnly ? new { @disabled = "disabled", id = "cmbSex", @class = "min_width_combo disabledctrl" } : new { id = "cmbSex", @class = "min_width_combo" })
                         </div>
                         <div class="col-md-5 form-group text-dark font-weight-bold">
                             @Html.LabelFor(x => x._model.DataType)
@@ -69,14 +75,14 @@
                             @if (!Model.ReadOnly)
                             {
                                 <div class="form-group ml-lg-4">
-                                    <button type="submit" class="nostr_btn">Save</button> 
+                                    <button type="submit" class="nostr_btn">Save</button>
                                 </div>
                             }
-                                <div class="@Model.GetClassCancel()">
-                                    <input type="button" value="@Model.GetCancelLabel()" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn"/>
-                                </div>
+                            <div class="@Model.GetClassCancel()">
+                                <input type="button" value="@Model.GetCancelLabel()" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn" />
                             </div>
-                    </fieldset>
+                        </div>
+</fieldset>
 
                 </div>
             </section>
@@ -95,30 +101,34 @@
             <div class="row  mt-2 w-100">
                 @await Html.PartialAsync("~/Views/UserControls/_PictureViewerView.cshtml", Model.PicturesViewer, nameof(Model.PicturesViewer))
             </div>
+            <div class="row  mt-2 mb-4 w-100">
+                @await Html.PartialAsync("~/Views/UserControls/_MapNotesView.cshtml", Model.MapNotes, nameof(Model.MapNotes))
+            </div>
         }
     </div>
 </div>
 
 <script>
 
-    @*if ('@Model.ReadOnly' == true) {
-        alert(1);
-        console.log($(".NostraEdit").length);
-        $(".NostraEdit").prop('readonly', true);
-    }*@
+
     $(document).ready(function () {
+        $("#timeTo").hide();
 
-
-
-        $("#cmbSource").on("change", function () {
-            var id = $("#cmbSource option=selected").val();
-            if (id != 1 && id != 2 && id != 3 && id != 7 && id != 10 && id != 11 && id != 12) {
-                $("#timeTo").show();
-            }
-            else {
-                $("#timeTo").hide();
-            }
+        $("#rbExact").on("click", function () {
+            $("#timeTo").hide();
         });
+        $("#rbInterval").on("click", function () {
+            $("#timeTo").show();
+        });
+        //$("#cmbSource").on("change", function () {
+        //    var id = $("#cmbSource option=selected").val();
+        //    if (id != 1 && id != 2 && id != 3 && id != 7 && id != 10 && id != 11 && id != 12) {
+        //        $("#timeTo").show();
+        //    }
+        //    else {
+        //        $("#timeTo").hide();
+        //    }
+        //});
 
     });
 </script>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Nostralogia3.ViewModels.PictureViewer;
+using Nostralogia3.ViewModels.MapNotes;
 
 namespace Nostralogia3.ViewModels
 {
@@ -18,7 +19,6 @@ namespace Nostralogia3.ViewModels
     {
         public MPersonalData _model { get; set; }
         public bool ReadOnly { get; protected set; }
-        public virtual List<MMapNote> MapNotes { get; set; } = new();
         public SimpleTimePickerModel TimeFrom { get; set; } = new();
         public SimpleTimePickerModel TimeTo { get; set; } = new();
         public EventPlaceModel EventPlaceModel { get; set; }
@@ -32,7 +32,9 @@ namespace Nostralogia3.ViewModels
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
         public PicturesViewerEditViewModel PicturesViewer { get; protected set; }
+        public MapNotesVM MapNotes { get; protected set; }
 
+        public bool IsInterval { get; set; }
         public PersonalDataVM()
         {
 
@@ -48,6 +50,7 @@ namespace Nostralogia3.ViewModels
             TimeFrom = new SimpleTimePickerModel("Birth Time From:", 0, 0, ReadOnly);
             TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0);
+            MapNotes = new MapNotesVM(_session, 0);
             EventsCollection = new PersonalEventsCollectionModel("Events of the person", _session);
             FillUpCollections();
 
@@ -90,6 +93,7 @@ namespace Nostralogia3.ViewModels
             EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
             //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
             PicturesViewer = new PicturesViewerEditViewModel(_model.Id,_session);
+            MapNotes = new MapNotesVM(_session, _model.Id);
             FillUpCollections();
         }
         public void FillUpCollections()
@@ -154,11 +158,22 @@ namespace Nostralogia3.ViewModels
             _model.BirthDay = SimpleCalendarModel.Day;
             _model.BirthMonth = SimpleCalendarModel.Month;
             _model.BirthYear = SimpleCalendarModel.Year;
-            _model.BirthHourFrom = (byte)TimeFrom.Hour;
-            _model.BirthMinFrom = (byte)TimeFrom.Minute;
-            _model.BirthHourTo = (byte)TimeTo.Hour;
-            _model.BirthMinTo = (byte)TimeTo.Minute;
-            
+            _model.IdContributor = GetUID();
+            _model.IsAvailable = true;
+            if(!IsInterval)
+            {
+                _model.BirthHourFrom =(byte) TimeFrom.Hour;
+                _model.BirthMinFrom = (byte)TimeFrom.Minute;
+                _model.BirthHourTo = _model.BirthHourFrom;
+                _model.BirthMinTo = _model.BirthMinFrom;
+            }
+            else
+            {
+                _model.BirthHourFrom = (byte)TimeFrom.Hour;
+                _model.BirthMinFrom = (byte)TimeFrom.Minute;
+                _model.BirthHourTo = (byte) TimeTo.Hour;
+                _model.BirthMinTo = (byte)TimeTo.Minute;
+            }
         }
         public int AddNew()
         {
@@ -171,7 +186,7 @@ namespace Nostralogia3.ViewModels
         public bool UpdateData()
         {
             UpdateModel();
-            _model.IsAvailable = true;
+            
             return PersonalDataFactory.UpdatePersonalData(_model);
         }
         public string GetCancelLabel()

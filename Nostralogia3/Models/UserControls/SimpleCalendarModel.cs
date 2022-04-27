@@ -47,7 +47,7 @@ namespace Nostralogia3.Models.UserControls
             ReadOnly = readOnly;
             FillUpdays();
             FillUpMonths();
-            Year = (short)DateTime.Now.Year;
+            
         }
         public string GetIdMonthes()
         {

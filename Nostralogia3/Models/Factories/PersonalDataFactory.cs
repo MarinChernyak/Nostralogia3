@@ -449,5 +449,58 @@ namespace Nostralogia3.Models.Factories
             return idRef;
         }
         #endregion
+
+        #region Notes
+        public static List<MMapNote> GetMapNotes(int idRef)
+        {
+            List<MMapNote> lst = new List<MMapNote>();
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    List<MapNote> notes = context.MapNotes.Where(x => x.IdPerson == idRef).ToList();
+
+                    notes = notes.Where(x => x.IsAvailable == true).ToList();
+                    
+                    lst = ModelsTransformer.TransferModelList<MapNote, MMapNote>(notes);
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return lst;
+        }
+
+        public async static Task<int> CreaNewMapNote(int idRef, string newNote, int uid)
+        {
+            int idnote=0;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    MapNote note = new MapNote()
+                    {
+                        IdPerson = idRef,
+                        IsAvailable = true,
+                        Note = newNote,
+                        IdContributor = uid
+                    };
+                   
+                    context.Entry(note).State = EntityState.Added;
+                    await context.SaveChangesAsync();
+                    idnote = note.Id;
+                    
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return idnote;
+        }
+        #endregion
     }
 }

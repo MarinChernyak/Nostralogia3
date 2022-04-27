@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Nostralogia3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels
 {
-    public class ViewModelBase
+    public class ViewModelBase : BaseModel
     {
+
         protected ISession _session { get; set; }
         public void SetSession (ISession session)
         {

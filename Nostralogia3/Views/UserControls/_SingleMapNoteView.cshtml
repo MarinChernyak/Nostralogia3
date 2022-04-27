@@ -1,0 +1,70 @@
+﻿
+@model Nostralogia3.ViewModels.MapNotes.SingleMapNoteVM
+
+<div id="@Model.GetDevViewId()" class="container border border-secondary rounded BgColorControls">
+    <div class="row bg-secondary">
+        <div class="col-3 mt-2 text-light">
+            <strong>@Model.GetDate()</strong>
+        </div>
+        <div class="col-7"></div>
+        <div class="col-1 mt-2">
+            <a id="@Model.GetExpanderId()" role="button"><i class="fas fa-arrow-circle-down fa-lg text-light"></i></a>
+            <a id="@Model.GetCollapserId()" role="button"><i class="fas fa-arrow-circle-up  fa-lg text-light"></i></a>
+        </div>
+        <div class="col-1">
+                <button type="button" class="btn btn-default" id="@Model.GetBtnEditId()" title="Edit comments"><i class="fas fa-edit fa-lg text-light"></i></button>
+        </div>
+    </div>
+    <div class="row p-3" id="@Model.GetdvMapNoteId()">
+        @Model.MapNote.Note
+    </div>
+</div>
+
+
+<div class="container border border-secondary rounded BgColorControls" id="@Model.GetDevEditId()">
+    <div class="row" style="max-height:350px;">
+        @Html.TextAreaFor(x => x.MapNote.Note, new { rows = "6", cols = "90", id=@Model.GetId() })
+    </div>
+    <div class="row">
+        <div class="col-9"></div>
+        <div class="col-1">
+            <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnSaveId()" title="Save changes"><i class="fa-solid fa-floppy-disk fa-xl"></i></button>
+        </div>
+        <div class="col-1">
+            <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnCancelId()" title="Cancel"><i class="fa-regular fa-rectangle-xmark fa-xl"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    InitControl();
+
+    function InitControl() {
+        $("#" + "@Model.GetDevEditId()").hide();
+        $("#" + "@Model.GetCollapserId()").hide();
+        var note = "@Model.MapNote.Note".substr(0, 245) + "...";
+        $("#" + "@Model.GetdvMapNoteId()").html(note);
+    }
+    $(document).ready(function () {
+        $("#" + "@Model.GetBtnEditId()").on("click", function () {
+            $("#" + "@Model.GetDevViewId()").hide();
+            $("#" + "@Model.GetDevEditId()").show();
+        });
+        $("#" + "@Model.GetBtnCancelId()").on("click", function () {
+            $("#" + "@Model.GetDevViewId()").show();
+            $("#" + "@Model.GetDevEditId()").hide();
+        });
+
+        $("#" + "@Model.GetCollapserId()").on("click", function () {
+            $("#" + "@Model.GetExpanderId()").show();
+            $("#" + "@Model.GetCollapserId()").hide();
+            var note = "@Model.MapNote.Note".substr(0, 245) + "...";
+            $("#" + "@Model.GetdvMapNoteId()").html(note);
+        });
+        $("#" + "@Model.GetExpanderId()").on("click", function () {
+            $("#" + "@Model.GetCollapserId()").show();
+            $("#" + "@Model.GetExpanderId()").hide();
+            $("#" + "@Model.GetdvMapNoteId()").html("@Model.MapNote.Note");
+        });
+    });
+</script>
