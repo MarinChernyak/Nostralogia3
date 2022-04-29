@@ -2,30 +2,28 @@
 @using Nostralogia3.Extensions
 @model Nostralogia3.ViewModels.MapNotes.MapNotesVM
 
-<div class="container w-100">
+<div class="container">
     <div class="container border border-secondary rounded BgColorControls">
         <div class="container">
-            <div class="row w-100 mb-1">
+            <div class="row mb-1">
                 <div class="h5 col-4 mt-3 font-weight-bold">
                     Notes of the map
                 </div>
-                <div class="col-3"></div>
-            </div>
-            <div class="row w-100">
-                <div class="overflow-auto col-12" style="max-height:440px;">
-                    @foreach (var item in @Model._NotesDataList)
-                    {
-                        @await Html.PartialAsync("~/Views/UserControls/_SingleMapNoteView.cshtml", item, nameof(item))
-                    }
+                <div class="col-6"></div>
+                <div class="col-2 text-right">
+                    <button type="button" class="btn btn-default" id="AddMapNote" data-toggle="modal" data-target="#NewNoteModal">
+                        <img src="~/Images/Partials/addMore.png" height="40" width="40" />
+                    </button>
                 </div>
             </div>
-
-            <div class="row mb-3">
-                <div class="col-9"></div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-default" id="AddMapNote" data-toggle="modal" data-target="#NewNoteModal">
-                    <img src="~/Images/Partials/addMore.png" height="40" width="40" />
-                    </button>
+            <div class="row">
+                <div class="container pre-scrollable" style="max-height:440px;">
+                    @foreach (var item in @Model._NotesDataList)
+                    {
+                    <div class="row">
+                        @await Html.PartialAsync("~/Views/UserControls/_SingleMapNoteView.cshtml", item, nameof(item))
+                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -41,9 +39,11 @@
 
             </div>
             <div class="modal-body">
+                <div class="container">
                     <div class="form-group">
-                        @Html.TextAreaFor(x => x.NewNote, new { cols = "98", rows = "10", id="txtNewNote" })
+                        @Html.TextAreaFor(x => x.NewNote, new { cols = "97", rows = "10", id = "txtNewNote" })
                     </div>
+                </div>
                     <div class="modal-footer">
                         <button type="button" id="btnSaveNewNote" class="btn btn-primary button button4">Save</button>
                         <button type="button" id="btnHideModal" class="btn btn-primary button button4" data-dismiss="modal">Cancel</button>
@@ -59,12 +59,14 @@
         console.log("start");
         var newnote = $("#txtNewNote").val();
         console.log("new note => " + newnote);
-        var url = "/DataWorking/CreateNewMapNote?idRef=" + '@Model.IdRef' + "&newNote='" + newnote+"'";
+        var url = "/DataWorking/CreateNewMapNote?idRef=" + '@Model.IdRef' + "&newNote=" + newnote;
         $.ajax({
             type: "POST",
             url: url,
-            success: function () {                
+            success: function () {
+                
                 location.reload();
+                
             }
         });
     });

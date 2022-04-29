@@ -67,8 +67,29 @@ namespace Nostralogia3.Controllers.MainActions
         {
             int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
             int id=await PersonalDataFactory.CreaNewMapNote(idRef,newNote, userid);
-            //return RedirectToAction("DataPerson");
             return Json(id);
+        }
+        [HttpPost]
+        public async Task<JsonResult> SaveMapNote(int id, string newNote)
+        {
+            int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            bool brez=await PersonalDataFactory.UpdatewMapNote(id,newNote, userid);
+            return Json(brez);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeactivateMapNote(int id)
+        {
+            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            bool brez=await PersonalDataFactory.DeactivateMapNote(id);
+            return Json(brez);
+        }
+        [HttpPost]
+        public async Task<JsonResult> DeleteMapNote(int id)
+        {
+            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            bool brez = await PersonalDataFactory.DeleteMapNote(id);
+            return Json(brez);
         }
     }
 }

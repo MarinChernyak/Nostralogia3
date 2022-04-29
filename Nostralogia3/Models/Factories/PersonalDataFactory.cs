@@ -451,7 +451,7 @@ namespace Nostralogia3.Models.Factories
         #endregion
 
         #region Notes
-        public static List<MMapNote> GetMapNotes(int idRef)
+        public static List<MMapNote> GetMapNotes(int idRef, int UserLevel)
         {
             List<MMapNote> lst = new List<MMapNote>();
             using (NostradamusContext context = new NostradamusContext())
@@ -459,8 +459,10 @@ namespace Nostralogia3.Models.Factories
                 try
                 {
                     List<MapNote> notes = context.MapNotes.Where(x => x.IdPerson == idRef).ToList();
-
-                    notes = notes.Where(x => x.IsAvailable == true).ToList();
+                    if (UserLevel <= Constants.Values.TEAMLEAD_RIGHTS)
+                    {
+                        notes = notes.Where(x => x.IsAvailable == true).ToList();
+                    }
                     
                     lst = ModelsTransformer.TransferModelList<MapNote, MMapNote>(notes);
                 }
@@ -500,6 +502,86 @@ namespace Nostralogia3.Models.Factories
                 }
             }
             return idnote;
+        }
+        public async static Task<bool> UpdatewMapNote(int id, string changedNote, int uid)
+        {
+            bool bSaved = true; ;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    MapNote note = await context.MapNotes.FirstOrDefaultAsync(x => x.Id == id);
+                    if (note != null)
+                    {
+                        note.IdContributor = uid;
+                        note.Note = changedNote;
+                        note.Date = DateTime.Now;
+
+                        context.Entry(note).State = EntityState.Modified;
+                        await context.SaveChangesAsync();
+                    }
+                    
+                    
+                }
+                catch (Exception e)
+                {
+                    bSaved = false;
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return bSaved;
+        }
+        public async static Task<bool> DeactivateMapNote(int id)
+        {
+            bool bDeactivated = true; ;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    MapNote note = await context.MapNotes.FirstOrDefaultAsync(x => x.Id == id);
+                    if (note != null)
+                    {
+                        note.IsAvailable = false;
+                        context.Entry(note).State = EntityState.Modified;
+                        await context.SaveChangesAsync();
+                    }
+                    
+                    
+                }
+                catch (Exception e)
+                {
+                    bDeactivated = false;
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return bDeactivated;
+        }
+        public async static Task<bool> DeleteMapNote(int id)
+        {
+            bool bdeleted = true; ;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    MapNote note = await context.MapNotes.FirstOrDefaultAsync(x => x.Id == id);
+                    if (note != null)
+                    {
+                        context.Entry(note).State = EntityState.Deleted;
+                        await context.SaveChangesAsync();
+                    }
+
+
+                }
+                catch (Exception e)
+                {
+                    bdeleted = false;
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return bdeleted;
         }
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
+using Nostralogia3.Models.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,18 @@ namespace Nostralogia3.ViewModels.MapNotes
         }
         protected void InitCollection()
         {
-            List<MMapNote> lstnotes = PersonalDataFactory.GetMapNotes(IdRef);
+            string sulevel = SessionHelper.GetObjectFromJson(_session, Constants.SessionCoockies.SessionULevel);
+
+            int userlevel = 0;
+            if(!string.IsNullOrEmpty(sulevel))
+            {
+                userlevel = Convert.ToInt32(sulevel);
+            }
+            
+            List<MMapNote> lstnotes = PersonalDataFactory.GetMapNotes(IdRef, userlevel);
             foreach(MMapNote item in lstnotes)
             {
-                SingleMapNoteVM model = new SingleMapNoteVM()
+                SingleMapNoteVM model = new SingleMapNoteVM(_session)
                 {
                     MapNote = item
                 };

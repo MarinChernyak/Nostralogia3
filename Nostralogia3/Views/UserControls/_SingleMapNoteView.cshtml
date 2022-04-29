@@ -1,7 +1,7 @@
 ﻿
 @model Nostralogia3.ViewModels.MapNotes.SingleMapNoteVM
 
-<div id="@Model.GetDevViewId()" class="container border border-secondary rounded BgColorControls">
+<div id="@Model.GetDevViewId()" class="container border border-secondary rounded BgColorControls mt-2 mb-2">
     <div class="row bg-secondary">
         <div class="col-3 mt-2 text-light">
             <strong>@Model.GetDate()</strong>
@@ -21,50 +21,124 @@
 </div>
 
 
-<div class="container border border-secondary rounded BgColorControls" id="@Model.GetDevEditId()">
-    <div class="row" style="max-height:350px;">
-        @Html.TextAreaFor(x => x.MapNote.Note, new { rows = "6", cols = "90", id=@Model.GetId() })
+<div class="container border border-secondary rounded BgColorControls mt-2 mb-2" id="@Model.GetDevEditId()">
+    <div class="row">
+        <div class="mt-2 ml-2">
+            @Html.TextAreaFor(x => x.MapNote.Note, new { rows = "6", cols = "89", id = @Model.GetId() })
+        </div>
     </div>
     <div class="row">
-        <div class="col-9"></div>
+        <div class="col-8"></div>
         <div class="col-1">
             <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnSaveId()" title="Save changes"><i class="fa-solid fa-floppy-disk fa-xl"></i></button>
         </div>
         <div class="col-1">
             <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnCancelId()" title="Cancel"><i class="fa-regular fa-rectangle-xmark fa-xl"></i></button>
         </div>
-    </div>
+        <div class="col-1">
+            <button type="button" class="btn btn-default mt-2" id="@Model.GetDeactivateId()" title="Deactivate"><i class="far fa-trash-alt fa-xl"></i></button>
+        </div>
+        @if (Model.GetUserLevel() > 2)
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default mt-2 text-danger" id="@Model.GetDeleteId()" title="Delete"><i class="far fa-trash-alt fa-xl"></i></button>
+            </div>
+        }
+
+     </div>
 </div>
 
 <script>
     InitControl();
-
+    var TEXT_LENGTH_LIMIT = 245;
     function InitControl() {
         $("#" + "@Model.GetDevEditId()").hide();
         $("#" + "@Model.GetCollapserId()").hide();
-        var note = "@Model.MapNote.Note".substr(0, 245) + "...";
+        var note = "@Model.MapNote.Note";
+        if (note.length > TEXT_LENGTH_LIMIT)
+            note = "@Model.MapNote.Note".substr(0, TEXT_LENGTH_LIMIT) + "...";
+        //console.log("note => "+note);
         $("#" + "@Model.GetdvMapNoteId()").html(note);
+
+        //console.log('has value=> ' + '@Model.MapNote.IsAvailable.HasValue');
+        //console.log('IsAvailable => ' + '@Model.MapNote.IsAvailable.Value');
+
+        if ('@Model.MapNote.IsAvailable.HasValue'=='False' || ('@Model.MapNote.IsAvailable.HasValue'=='True' && '@Model.MapNote.IsAvailable.Value'== 'False')) {
+            $("#" +'@Model.GetdvMapNoteId()').addClass("bg-warning");
+        }
     }
     $(document).ready(function () {
         $("#" + "@Model.GetBtnEditId()").on("click", function () {
+            //console.log("edit");
             $("#" + "@Model.GetDevViewId()").hide();
             $("#" + "@Model.GetDevEditId()").show();
         });
         $("#" + "@Model.GetBtnCancelId()").on("click", function () {
+            //console.log("cancel");
             $("#" + "@Model.GetDevViewId()").show();
             $("#" + "@Model.GetDevEditId()").hide();
         });
 
         $("#" + "@Model.GetCollapserId()").on("click", function () {
+            //console.log("collapse");
             $("#" + "@Model.GetExpanderId()").show();
             $("#" + "@Model.GetCollapserId()").hide();
             var note = "@Model.MapNote.Note".substr(0, 245) + "...";
             $("#" + "@Model.GetdvMapNoteId()").html(note);
         });
         $("#" + "@Model.GetExpanderId()").on("click", function () {
+            //console.log("expanded");
             $("#" + "@Model.GetCollapserId()").show();
             $("#" + "@Model.GetExpanderId()").hide();
             $("#" + "@Model.GetdvMapNoteId()").html("@Model.MapNote.Note");
+        });
+
+       $("#" + "@Model.GetBtnSaveId()").on("click", function () {
+            //console.log("started");
+            var newnote = $("#" + "@Model.GetId()").val();
+            //console.log("new note => " + newnote);
+            var url = "/DataWorking/SaveMapNote?id=" + '@Model.MapNote.Id' + "&newNote=" + newnote;
+            //console.log("url => " + url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data == true) {
+                        console.log("data=> " + data);
+                        location.reload();
+                    }
+                }
+            });
+        });
+       $("#" + "@Model.GetDeactivateId()").on("click", function () {
+            //console.log("deactivate");
+            var url = "/DataWorking/DeactivateMapNote?id=" + '@Model.MapNote.Id';
+            //console.log("url => " + url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data == true) {
+                        console.log("data=> " + data);
+                        location.reload();
+                    }
+                }
+            });
+       });
+       $("#" + "@Model.GetDeleteId()").on("click", function () {
+            //console.log("deactivate");
+            var url = "/DataWorking/DeleteMapNote?id=" + '@Model.MapNote.Id';
+            //console.log("url => " + url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data == true) {
+                        console.log("data=> " + data);
+                        location.reload();
+                    }
+                }
+            });
         });
     });
 </script>

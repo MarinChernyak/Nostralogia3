@@ -3,7 +3,7 @@
 function NostraTable(id, expandAreaId) {
     this.ExpanderId = id;
     this.ExpandAreaId = expandAreaId;
-    console.log('created: ' + this.ExpanderId + '  ' + this.ExpandAreaId);
+    //console.log('created: ' + this.ExpanderId + '  ' + this.ExpandAreaId);
 }
 NostraTable.prototype = {
     OnExpanderClicked: function () {
