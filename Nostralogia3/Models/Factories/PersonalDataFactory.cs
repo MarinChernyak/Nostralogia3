@@ -532,7 +532,7 @@ namespace Nostralogia3.Models.Factories
             }
             return bSaved;
         }
-        public async static Task<bool> DeactivateMapNote(int id)
+        public async static Task<bool> ActivateMapNote(int id,bool activate)
         {
             bool bDeactivated = true; ;
             using (NostradamusContext context = new NostradamusContext())
@@ -542,7 +542,7 @@ namespace Nostralogia3.Models.Factories
                     MapNote note = await context.MapNotes.FirstOrDefaultAsync(x => x.Id == id);
                     if (note != null)
                     {
-                        note.IsAvailable = false;
+                        note.IsAvailable = activate;
                         context.Entry(note).State = EntityState.Modified;
                         await context.SaveChangesAsync();
                     }

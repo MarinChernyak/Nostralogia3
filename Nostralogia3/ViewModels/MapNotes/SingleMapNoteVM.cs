@@ -27,6 +27,7 @@ namespace Nostralogia3.ViewModels.MapNotes
         public string GetCollapserId() { return $"btnCollapser{_Index}"; }
         public string GetdvMapNoteId() { return $"dvMapNote{_Index}"; }
         public string GetDeactivateId() { return $"btnDeactivate{_Index}"; }
+        public string GetActivateId() { return $"btnActivate{_Index}"; }
         public string GetDeleteId() { return $"btnDelete{_Index}"; }
         public string GetDate()
         {

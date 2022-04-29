@@ -78,10 +78,10 @@ namespace Nostralogia3.Controllers.MainActions
         }
 
         [HttpPost]
-        public async Task<JsonResult> DeactivateMapNote(int id)
+        public async Task<JsonResult> ActivateMapNote(int id, bool activate)
         {
             //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-            bool brez=await PersonalDataFactory.DeactivateMapNote(id);
+            bool brez=await PersonalDataFactory.ActivateMapNote(id,activate);
             return Json(brez);
         }
         [HttpPost]

@@ -35,9 +35,18 @@
         <div class="col-1">
             <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnCancelId()" title="Cancel"><i class="fa-regular fa-rectangle-xmark fa-xl"></i></button>
         </div>
-        <div class="col-1">
-            <button type="button" class="btn btn-default mt-2" id="@Model.GetDeactivateId()" title="Deactivate"><i class="far fa-trash-alt fa-xl"></i></button>
-        </div>
+        @if (Model.MapNote.IsAvailable == true)
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default mt-2" id="@Model.GetDeactivateId()" title="Deactivate"><i class="far fa-trash-alt fa-xl"></i></button>
+            </div>
+        }
+        else
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default mt-2" id="@Model.GetActivateId()" title="Activate"><i class="fa-solid fa-arrow-turn-up fa-xl"></i></button>
+            </div>
+        }
         @if (Model.GetUserLevel() > 2)
         {
             <div class="col-1">
@@ -45,7 +54,7 @@
             </div>
         }
 
-     </div>
+    </div>
 </div>
 
 <script>
@@ -111,9 +120,16 @@
             });
         });
        $("#" + "@Model.GetDeactivateId()").on("click", function () {
-            //console.log("deactivate");
-            var url = "/DataWorking/DeactivateMapNote?id=" + '@Model.MapNote.Id';
-            //console.log("url => " + url);
+           ActivationNote(false);
+       });
+        $("#" + "@Model.GetActivateId()").on("click", function () {
+            console.log("GetActivate");
+           ActivationNote(true);
+       });
+        function ActivationNote(activate) {
+            console.log("ActivationNote");
+            var url = "/DataWorking/ActivateMapNote?id=" + '@Model.MapNote.Id'+'&activate='+activate;
+            console.log("url => " + url);
             $.ajax({
                 type: "POST",
                 url: url,
@@ -124,7 +140,7 @@
                     }
                 }
             });
-       });
+        }
        $("#" + "@Model.GetDeleteId()").on("click", function () {
             //console.log("deactivate");
             var url = "/DataWorking/DeleteMapNote?id=" + '@Model.MapNote.Id';
