@@ -304,6 +304,40 @@ namespace Nostralogia3.Models.Factories
             return bRez;
         }
 
+        public static bool UpdateWorldEventKeywords(List<SelectListItem> lstKW, int IdEvent)
+        {
+            bool bRez = true;
+            if (lstKW != null && lstKW.Count > 0 && IdEvent > 0)
+            {
+                using (NostradamusContext context = new NostradamusContext())
+                {
+                    try
+                    {
+                        List<EventsKwStorage> toadd = new List<EventsKwStorage>();
+                        List<EventsKwStorage> toremove = context.EventsKwStorages.Where(x => x.EventId == IdEvent).ToList();
+                        context.EventsKwStorages.RemoveRange(toremove);
+                        foreach (SelectListItem item in lstKW)
+                        {
+                            toadd.Add(new EventsKwStorage()
+                            {
+                                EventId = IdEvent,
+                                IdEventKeyword = Convert.ToInt16(item.Value),
+                            });
+                        }
+                        context.EventsKwStorages.AddRange(toadd);
+                        context.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        LogMaster lm = new LogMaster();
+                        lm.SetLog(e.Message);
+                        bRez = false;
+                    }
+                }
+            }
+            return bRez;
+        }
+
         #region Pictures
 
         public async static Task<int> GetValidPictNum(int idRef)
@@ -361,6 +395,7 @@ namespace Nostralogia3.Models.Factories
             }
             return lst;
         }
+
         public static int AddNewPicture(MPicture mpict)
         {
             using (NostradamusContext context = new NostradamusContext())

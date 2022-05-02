@@ -12,6 +12,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Nostralogia3.ViewModels.PictureViewer;
 using Nostralogia3.ViewModels.MapNotes;
+using Nostralogia3.Models.UserControls.KeyWords;
 
 namespace Nostralogia3.ViewModels
 {
