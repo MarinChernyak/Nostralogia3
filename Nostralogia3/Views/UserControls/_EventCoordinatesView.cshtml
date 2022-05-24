@@ -1,0 +1,121 @@
+﻿@model Nostralogia3.Models.Geo.CoordinatesModel
+    <link rel="stylesheet" href="~/css/Nostralogia.css" />
+<div class="ml-3">
+    <div class="row" >
+        <div class="CalendarLabel text-dark ">
+            @Model.MainLabel
+        </div>
+    </div>
+    <div class="wrapper border border-secondary rounded BgColorControls">
+        <div class="row mt-4 mb-4">
+            <span class="text-dark mr-1 ">Decimal degrees:</span> <span>@Html.RadioButtonFor(m => m.IsDecimal, false, new { id = "rbDecimal" }) </span>
+            <span class="text-dark ml-3 mr-1 "> Degrees/Minutes/Seconds: </span>  <span> @Html.RadioButtonFor(m => m.IsDecimal, true, new { id = "rbDegreeMinSec" }) </span>
+        </div>
+        <div id="divDecimalDegree">
+            <div class="form-group text-dark font-weight-bold ">
+                <h5>@Html.LabelFor(x => x.Latitude)</h5>
+                <div class="row">
+                    <div class="col-3">
+                        <input asp-for=@Model.Latitude class="input100 mr-1" type="number" id="txtLatitude" />
+                    </div>
+                    <div class="col-3 ml-2">
+                        @Html.DropDownListFor(x => x.LatSemiSphere, Model.NS, null, new { id = "cmbLatSemi" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-dark font-weight-bold">
+                <h5>@Html.LabelFor(x => x.Longitude)</h5>
+                <div class="row">
+                    <div class="col-3 ">
+                        <input asp-for="@Model.Longitude" class="input100 mr-1" type="number" id="txtLongitude" />
+                    </div>
+                    <div class="col-3 ml-2">
+                        @Html.DropDownListFor(x => x.LongSemiSphere, Model.WE, null, new { id = "cmbLongSemi" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="divDegreeMinSec">
+
+            <div class="form-group text-dark font-weight-bold">
+                <h5>@Html.Label("Latitude")</h5>
+                <div class="row mr-3">
+                    <span class="col-3">
+                        Degree
+                    </span>
+                    <span class="col-3">
+                        Minutes
+                    </span>
+                    <span class="col-3">
+                        Seconds
+                    </span>
+                </div>
+                <div class="row mr-3">
+                    <div class="col-3">
+                        <input asp-for="@Model.LatDegrees" class="mr-1 input80" type="number" id="txtLongDegrees"  />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="@Model.LatMinutes" class="mr-1 input80" type="number" id="txtLongMins" />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="@Model.LatSeconds" class="mr-1 input80" type="number" id="txtLongSecs" />
+                    </div>
+                    <div class="col-3">
+                        @Html.DropDownListFor(x => x.LatSemiSphere, Model.NS, null, new { id = "cmbLatSemi" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group text-dark font-weight-bold">
+                <h5>
+                    @Html.Label("Longitude")
+                </h5>
+                <div class="row mr-3">
+                    <span class="col-3">
+                        Degree
+                    </span>
+                    <span class="col-3">
+                        Minutes
+                    </span>
+                    <span class="col-3">
+                        Seconds
+                    </span>
+                </div>
+                <div class="row mr-3">
+                    <div class="col-3">
+                        <input asp-for="@Model.LongDegrees" class="mr-1 input80" type="number" id="txtLongDegrees" />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="@Model.LongMinutes" class="mr-1 input80" type="number" id="txtLongMins" />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="@Model.LongSeconds" class="mr-1 input80" type="number" id="txtLongSecs" />
+                    </div>
+                    <div class="col-3">
+                        @Html.DropDownListFor(x => x.LongSemiSphere, Model.WE, null, new { id = "cmbLongSemi" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    </div>
+
+<script>
+    $("#divDegreeMinSec").hide();
+    $(document).ready(function () {
+
+        $("#rbDecimal").on("click", function () {
+            console.log("rbDecimal");
+
+            $("#divDegreeMinSec").hide();
+            $("#divDecimalDegree").show();
+        });
+        $("#rbDegreeMinSec").on("click", function () {
+            console.log("rbDegreeMinSec");
+            $("#divDecimalDegree").hide();
+            $("#divDegreeMinSec").show();
+        });
+    });
+</script>

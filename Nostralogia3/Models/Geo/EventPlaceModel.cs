@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Geo
 {
-    public class EventPlaceModel
+    public class EventPlaceModel : CountriesStatesCommon
     {
-        [DisplayName("Country")]
-        public short? CountryId { get; set; }
-        [DisplayName("State/Province/Land")]
-        public int? StateId { get; set; }
         [DisplayName("City/Town/Village")]
         public int? PlaceId { get; set; }
-        public string MainLabel { get; set; }
 
-        public List<SelectListItem> Countries { get; protected set; }
-        public List<SelectListItem> States { get; protected set; }
+
+
         public List<SelectListItem> Cities { get; protected set; }
 
         public bool ReadOnly { get; protected set; }
@@ -30,11 +25,10 @@ namespace Nostralogia3.Models.Geo
         }
         public EventPlaceModel(string label)
         {
-            FillUpCountries();
+           InitCombos();
             MainLabel = label;
             ReadOnly = false;
-            States = new List<SelectListItem>();
-            Cities = new List<SelectListItem>();
+
         }
         public EventPlaceModel(int cityId, string label, bool readOnly)
         {
@@ -78,21 +72,7 @@ namespace Nostralogia3.Models.Geo
             }
 
         }
-        protected void FillUpCountries()
-        {
-            GeoFactory fact = new GeoFactory();
-            Countries = fact.GetCountriesListCollection();
-            Countries.Insert(0, new SelectListItem()
-            {
-                Text = Constants.Values.ZeroStringComboText,
-                Value = Constants.Values.ZeroStringComboValue
-            });
-            SelectListItem item = Countries.FirstOrDefault(x => x.Value == CountryId.ToString());
-            if(item!=null)
-            {
-                item.Selected = true;
-            }
-        }
+
         public void UpdateStates()
         {
             GeoFactory fact = new GeoFactory();
@@ -133,6 +113,23 @@ namespace Nostralogia3.Models.Geo
                     item.Selected = true;
                 }
             }
+        }
+
+        public void InidData(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InitCombos()
+        {
+            base.InitCombos();
+            
+            Cities = new List<SelectListItem>();
+        }
+
+        public override bool SaveData()
+        {
+            return false;
         }
     }
 }

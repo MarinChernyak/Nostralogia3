@@ -27,10 +27,17 @@ namespace Nostralogia3.Models.Factories
         public static MVwPersonalDisplayDatum GetPersonalDisplayData(int Id)
         {
             MVwPersonalDisplayDatum mdata = null;
-            using (NostradamusContext context = new NostradamusContext())
+            if (Id > 0)
             {
-                var ldata = context.VwPersonalDisplayData.FirstOrDefault(x => x.Id==Id);
-                mdata = ModelsTransformer.TransferModel<VwPersonalDisplayDatum, MVwPersonalDisplayDatum>(ldata);            }
+                using (NostradamusContext context = new NostradamusContext())
+                {
+                    var ldata = context.VwPersonalDisplayData.FirstOrDefault(x => x.Id == Id);
+                    if (ldata != null)
+                    {
+                        mdata = ModelsTransformer.TransferModel<VwPersonalDisplayDatum, MVwPersonalDisplayDatum>(ldata);
+                    }
+                }
+            }
 
             return mdata;
         }

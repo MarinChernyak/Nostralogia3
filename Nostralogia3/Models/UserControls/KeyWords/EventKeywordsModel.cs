@@ -11,13 +11,22 @@ namespace Nostralogia3.Models.UserControls.KeyWords
 
         public override bool SaveForStorage()
         {
-            bool bRez = PersonalDataFactory.UpdatePersonalKeywords(_lstSelectedKeyWordsCollection, IdForKWStorage);
+            bool bRez = PersonalDataFactory.UpdateWorldEventKeywords(_lstSelectedKeyWordsCollection, IdForKWStorage);
             return bRez;
         }
 
-        protected override void InitCollection(int Id)
+        protected override void InitCollection(int idKW)
         {
-
+            MKeyWord kw = KeyWordsFactory.GetKeyWord(idKW);
+            kw = KeyWordsFactory.GetKeyWordByRef(kw.ReferenceId);
+            if (kw != null)
+            {
+                _lstKeyWordsCollection = KeyWordsFactory.GetKWSelectListByRef(kw.ReferenceId);
+            }
+            else
+            {
+                _lstKeyWordsCollection = KeyWordsFactory.GetRootKWSelectList();
+            }
         }
     }
 }

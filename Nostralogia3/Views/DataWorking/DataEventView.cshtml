@@ -6,21 +6,94 @@
 @using Nostralogia3.Extensions
 @model Nostralogia3.ViewModels.EventDataVM
 
-<div class="container-fluid">
-    <div class="col-7">
+<div class="row">
+    <div class="col-md-7 ">
         @using (Html.BeginForm("UpdatePersonalData", "DataWorking", FormMethod.Post))
         {
-            //@Html.HiddenFor(x => x._model.Id)
+            @Html.HiddenFor(x => x._model.Id)
             <section class="bg-light">
                 <div class="container">
-                    @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.CalendarModelFrom, nameof(Model.CalendarModelFrom))
-                    @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.CalendarModelTo, nameof(Model.CalendarModelTo))
+                    <div class="col-md-10 form-group">
+                        <label class="text-danger font-weight-bold">@Model.ErrorMessage</label>
+                    </div>
+                    <fieldset>
+                        <legend class="text-dark ml-lg-4 font-weight-bold">Hystiorical Event Data Form</legend>
+
+                        <div class="col-sm-5 form-group text-dark font-weight-bold">
+                            @Html.Label("Event Name")
+                            @Html.EditorFor(x => x._model.EventName, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl" } } : new { htmlAttributes = new { @class = "form-control" } })
+
+                        </div>
+
+                        <div class="mt-4 mb-4 ml-3">
+                            <span class="text-dark ">It is Exact time:</span> <span>@Html.RadioButtonFor(m => m.IsInterval, false, new { id = "rbExact" }) </span>
+                            <span class="text-dark ml-3 "> Interval: </span>  <span> @Html.RadioButtonFor(m => m.IsInterval, true, new { id = "rbInterval" }) </span>
+                        </div>
+
+
+                        @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.CalendarModelFrom, nameof(Model.CalendarModelFrom))
+                        @await Html.PartialAsync("~/Views/UserControls/_SimpleTimePickerView.cshtml", Model.TimeFrom, nameof(Model.TimeFrom))
+                        <div id="DataTo">
+                            @await Html.PartialAsync("~/Views/UserControls/_SimpleCalendarView.cshtml", Model.CalendarModelTo, nameof(Model.CalendarModelTo))
+                            @await Html.PartialAsync("~/Views/UserControls/_SimpleTimePickerView.cshtml", Model.TimeTo, nameof(Model.TimeTo))
+                        </div>
+
+                        <div class="mt-5 col-sm-5 form-group">
+                            @Html.LabelFor(x => x.PlaceDataType, new { @class= "text-dark font-weight-bold" })
+                            @Html.DropDownListFor(x => x.PlaceDataType, Model.PlaceDatTypes, null, new { id = "cmbPlaceDataTypes", @class = "min_width_combo" })
+                        </div>
+                        <div id="dvPlaceData">
+                            @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.PlaceVM, nameof(Model.PlaceVM))
+                        </div>
+                    </fieldset>
+                <br/>
                 </div>
             </section>
         }
     </div>
-    <div class="col-5">
+    <div class="col-md-5 bg-secondary" style="min-height:300px;">
+        @if (Model._model.Id > 0)
+        {
+            <div class="row mt-2">
+                @await Html.PartialAsync("~/Views/UserControls/_KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
+            </div>
 
+        }
     </div>
 </div>
 
+
+
+<script>
+
+
+    $(document).ready(function () {
+        $("#DataTo").hide();
+
+        $("#rbExact").on("click", function () {
+            $("#DataTo").hide();
+        });
+        $("#rbInterval").on("click", function () {
+            $("#DataTo").show();
+        });
+
+        $("#cmbPlaceDataTypes").on("change", function () {
+            var value = $("#cmbPlaceDataTypes option:selected").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/WorldEvent/GetPlaceDataView",
+                data: { idPlacedata: value },
+                success: function (data) {
+                    console.log(data);
+                    $("#dvPlaceData").empty();
+                    $("#dvPlaceData").html(data);
+
+                },
+                fail: function (e) {
+                    alert("Events data update error");
+                }
+            });
+        });
+    });
+</script>

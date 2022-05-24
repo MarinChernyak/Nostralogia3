@@ -165,3 +165,11 @@ table {
     background-color: #EfEfEf;
     border:solid 1px black;
 }
+.input100{
+    width:100px;
+    height:25px;
+}
+.input80 {
+    width: 80px;
+    height: 25px;
+}

@@ -9,7 +9,7 @@ namespace Nostralogia3.ViewModels
 {
     public class ViewModelBase : BaseModel
     {
-
+        public string ErrorMessage { get; protected set; }
         protected ISession _session { get; set; }
         public void SetSession (ISession session)
         {

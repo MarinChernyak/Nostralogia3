@@ -28,7 +28,7 @@ namespace Nostralogia3.ViewModels
         public List<SelectListItem> SourceColection { get; protected set; } = new();
         public List<SelectListItem> TimeShifts { get; protected set; } = new();
         public List<SelectListItem> DataTypeCollection { get; protected set; } = new();
-        public string ErrorMessage { get; protected set; }
+        
         public SimpleCalendarModel SimpleCalendarModel { get; protected set; } = new();
         public KeyWordsCollectionModel KWCollection { get; protected set; } = new();
         public PersonalEventsCollectionModel EventsCollection { get; protected set; }
@@ -63,39 +63,43 @@ namespace Nostralogia3.ViewModels
         }
         protected void UpdateFormDetails(int Id)
         {
-            MVwPersonalDisplayDatum data = PersonalDataFactory.GetPersonalDisplayData(Id);
             _model = new MPersonalData();
-            if (data != null)
+            if (Id > 0)
             {
-                _model.FirstName = data.FirstName;
-                _model.SecondName = data.SecondName;
-                _model.Sex = data.Sex;
-                _model.BirthDay = data.BirthDay;
-                _model.BirthMonth = data.BirthMonth;
-                _model.BirthYear = data.BirthYear;
-                _model.BirthHourFrom = data.BirthHourFrom;
-                _model.BirthHourTo = data.BirthHourTo;
-                _model.BirthMinFrom = data.BirthMinFrom;
-                _model.BirthMinTo = data.BirthMinTo;
-                _model.AdditionalHours = data.AdditionalHours;
-                _model.SourceBirthTime = data.SourceBirthTime;
-                _model.Email = data.Email;
-                _model.DataType = data.DataType;
-                _model.Id = Id;
+                MVwPersonalDisplayDatum data = PersonalDataFactory.GetPersonalDisplayData(Id);
+                
+                if (data != null)
+                {
+                    _model.FirstName = data.FirstName;
+                    _model.SecondName = data.SecondName;
+                    _model.Sex = data.Sex;
+                    _model.BirthDay = data.BirthDay;
+                    _model.BirthMonth = data.BirthMonth;
+                    _model.BirthYear = data.BirthYear;
+                    _model.BirthHourFrom = data.BirthHourFrom;
+                    _model.BirthHourTo = data.BirthHourTo;
+                    _model.BirthMinFrom = data.BirthMinFrom;
+                    _model.BirthMinTo = data.BirthMinTo;
+                    _model.AdditionalHours = data.AdditionalHours;
+                    _model.SourceBirthTime = data.SourceBirthTime;
+                    _model.Email = data.Email;
+                    _model.DataType = data.DataType;
+                    _model.Id = Id;
+                }
+
+                ReadOnly = CommonFunctionsFactory.IsReadOnly(GetUID(), _model.IdContributor ?? 0, GetUserLevel(), _model.DataType);
+
+                EventPlaceModel = new EventPlaceModel(data.CountryId, data.StateId, data.Place, "Birth Place", ReadOnly);
+                SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", _model.BirthDay, _model.BirthMonth, _model.BirthYear, ReadOnly);
+                TimeFrom = new SimpleTimePickerModel("Birth Time 'From'", _model.BirthHourFrom, _model.BirthMinFrom, ReadOnly);
+                TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo, ReadOnly);
+                KWCollection = new KeyWordsCollectionModel(0, Id);
+                EventsCollection = new PersonalEventsCollectionModel(Id, "Events of the person", _session);
+                //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
+                PicturesViewer = new PicturesViewerEditViewModel(_model.Id, _session);
+                MapNotes = new MapNotesVM(_session, _model.Id);
+                FillUpCollections();
             }
-
-            ReadOnly = CommonFunctionsFactory.IsReadOnly(GetUID(), _model.IdContributor ?? 0, GetUserLevel(), _model.DataType);
-
-            EventPlaceModel = new EventPlaceModel(data.CountryId, data.StateId, data.Place, "Birth Place",ReadOnly);
-            SimpleCalendarModel = new SimpleCalendarModel("Date of Birth", _model.BirthDay, _model.BirthMonth, _model.BirthYear, ReadOnly);
-            TimeFrom = new SimpleTimePickerModel("Birth Time 'From'", _model.BirthHourFrom, _model.BirthMinFrom, ReadOnly);
-            TimeTo = new SimpleTimePickerModel("Birth Time 'To'", _model.BirthHourTo, _model.BirthMinTo, ReadOnly);
-            KWCollection = new KeyWordsCollectionModel(0, Id);
-            EventsCollection = new PersonalEventsCollectionModel(Id,"Events of the person", _session);
-            //PicturesViewer = new PicturesViewerPersonalPreviewModel(_model.Id);
-            PicturesViewer = new PicturesViewerEditViewModel(_model.Id,_session);
-            MapNotes = new MapNotesVM(_session, _model.Id);
-            FillUpCollections();
         }
         public void FillUpCollections()
         {
@@ -155,7 +159,10 @@ namespace Nostralogia3.ViewModels
         }
         private void UpdateModel()
         {
-            _model.Place = EventPlaceModel.PlaceId.Value;
+            if (EventPlaceModel.PlaceId.HasValue)
+            {
+                _model.Place = EventPlaceModel.PlaceId.Value;
+            }
             _model.BirthDay = SimpleCalendarModel.Day;
             _model.BirthMonth = SimpleCalendarModel.Month;
             _model.BirthYear = SimpleCalendarModel.Year;

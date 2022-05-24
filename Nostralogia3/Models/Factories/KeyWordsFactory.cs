@@ -93,5 +93,15 @@ namespace Nostralogia3.Models.Factories
             }
             return mkw;
         }
+        public static MKeyWord GetWorldEventKeyWordByRef(int IdKWRef)
+        {
+            MKeyWord mkw = null;
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                KeyWord1 kw = context.KeyWords1.FirstOrDefault(x => x.Idkw == IdKWRef);
+                mkw = ModelsTransformer.TransferModel<KeyWord1, MKeyWord>(kw);
+            }
+            return mkw;
+        }
     }
 }
