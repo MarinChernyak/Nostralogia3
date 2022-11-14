@@ -4,15 +4,13 @@ using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.PictureViewer
 {
     public class PicturesViewerEditViewModel : ViewModelBase
     {
+
         protected String _defaultPicture = "M_NoPict.JPG";
         public bool Expanded { get; set;  }
         protected const double MAX_WIDTH = 300;
@@ -46,7 +44,7 @@ namespace Nostralogia3.ViewModels.PictureViewer
             IsEdit = false;
             Expanded = false;
             IdRef = IDperson;
-            _session = session;
+            _ = SetContextValuesAsync(session);
             InitCollection();
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.UserControls.KeyWords
 {
-    public abstract class KeyWordsBase
+    public abstract class KeyWordsBase : BaseModel
     {
         protected IEnumerable<SelectListItem> _lstKeyWordsCollection;
         protected List<SelectListItem> _lstSelectedKeyWordsCollection;

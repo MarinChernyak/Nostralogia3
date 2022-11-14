@@ -12,7 +12,6 @@ namespace Nostralogia3.Models.UserControls
     {
         //public string TableWidth { get; set; }
         public string TableLabel { get; set; }
-        protected ISession _session { get; set; }
         public bool Expanded { get; set; }
         public string GetclassExpanded() { return Expanded ? "collapse.show" : "collapse"; }
         public string GetclassNotExpanded() { return Expanded ? "collapse" : "collapse.show"; }

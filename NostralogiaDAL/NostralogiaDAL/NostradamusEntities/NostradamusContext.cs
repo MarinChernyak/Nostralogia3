@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 #nullable disable
 
@@ -64,9 +66,10 @@ namespace NostralogiaDAL.NostradamusEntities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var IsDev = ConfigurationManager.AppSettings["IsDev"];
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=LAPTOP-LE4MQKM2;Database=NostradamusTest;Trusted_Connection=True;");
+               optionsBuilder.UseSqlServer("Server=LAPTOP-LE4MQKM2;Database=NostradamusTest;Trusted_Connection=True;");
             }
         }
 

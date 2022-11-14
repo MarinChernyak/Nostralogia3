@@ -1,0 +1,33 @@
+﻿@model Nostralogia3.Models.UserControls.DropDownWithHelpModel
+
+<div class="mt-2 col-sm-5 form-group">
+    @Html.LabelFor(x => x.SelectedImpact, new { @class = "text-dark font-weight-bold" })
+    @Html.DropDownListFor(x => x.SelectedImpact, Model.DropDownItems, null, new { id = "cmbImpactSectors", @class = "min_width_combo" })
+</div>
+<div class="col-sm-5 form-group">
+    <div id="dvHelpSelImpact" class="text-primary border border-primary rounded p-3 min_width_combo">
+
+    </div>
+    @foreach(KeyValuePair<object,string> item in Model.HelpTexts)
+    {
+        <input type="hidden" id="@Model.getId(Convert.ToInt32((byte)item.Key))" value="@item.Value" />
+    }
+</div>
+
+<script>
+    UpdateImpactSelection();
+    $(document).ready(function () {
+        $("#cmbImpactSectors").on("change", function () {
+            UpdateImpactSelection();
+        });
+        
+    });
+    function UpdateImpactSelection() {
+        var id = "SelFromMain" + $("#cmbImpactSectors option:selected").val();
+        //console.log("id=> " + id);
+        var txtHelp = $("#" + id).val();
+        //console.log("txtHelp=> " + txtHelp);
+        $("#dvHelpSelImpact").empty();
+        $("#dvHelpSelImpact").append(txtHelp);
+    }
+</script>

@@ -1,2 +1,56 @@
 ﻿
+@model Nostralogia3.Models.Geo.ExpansionModel
 
+    <div class="row ml-1">
+        <div class="CalendarLabel text-dark ">
+            @Model.MainLabel
+        </div>
+    </div>
+    <div class="ml-3 BgColorControls row w-50  border border-secondary rounded">
+
+        <div class="col-5 ml-2" id="dvFullListKW">
+            <div class="row text-dark font-weight-bold">
+                @Html.LabelFor(x => x.CountryId)
+            </div>
+            <div class="row form-group">
+                @Html.DropDownListFor(x => x.CountryId, Model.Countries, null, new { id = "cmbCountries", @class = "w-75" })
+            </div>
+            <div class="row text-dark font-weight-bold">
+                @Html.LabelFor(x => x.StateId)
+            </div>
+            <div class="row form-group">
+                @Html.DropDownListFor(x => x.StateId, Model.States, null, new { id = "cmbStates", @class = "w-75" })
+            </div>
+        </div>
+        <div class="col-1">
+            <div class="row mt-sm-4">
+                <button id=butRemove type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Select country..."><i class="fa-solid fa-angles-right"></i></button>
+            </div>
+            <div class="row mt-sm-4">
+                <button id=butRemove type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Select state\province..."><i class="fa-solid fa-angles-right"></i></button>
+            </div>
+            <div class="row mt-sm-3">
+                <button id=butAdd type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Remove item"><i class="fa-solid fa-angles-left"></i></button>
+            </div>
+        </div>
+
+        <div class="col-5 mt-4 mb-4" id="dvSelListKW">
+            @Html.ListBox("lstSelectedItem", @Model.SelectedIGeoItemsCollection, new { id = "selRight", size = "7", style = "width:200px;" })
+        </div>
+    </div>
+
+
+    <script src="/JS/GeoActions.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#cmbCountries").on("change", function () {
+                UpdateCountry();
+            });
+            $("#cmbStates").on("change", function () {
+                UpdateStates();
+            });
+
+        });
+
+    </script>

@@ -42,7 +42,7 @@ namespace Nostralogia3.ViewModels
         }
         public PersonalDataVM(ISession session)
         {
-            _session = session;
+            _ = SetContextValuesAsync(session);
             ReadOnly = false;
             _model = new MPersonalData();
             EventPlaceModel = new EventPlaceModel("Birth Place");
@@ -58,7 +58,7 @@ namespace Nostralogia3.ViewModels
         }
         public PersonalDataVM(int Id, ISession session)
         {
-            _session = session;
+            _ = SetContextValuesAsync(session);
             UpdateFormDetails(Id);
         }
         protected void UpdateFormDetails(int Id)
@@ -183,8 +183,10 @@ namespace Nostralogia3.ViewModels
                 _model.BirthMinTo = (byte)TimeTo.Minute;
             }
         }
-        public int AddNew()
+        public int AddNew(ISession session)
         {
+            if (_session == null)
+                _session = session;
             UpdateModel();
             _model.Id = PersonalDataFactory.AddPersonalData(_model);
             KWCollection.IdForKWStorage = _model.Id;

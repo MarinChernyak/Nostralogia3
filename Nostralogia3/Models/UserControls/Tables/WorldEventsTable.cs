@@ -78,6 +78,10 @@ namespace Nostralogia3.Models.UserControls.Tables
                     {
                         lst.Add($"{Constants.Values.MarkerDelete}:DataWorking|DeletePersonalData|{e.Id}");
                     }
+                    if ((rights & Constants.Values.CAN_DEACTIVATE) > 0)
+                    {
+                        lst.Add($"{Constants.Values.MarkerDeactivate}:DataWorking|DeactivatePersonalData|{e.Id}");
+                    }
                     else
                     {
                         lst.Add("");

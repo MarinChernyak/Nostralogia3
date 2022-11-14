@@ -32,24 +32,77 @@
 
                     <div class="col-1">
                         <div class="row mb-3 ">
-                            <button id=btnNext type="button" class="btn btn-default" title="Next" ><i class="fa-solid fa-circle-arrow-right fa-xl"></i></button>
+                            <a id=btnNext title="Next" >
+                                @if (Model.IsOnline)
+                                {
+                                    <i class="fa-solid fa-circle-arrow-right fa-xl"></i>
+                                }
+                                else
+                                {
+                                    <i class="nstr_offline_button  p-1">Next</i>
+                                }
+                            </a>
                         </div>
                         <div class="row mb-3">
-                            <button id=btnPrev type="button" class="btn btn-default" title="Previous"><i class="fa-solid fa-circle-arrow-left fa-xl"></i></button>
+                            <a id=btnPrev title="Previous">
+                               
+                                @if (Model.IsOnline)
+                                {
+                                    <i class="fa-solid fa-circle-arrow-left fa-xl"></i>
+                                }
+                                else
+                                {
+                                    <i class="nstr_offline_button  p-1">Back</i>
+                                }
+
+                            </a>
                         </div>
                         @using (Html.BeginForm("PictureViewerEdit", "PicturesViewer", new { id = Model.IdRef }))
                         {
                             <div class="row mb-3">
-                                <button type="submit" class="btn btn-default" id="btnAddImg" title="Add new"><i class="fa-solid fa-circle-plus fa-xl"></i></button>
+                                <button type="submit" class="btn btn-default" id="btnAddImg" title="Add new">
+                                    
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-circle-plus fa-xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button  p-1">Add...</i>
+
+                                    }
+                                </button>
                             </div>
                         }
                         <div class="row mb-3">
-                            <button id=btnDeactivateImage type="button" class="btn btn-default" title="Deactivate"><i class="far fa-trash-alt fa-xl"></i></button>
+                            <a id=btnDeactivateImage title="Deactivate">
+
+                                @if (Model.IsOnline)
+                                {
+                                    <i class="far fa-trash-alt fa-xl"></i>
+                                }
+                                else
+                                {
+                                    <i class="nstr_offline_button  p-1">Deactivate</i>
+
+                                }
+
+                            </a>
                         </div>
                         @if (Model.GetUserLevel() > 2)
                         {
                         <div class="row mb-3">
-                            <button id=btnDelImage type="button" class="btn btn-default text-danger" title="Delete"><i class="far fa-trash-alt fa-xl"></i></button>
+                            <a id=btnDelImage  class="text-danger" title="Delete">
+                                @if (Model.IsOnline)
+                                {
+                                    <i class="far fa-trash-alt fa-xl"></i>
+                                }
+                                else
+                                {
+                                    <i class="nstr_offline_button  p-1">Delete</i>
+
+                                }
+                            </a>
                         </div>
                         }
 

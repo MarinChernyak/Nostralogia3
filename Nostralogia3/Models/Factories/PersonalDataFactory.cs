@@ -14,12 +14,12 @@ namespace Nostralogia3.Models.Factories
 {
     public class PersonalDataFactory: BaseFactory
     {
-        public static List<MVwPersonalDisplayDatum> GetPersonalDisplayDataList(int Nrecords = 10)
+        public static List<MVwPersonalDisplayDatum> GetPersonalDisplayDataList(int Nrecords = 10, int userlevel = Constants.DataTypes.DataPublic)
         {
             List<MVwPersonalDisplayDatum> lst = null;
             using (NostradamusContext context = new NostradamusContext())
             {
-                var lstrecords = context.VwPersonalDisplayData.OrderByDescending(x => x.Id).Take(Nrecords).ToList();
+                var lstrecords = context.VwPersonalDisplayData.OrderByDescending(x => x.Id).Where(x=>x.DataType<= userlevel).Take(Nrecords).ToList();
                 lst = ModelsTransformer.TransferModelList<VwPersonalDisplayDatum, MVwPersonalDisplayDatum>(lstrecords);
             }
             return lst;

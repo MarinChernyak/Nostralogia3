@@ -1,4 +1,5 @@
-﻿function PictPreviewer(iduser,numPictures) {
+﻿
+function PictPreviewer(iduser, numPictures) {
     this.IDUser = iduser;
     this.NumPictures = numPictures;
     this.index = 0;

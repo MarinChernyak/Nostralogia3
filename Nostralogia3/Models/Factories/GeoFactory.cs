@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostraGeoEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {
     public class GeoFactory :BaseFactory
     {
+        #region GET
         public GeoFactory()
         {
         }
@@ -18,16 +22,8 @@ namespace Nostralogia3.Models.Factories
             using (NostraGeoContext _context = new NostraGeoContext())
             {
                 List<Country> lstCountry = _context.Countries.OrderBy(x => x.CountryName).ToList();
-                foreach (Country c in lstCountry)
-                {
-                    lst.Add(new SelectListItem()
-                    {
-                        Text = c.CountryName,
-                        Value = c.Id.ToString()
-                    });
-                }
-            }
-            InsertSelectItem(lst);                
+                lst = FromLstObjectsToDropDownFeed(lstCountry, "CountryName", "Id");
+            }               
             return lst;
         }
         public List<SelectListItem> GetStatesListCollection(int IdCountry)
@@ -35,23 +31,17 @@ namespace Nostralogia3.Models.Factories
             List<SelectListItem> lst = new List<SelectListItem>();
             using (NostraGeoContext _context = new NostraGeoContext())
             {
-                var lstData = _context.StateRegions.Where(x => x.CountryRef == IdCountry);
+                List<StateRegion> lstData = _context.StateRegions.Where(x => x.CountryRef == IdCountry).ToList();
+                
                 if (lstData != null)
                 {
 
-                    lstData = lstData.OrderBy(x => x.StateRegion1);
+                    lstData = lstData.OrderBy(x => x.StateRegion1).ToList();
                 }
-
-                foreach (StateRegion c in lstData)
-                {
-                    lst.Add(new SelectListItem()
-                    {
-                        Text = c.StateRegion1,
-                        Value = c.Id.ToString()
-                    });
-                }
+                lst = FromLstObjectsToDropDownFeed(lstData, "StateRegion1", "Id");
             }
             InsertSelectItem(lst);
+  
 
             return lst;
         }
@@ -76,15 +66,7 @@ namespace Nostralogia3.Models.Factories
 
                         lstData = lstData.OrderBy(x => x.CityName);
                     }
-
-                    foreach (City c in lstData)
-                    {
-                        lst.Add(new SelectListItem()
-                        {
-                            Text = c.CityName,
-                            Value = c.Id.ToString()
-                        });
-                    }
+                    lst = FromLstObjectsToDropDownFeed(lstData.ToList(), "CityName", "Id");
                 }
             }
             InsertSelectItem(lst);
@@ -143,5 +125,36 @@ namespace Nostralogia3.Models.Factories
             }
             return place;
         }
+
+        #endregion
+        #region Create/Add
+
+        public async Task<bool> AddCountry(string CountryName, string Acronym)
+        {
+            bool brez = true;
+            try
+            {
+                using (NostraGeoContext context = new NostraGeoContext())
+                {
+                    Country cntr = new Country()
+                    {
+                        CountryName = CountryName,
+                        Acronym = Acronym
+                    };
+                    context.Entry(cntr).State = EntityState.Added;
+                    await context.SaveChangesAsync();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+                brez = false;
+            }
+            return brez;
+        }
+
+        #endregion
     }
 }

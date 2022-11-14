@@ -125,17 +125,25 @@ table {
 }
 .delete_cell {
     cursor: pointer;
-   
 }
 /* buttons*/
-.nostr_btn
-{
-    min-width:100px;
-    background-color:#4b4a4a;
-    color:white;
-    border:1px solid #2b2b2b;
-    border-radius:5px;
-    margin-right:20px;
+.nstr_offline_button {
+    border: 1px solid #2b2b2b;
+    border-radius: 5px;
+    font-size:10px;
+    background-color:gainsboro;
+    margin-bottom:5px;
+}
+    .nstr_offline_button:hover {
+        cursor: pointer;
+    }
+.nostr_btn {
+    min-width: 100px;
+    background-color: #4b4a4a;
+    color: white;
+    border: 1px solid #2b2b2b;
+    border-radius: 5px;
+    margin-right: 20px;
 }
     .nostr_btn:hover {
         cursor: pointer;

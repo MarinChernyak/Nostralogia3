@@ -23,16 +23,53 @@
                     </div>
                     <div class="col-1">
                             <div class="row">
-                                <button id=butAdd type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Add keyword" ><i class="fa-solid fa-angles-right"></i></button>
+                                <a id=butAdd title="Add keyword" >
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-angles-right btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button p-1 mb-1">Add...</i>
+                                    }
+                                </a>
                             </div>
                             <div class="row">
-                                <button id=butRemove type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Remove keyword"><i class="fa-solid fa-angles-left"></i></button>
+                                <a id=butRemove  title="Remove keyword">
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-angles-left btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button p-1 mb-1">Remove</i>
+                                    }
+                                </a>
                             </div>
                             <div class="row">
-                                <button id=butDrUp type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Drill up..."><i class="fa-solid fa-angles-up"></i></button>
+                                <a id=butDrUp  title="Drill up...">
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-angles-up btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button p-1 mb-1">Drill Up</i>
+                                    }
+                                </a>
                             </div>
                             <div class="row">
-                                <button id=butDrDown type="button" class="btn btn-default mb-1 mr-1 border border-dark rounded" title="Drill down..."><i class="fa-solid fa-angles-down"></i></button>
+                                <a id=butDrDown title="Drill down...">
+                                    
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-angles-down btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button p-1 mb-1">Drill Down</i>
+                                    }
+                                </a>
                             </div>
                         
                     </div>
@@ -43,10 +80,30 @@
                 </div>
                 <div class="row mb-2 mt-1">
                     <div class="col-2">
-                        <button type="button" class="btn btn-default mt-2" id="butOK"  title="Save changes"><i class="fa-solid fa-floppy-disk fa-xl"></i></button>
+                        <a id="butOK" title="Save changes">
+
+                            @if (Model.IsOnline)
+                            {
+                            <i class="fa-solid fa-floppy-disk fa-xl btn btn-default mt-2"></i>
+                            }
+                            else
+                            {
+                                <i class="nstr_offline_button p-1 text-md-center">Save</i>
+                            }
+                         </a>
                     </div>
                     <div class="col-2 ml-1">
-                        <button type="button" class="btn btn-default mt-2" id="butCancel"  title="Cancel"><i class="fa-regular fa-rectangle-xmark fa-xl"></i></button>
+                        <a id="butCancel" title="Cancel">
+
+                            @if (Model.IsOnline)
+                            {
+                            <i class="fa-regular fa-rectangle-xmark fa-xl btn btn-default mt-2"></i>
+                            }
+                            else
+                            {
+                                <i class="nstr_offline_button p-1 text-md-center">Cancel</i>
+                            }
+                        </a>
                     </div>
                 </div>
             </div>

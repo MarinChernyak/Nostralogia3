@@ -47,5 +47,6 @@ namespace Nostralogia3.Controllers
             HttpContext.Session.Remove(Constants.SessionCoockies.SessionULevel);
             HttpContext.Session.Remove(Constants.SessionCoockies.SessionUID);
         }
+
     }
 }

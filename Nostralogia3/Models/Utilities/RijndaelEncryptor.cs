@@ -26,7 +26,7 @@ namespace Nostralogia3.Models.Utilities
                     throw new ArgumentNullException("_passcode");
 
                                        // Encrypted string to return
-                RijndaelManaged aesAlg = null;              // RijndaelManaged object used to encrypt the data.
+                Aes aesAlg = null;              // RijndaelManaged object used to encrypt the data.
 
                 try
                 {
@@ -34,7 +34,7 @@ namespace Nostralogia3.Models.Utilities
                     Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(_passcode, _salt);
 
                     // Create a RijndaelManaged object
-                    aesAlg = new RijndaelManaged();
+                    aesAlg = Aes.Create();
                     aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
 
                     // Create a decryptor to perform the stream transform.
@@ -78,7 +78,7 @@ namespace Nostralogia3.Models.Utilities
 
                 // Declare the RijndaelManaged object
                 // used to decrypt the data.
-                RijndaelManaged aesAlg = null;
+                Aes aesAlg = null;
 
                 // Declare the string used to hold
                 // the decrypted text.
@@ -95,7 +95,7 @@ namespace Nostralogia3.Models.Utilities
                     {
                         // Create a RijndaelManaged object
                         // with the specified key and IV.
-                        aesAlg = new RijndaelManaged();
+                        aesAlg = Aes.Create();
                         aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
                         // Get the initialization vector from the encrypted stream
                         aesAlg.IV = ReadByteArray(msDecrypt);

@@ -24,6 +24,8 @@ namespace Nostralogia3.Controllers.MainActions
                     return PartialView("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel(@"City\Vilage of the Event"));                   
                 case (int)PlaceDataCommon.PlaceDataType.Coordinates:
                     return PartialView("~/Views/UserControls/_EventCoordinatesView.cshtml", new CoordinatesModel("Coordinates of the Event"));
+                case (int)PlaceDataCommon.PlaceDataType.Expansion:
+                    return PartialView("~/Views/UserControls/_EventExpansionView.cshtml", new ExpansionModel("Expansion of the Event"));
                 default:
                     return PartialView("~/Views/UserControls/_EventPlaceView.cshtml", new EventPlaceModel());
             };

@@ -42,7 +42,7 @@ namespace Nostralogia3.Controllers.MainActions
             {
                 if(model._model.Id==0)
                 {
-                    Id = model.AddNew();
+                    Id = model.AddNew(_session);
                 }
                 else
                 {

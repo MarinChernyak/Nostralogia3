@@ -57,7 +57,7 @@ namespace Nostralogia3.Models.UserControls
             Labels.Add(new LabelData() { Label = "Category", Width = "300px" });
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
             Labels.Add(new LabelData() { Label = "", Width = "50px" });
-            
+            Labels.Add(new LabelData() { Label = "", Width = "50px" });
             GeoFactory gf = new GeoFactory();
             foreach (MPeopleevent pe in EventsCollection)
             {

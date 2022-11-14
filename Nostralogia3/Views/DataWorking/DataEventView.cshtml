@@ -39,11 +39,32 @@
                         </div>
 
                         <div class="mt-5 col-sm-5 form-group">
-                            @Html.LabelFor(x => x.PlaceDataType, new { @class= "text-dark font-weight-bold" })
+                            @Html.LabelFor(x => x.PlaceDataType, new { @class = "text-dark font-weight-bold" })
                             @Html.DropDownListFor(x => x.PlaceDataType, Model.PlaceDatTypes, null, new { id = "cmbPlaceDataTypes", @class = "min_width_combo" })
                         </div>
                         <div id="dvPlaceData">
                             @await Html.PartialAsync("~/Views/UserControls/_EventPlaceView.cshtml", Model.PlaceVM, nameof(Model.PlaceVM))
+                        </div>
+                        <div class="col-sm-5 form-group text-dark font-weight-bold">
+                            @Html.LabelFor(x => x.NumberVictims)
+                            @Html.EditorFor(x => x.NumberVictims, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl" } } : new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="col-sm-5 form-group text-dark font-weight-bold">
+                            @Html.LabelFor(x => x.NumberSurvivors)
+                            @Html.EditorFor(x => x.NumberSurvivors, Model.ReadOnly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control disabledctrl" } } : new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="mt-5 col-sm-5 form-group">
+                            @Html.LabelFor(x => x.PotentialSeverity, new { @class = "text-dark font-weight-bold" })
+                            @Html.DropDownListFor(x => x.PotentialSeverity, Model.PotentialSeverityCollection, null, new { id = "cmbPotentialSeverity", @class = "min_width_combo" })
+                        </div>
+                        @await Html.PartialAsync("~/Views/UserControls/_DropDownWithHelpView.cshtml", Model.ImpactRelatedSectorsVM, nameof(Model.ImpactRelatedSectorsVM))
+                        <div class="mt-5 col-sm-5 form-group">
+                            @Html.LabelFor(x => x.HystoriacalScale, new { @class = "text-dark font-weight-bold" })
+                            @Html.DropDownListFor(x => x.HystoriacalScale, Model.HystoricalScalesCollection, null, new { id = "cmbHystoricalScales", @class = "min_width_combo" })
+                        </div>
+                        <div class="mt-5 col-sm-5 form-group">
+                            @Html.LabelFor(x => x.HystoriacalScaleValue, new { @class = "text-dark font-weight-bold" })
+                            @Html.DropDownListFor(x => x.HystoriacalScaleValue, Model.HystoricalScalesValuesCollection, null, new { id = "cmbHystoricalScalesValues", @class = "min_width_combo" })
                         </div>
                     </fieldset>
                 <br/>
@@ -57,7 +78,6 @@
             <div class="row mt-2">
                 @await Html.PartialAsync("~/Views/UserControls/_KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
             </div>
-
         }
     </div>
 </div>

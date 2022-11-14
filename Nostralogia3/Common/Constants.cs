@@ -39,7 +39,7 @@ namespace Nostralogia3
             public const string ItemText = "Text";
 
             public const int CAN_VIEW = 1;
-            public const int CAN_EDIT = 2;
+            public const int CAN_EDIT = 2; 
             public const int CAN_ADD = 4;
             public const int CAN_DEACTIVATE = 8;
             public const int CAN_DELETE = 16;
@@ -53,14 +53,19 @@ namespace Nostralogia3
             public const string ZeroStringComboValue = "-1";
             protected static int _counter = 0;
             public static int Counter { get { return _counter++; } }
-            public static string MarkerEdit { get { return "[EDIT]"; } }            public static string MarkerDelete { get { return "[DELETE]"; } }
+            public static string MarkerEdit { get { return "[EDIT]"; } }            
+            public static string MarkerDelete { get { return "[DELETE]"; } }
+            public static string MarkerDeactivate { get { return "[DEACTIVATE]"; } }
         }
 
        public class Paths
         {
             public static string ImageRepository { get { return "wwwroot/Repository/PeopleImages";  } }
         }
-
+        public class DataTypes
+        {
+            public const int DataPublic = 1;
+        }
 
     }
 }

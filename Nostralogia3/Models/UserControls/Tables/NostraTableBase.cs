@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.UserControls
@@ -10,8 +12,10 @@ namespace Nostralogia3.Models.UserControls
         public string Label { get; set; }
         public string Width { get; set; }
     }
-    public class NostraTableBase
+    public class NostraTableBase : BaseModel
     {
+        public int WidthImg { get; } = 35;
+        public int HeightImg { get; } = 35;
         public List<LabelData> Labels { get; set; } = new();
         public List<List<string>> Data { get; set; } = new();
 
@@ -23,6 +27,6 @@ namespace Nostralogia3.Models.UserControls
         public string GetTbleId()
         {
             return $"tblNostra{index}";
-        }
+        }       
     }
 }

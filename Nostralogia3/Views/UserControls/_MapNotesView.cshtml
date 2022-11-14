@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="container pre-scrollable" style="max-height:440px;">
+                <div class="container pre-scrollable" style="max-height:500px;">
                     @foreach (var item in @Model._NotesDataList)
                     {
                     <div class="row">
@@ -29,7 +29,6 @@
         </div>
     </div>
 </div>
-@*onclick="location.href='@Url.Action("CreateNewMapNote", "DataWorking", new { idRef = Model.IdRef })'"*@
 <div class="modal fade" tabindex="-1" id="NewNoteModal" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

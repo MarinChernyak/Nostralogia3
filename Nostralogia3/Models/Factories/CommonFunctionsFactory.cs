@@ -10,7 +10,7 @@ namespace Nostralogia3.Models.Factories
         public static int GetRights(int UserId, int idContributor, int UserLevel, int DataType)
         {
             int Rights = 0;
-            if (UserLevel >= DataType || UserId == idContributor)
+            if (UserLevel >= DataType || UserId == idContributor || DataType==Constants.DataTypes.DataPublic)
             {
                 Rights = Constants.Values.CAN_VIEW;
             }
