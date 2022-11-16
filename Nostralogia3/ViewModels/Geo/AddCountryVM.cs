@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.Geo
 {
-    public class AddCountryVM
+    public class AddCountryVM :ViewModelBase
     {
         [DisplayName("Enter a country name")]
         public string CountryName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Nostralogia3.Common;
 using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostraGeoEntities;
 using System;
@@ -73,7 +74,6 @@ namespace Nostralogia3.Models.Factories
 
             return lst;
         }
-
         public List<List<SelectListItem>> GetStatesCitiesByCountry(short? id)
         {
             short Id = id ?? 0;
@@ -86,6 +86,24 @@ namespace Nostralogia3.Models.Factories
             }
             return lstout;
         }
+        public List<SelectListItem> GetTimeZones()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+            using (NostraGeoContext _context = new NostraGeoContext())
+            {
+                List<TimeZoneList> lstTZ = _context.TimeZoneLists.OrderBy(x => x.TimeOffset).ToList();
+                foreach(TimeZoneList tz in lstTZ)
+                {
+                    lst.Add(new SelectListItem()
+                    {
+                        Value=tz.Idtzone.ToString(),
+                        Text = $"{tz.TzoneName} - ({tz.TimeOffset})"
+                    });
+                }
+            }
+            return lst;
+        }
+
 
         public void GetCountryStateByCity(int idCity, out int IdCountry,out int IdState)
         {
@@ -154,7 +172,62 @@ namespace Nostralogia3.Models.Factories
             }
             return brez;
         }
+        public async Task<bool> AddStateProvince(string StateName, string Acronym, short CountryRef)
+        {
+            bool brez = true;
+            try
+            {
+                using (NostraGeoContext context = new NostraGeoContext())
+                {
+                    StateRegion geoobj = new StateRegion()
+                    {
+                        StateRegion1= StateName,
+                        Acronym = Acronym,
+                        CountryRef = CountryRef
+                    };
+                    context.Entry(geoobj).State = EntityState.Added;
+                    await context.SaveChangesAsync();
+                }
 
+            }
+            catch (Exception ex)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+                brez = false;
+            }
+            return brez;
+        }
+        
+        public async Task<int> AddCity(City city)
+        {
+            
+            int err = 0;
+            try
+            {
+                using (NostraGeoContext context = new NostraGeoContext())
+                {
+                    City ct = context.Cities.FirstOrDefault(x => x.CityName == city.CityName && x.Country == city.Country);
+                    if (ct == null)
+                    {
+                        context.Entry(city).State = EntityState.Added;
+                        await context.SaveChangesAsync();
+                    }
+                    else
+                    {                        
+                        err = (int)ErrMessagesCollection.Errors.DataExisting;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+                err = -1;
+            }
+            return err;
+        }
         #endregion
     }
 }

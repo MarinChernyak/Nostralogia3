@@ -1,34 +1,30 @@
-﻿
+﻿@{
+    ViewData["Title"] = "New Country";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+    
+}
 @model Nostralogia3.ViewModels.Geo.AddCountryVM
-
+<h2>Add New Country Data</h2>
 <form method="post" asp-action="AddCountry" asp-controller="Geo">
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
                 <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Country Name</strong></label>
                 <input asp-for="@Model.CountryName" asp- class="form-control" data-val="true" data-val-required="The Country Name field is required." id="CountryName" name="CountryName" type="text" value="" required="required"/>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
                 <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Country Acronym</strong></label>
                 <input asp-for="@Model.CountryAcr" asp- class="form-control" data-val="true" data-val-required="The Acronym field is required." id="CountryAcr" name="CountryAcr" type="text" value="" required="required"/>
             </div>
         </div>
 
-        <div class="row">
-
-            <div class="form-group col-md-12">
-
-                <ul class="list-inline lst-spcd mrgn-rght-md">
-
-                    <li><input type="submit" value="Add" class="btn btn-primary" /></li>
-
-                    <li><input type="button" value="Cancel" class="btn" onclick="resetPage();" /></li>
-
-                </ul>
-
+         <div class="row mt-lg-5">
+            <div class="form-group ml-lg-4">
+                <button type="submit" class="nostr_btn">Add Country</button>
+            </div>    
+            <div class="form-group">
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn" />
             </div>
-
         </div>
-
     </form>

@@ -34,7 +34,7 @@
                     var arr = @data.Substring(pos + 1).Split(new char[] { '|' });
                     <td class="delete_cell">
                         <a href ="@String.Format("/{0}/{1}/{2}",@arr[0],@arr[1],@arr[2])" style="color:#414141" onclick = "return confirm('Are you sure you wish to delete this item?')">
-                            <img src="~/Images/Partials/delete.png" width="25" height="25"/>
+                            <img src="~/Images/Partials/delete.png" width="@Model.WidthImg" height="@Model.HeightImg"/>
                         </a>
                     </td>
                 }
@@ -44,7 +44,7 @@
                     var arr = @data.Substring(pos + 1).Split(new char[] { '|' });
                     <td class="delete_cell">
                         <a href ="@String.Format("/{0}/{1}/{2}",@arr[0],@arr[1],@arr[2])" style="color:#414141" onclick = "return confirm('Are you sure you wish to delete this item?')">
-                            <img src="~/Images/Partials/Deactivate.png" width="25" height="25"/>
+                            <img src="~/Images/Partials/Deactivate.png" width="@Model.WidthImg" height="@Model.HeightImg"/>
                         </a>
                     </td>
                 }

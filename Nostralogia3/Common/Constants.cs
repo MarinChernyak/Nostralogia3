@@ -29,7 +29,6 @@ namespace Nostralogia3
 
 
         }
-
         public class Values
         {
             public const int ApplicationId = 6;
@@ -57,8 +56,7 @@ namespace Nostralogia3
             public static string MarkerDelete { get { return "[DELETE]"; } }
             public static string MarkerDeactivate { get { return "[DEACTIVATE]"; } }
         }
-
-       public class Paths
+        public class Paths
         {
             public static string ImageRepository { get { return "wwwroot/Repository/PeopleImages";  } }
         }

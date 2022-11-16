@@ -14,8 +14,8 @@ namespace Nostralogia3.Models.UserControls
     }
     public class NostraTableBase : BaseModel
     {
-        public int WidthImg { get; } = 35;
-        public int HeightImg { get; } = 35;
+        public int WidthImg { get; } = 25;
+        public int HeightImg { get; } = 25;
         public List<LabelData> Labels { get; set; } = new();
         public List<List<string>> Data { get; set; } = new();
 

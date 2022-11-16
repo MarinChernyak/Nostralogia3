@@ -41,5 +41,7 @@ namespace Nostralogia3.ViewModels
         {
             _session.SetString(Constants.SessionCoockies.SessionULevel, level.ToString());
         }
+
+
     }
 }

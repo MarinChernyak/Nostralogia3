@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "DataPerson";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+    
+}
+@model Nostralogia3.ViewModels.Geo.AddCityVM
+<div class="container bg-light">
+    <h2 class="container">Add New City</h2>
+    <form method="post" asp-action="AddCity" asp-controller="Geo">
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                   <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a country</strong></label>
+                    @Html.DropDownListFor(x => x.CountryRef, Model.Countries, new { @class = "form-control min_width_combo", id="cmbCountries" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                   <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a State/Province</strong></label>
+                   @Html.DropDownListFor(x => x.StateRegionRef, Model.StatesRegions, new { @class = "form-control min_width_combo", id="cmbStates" })
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">City Name</strong></label>
+                    <input asp-for="@Model.CityName" asp- class="form-control" data-val="true" data-val-required="The City name field is required" type="text" value="" required="required"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Latitude</strong></label>
+                    <input asp-for="@Model.Latitude" asp- class="form-control" data-val="true" data-val-required="The laitide of city is required" type="text" value="" required="required"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Longitude</strong></label>
+                    <input asp-for="@Model.Longitude" asp- class="form-control" data-val="true" data-val-required="The longitide of city is required" type="text" value="" required="required"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                   <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a Time Zone</strong></label>
+                    @Html.DropDownListFor(x => x.TimeZone, Model.TimeZonesCollection, new { @class = "form-control min_width_combo" })
+                </div>
+            </div>
+
+             <div class="row mt-lg-5">
+                <div class="form-group ml-lg-4">
+                    <button type="submit" class="nostr_btn">Add City</button>
+                </div>    
+                <div class="form-group">
+                    <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn" />
+                </div>
+            </div>
+        </form>
+</div>
+    <script src="/JS/GeoActions.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#cmbCountries").on("change", function () {
+                UpdateCountry();
+            });
+            $("#cmbStates").on("change", function () {
+                UpdateStates();
+            });
+
+        });
+    </script>
