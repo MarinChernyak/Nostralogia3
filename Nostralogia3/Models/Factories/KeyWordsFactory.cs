@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Models.UserControls.KeyWords;
+using Nostralogia3.ViewModels.UserControls.KeyWords;
 using NostralogiaDAL.NostradamusEntities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {
@@ -33,7 +32,7 @@ namespace Nostralogia3.Models.Factories
             List<MKeyWord> lstOut = null;
             using (NostradamusContext context = new NostradamusContext())
             {
-                lst = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == IdRef).ToList();
+                lst = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == IdRef).OrderBy(x => x.KeyWordDescription).ToList();
                 lstOut = ModelsTransformer.TransferModelList<Keyword, MKeyWord>(lst);
             }
             return lstOut;
@@ -43,7 +42,7 @@ namespace Nostralogia3.Models.Factories
             List<SelectListItem> lstOut = null;
             using (NostradamusContext context = new NostradamusContext())
             {
-                lstOut = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == IdRef).Select(c => new SelectListItem()
+                lstOut = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == IdRef).OrderBy(x=>x.KeyWordDescription).Select(c => new SelectListItem()
                 {
                     Text = c.KeyWordDescription,
                     Value = c.Idkw.ToString()

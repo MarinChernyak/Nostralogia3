@@ -44,7 +44,7 @@ namespace Nostralogia3.ViewModels.PictureViewer
             IsEdit = false;
             Expanded = false;
             IdRef = IDperson;
-            _ = SetContextValuesAsync(session);
+            SetContextValuesAsync(session);
             InitCollection();
         }
 

@@ -26,9 +26,10 @@ namespace NostralogiaDAL.NostradamusEntities
         public DateTime? DateCreated { get; set; }
         public bool IsAvailable { get; set; }
         public int? Sex { get; set; }
-        public string CityName { get; set; }
+        public string PlaceName { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public double DiffTime { get; set; }
         public short CountryId { get; set; }
         public string CountryName { get; set; }
         public string CountryAcronym { get; set; }

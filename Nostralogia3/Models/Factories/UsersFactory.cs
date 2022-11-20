@@ -4,9 +4,7 @@ using NostralogiaDAL.NostradamusEntities;
 using NostralogiaDAL.SMGeneralEntities;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {

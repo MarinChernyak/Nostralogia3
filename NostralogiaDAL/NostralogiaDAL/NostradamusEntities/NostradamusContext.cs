@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -56,6 +54,8 @@ namespace NostralogiaDAL.NostradamusEntities
         public virtual DbSet<VwPeopleEvent> VwPeopleEvents { get; set; }
         public virtual DbSet<VwPeopleKeyWord> VwPeopleKeyWords { get; set; }
         public virtual DbSet<VwPeoplePictEvKw> VwPeoplePictEvKws { get; set; }
+        public virtual DbSet<VwPersonalDataZiped> VwPersonalDataZipeds { get; set; }
+        public virtual DbSet<VwPersonalDataZipedKwnote> VwPersonalDataZipedKwnotes { get; set; }
         public virtual DbSet<VwPersonalDatum> VwPersonalData { get; set; }
         public virtual DbSet<VwPersonalDisplayDatum> VwPersonalDisplayData { get; set; }
         public virtual DbSet<VwPersonalNote> VwPersonalNotes { get; set; }
@@ -66,16 +66,15 @@ namespace NostralogiaDAL.NostradamusEntities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var IsDev = ConfigurationManager.AppSettings["IsDev"];
             if (!optionsBuilder.IsConfigured)
             {
-               optionsBuilder.UseSqlServer("Server=LAPTOP-LE4MQKM2;Database=NostradamusTest;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-LE4MQKM2;Database=Nostradamus2;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
 
             modelBuilder.Entity<Authenticity>(entity =>
             {
@@ -183,56 +182,67 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.Sc0)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc0");
 
                 entity.Property(e => e.Sc1)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc1");
 
                 entity.Property(e => e.Sc10)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc10");
 
                 entity.Property(e => e.Sc2)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc2");
 
                 entity.Property(e => e.Sc3)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc3");
 
                 entity.Property(e => e.Sc4)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc4");
 
                 entity.Property(e => e.Sc5)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc5");
 
                 entity.Property(e => e.Sc6)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc6");
 
                 entity.Property(e => e.Sc7)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc7");
 
                 entity.Property(e => e.Sc8)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc8");
 
                 entity.Property(e => e.Sc9)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("sc9");
 
                 entity.Property(e => e.ScaleName)
@@ -293,37 +303,54 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.Sc1)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc10).HasMaxLength(500);
+                entity.Property(e => e.Sc10)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Sc2)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Sc3)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Sc4)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc5).HasMaxLength(500);
+                entity.Property(e => e.Sc5)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc6).HasMaxLength(500);
+                entity.Property(e => e.Sc6)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc7).HasMaxLength(550);
+                entity.Property(e => e.Sc7)
+                    .HasMaxLength(550)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc8).HasMaxLength(500);
+                entity.Property(e => e.Sc8)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Sc9).HasMaxLength(500);
+                entity.Property(e => e.Sc9)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ScaleDescr).HasMaxLength(50);
 
                 entity.Property(e => e.ScaleName)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("Scale_name");
 
                 entity.HasOne(d => d.KkindEventNavigation)
@@ -438,17 +465,17 @@ namespace NostralogiaDAL.NostradamusEntities
             {
                 entity.ToTable("impact_related_sectors", "we");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Details)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Impact)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<KeyWord1>(entity =>
@@ -458,11 +485,14 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.ToTable("KeyWords", "we");
 
-                entity.Property(e => e.Idkw).HasColumnName("IDKW");
+                entity.Property(e => e.Idkw)
+                    .ValueGeneratedNever()
+                    .HasColumnName("IDKW");
 
                 entity.Property(e => e.AdvKeyWord)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("ADV_KeyWord");
 
                 entity.Property(e => e.ReferenceId).HasColumnName("ReferenceID");
@@ -514,7 +544,7 @@ namespace NostralogiaDAL.NostradamusEntities
                     .WithMany(p => p.MapNotes)
                     .HasForeignKey(d => d.IdPerson)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_mapNotes_people");
+                    .HasConstraintName("FK_mapNotes_people1");
             });
 
             modelBuilder.Entity<PeopleUser>(entity =>
@@ -663,9 +693,7 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.Idpicture).HasColumnName("IDPicture");
 
-                entity.Property(e => e.FileName)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.FileName).IsRequired();
 
                 entity.Property(e => e.IdReference).HasColumnName("ID_Reference");
 
@@ -720,13 +748,12 @@ namespace NostralogiaDAL.NostradamusEntities
             {
                 entity.ToTable("potential_severity", "we");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Severity)
                     .IsRequired()
-                    .HasMaxLength(40);
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<RectTimeVarCharacteristic>(entity =>
@@ -737,7 +764,8 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.Description)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<RectTimeVariant>(entity =>
@@ -850,7 +878,8 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.Source)
                     .IsRequired()
-                    .HasMaxLength(150);
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<TimesShift>(entity =>
@@ -1023,6 +1052,192 @@ namespace NostralogiaDAL.NostradamusEntities
                     .HasColumnName("Second_Name");
             });
 
+            modelBuilder.Entity<VwPersonalDataZiped>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vwPersonalDataZiped");
+
+                entity.Property(e => e.AdditionalHours).HasColumnName("Additional_hours");
+
+                entity.Property(e => e.Authenticity)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BirthDay).HasColumnName("Birth_Day");
+
+                entity.Property(e => e.BirthHourFrom).HasColumnName("Birth_Hour_From");
+
+                entity.Property(e => e.BirthHourTo).HasColumnName("Birth_Hour_To");
+
+                entity.Property(e => e.BirthMinFrom).HasColumnName("Birth_Min_From");
+
+                entity.Property(e => e.BirthMinTo).HasColumnName("Birth_Min_To");
+
+                entity.Property(e => e.BirthMonth).HasColumnName("Birth_Month");
+
+                entity.Property(e => e.BirthSecFrom).HasColumnName("Birth_Sec_From");
+
+                entity.Property(e => e.BirthSecTo).HasColumnName("Birth_Sec_To");
+
+                entity.Property(e => e.BirthYear).HasColumnName("Birth_Year");
+
+                entity.Property(e => e.CountryAcronym)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.CountryId).HasColumnName("CountryID");
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.DataTypeDescription).HasMaxLength(100);
+
+                entity.Property(e => e.DataTypeName).HasMaxLength(50);
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
+
+                entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .HasColumnName("First_Name");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.IdContributor).HasColumnName("ID_contributor");
+
+                entity.Property(e => e.Kwlist)
+                    .HasMaxLength(1000)
+                    .HasColumnName("KWList");
+
+                entity.Property(e => e.PlaceName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.SecondName)
+                    .HasMaxLength(50)
+                    .HasColumnName("Second_Name");
+
+                entity.Property(e => e.SexDescription).HasMaxLength(50);
+
+                entity.Property(e => e.StateAcronym)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .IsFixedLength(true)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.StateId).HasColumnName("StateID");
+
+                entity.Property(e => e.StateRegion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("State_region")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            });
+
+            modelBuilder.Entity<VwPersonalDataZipedKwnote>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vwPersonalDataZipedKWNotes");
+
+                entity.Property(e => e.AdditionalHours).HasColumnName("Additional_hours");
+
+                entity.Property(e => e.Authenticity)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BirthDay).HasColumnName("Birth_Day");
+
+                entity.Property(e => e.BirthHourFrom).HasColumnName("Birth_Hour_From");
+
+                entity.Property(e => e.BirthHourTo).HasColumnName("Birth_Hour_To");
+
+                entity.Property(e => e.BirthMinFrom).HasColumnName("Birth_Min_From");
+
+                entity.Property(e => e.BirthMinTo).HasColumnName("Birth_Min_To");
+
+                entity.Property(e => e.BirthMonth).HasColumnName("Birth_Month");
+
+                entity.Property(e => e.BirthSecFrom).HasColumnName("Birth_Sec_From");
+
+                entity.Property(e => e.BirthSecTo).HasColumnName("Birth_Sec_To");
+
+                entity.Property(e => e.BirthYear).HasColumnName("Birth_Year");
+
+                entity.Property(e => e.CountryAcronym)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.CountryId).HasColumnName("CountryID");
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.DataTypeDescription).HasMaxLength(100);
+
+                entity.Property(e => e.DataTypeName).HasMaxLength(50);
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
+
+                entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .HasColumnName("First_Name");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.IdContributor).HasColumnName("ID_contributor");
+
+                entity.Property(e => e.Kwlist)
+                    .HasMaxLength(1000)
+                    .HasColumnName("KWList");
+
+                entity.Property(e => e.PlaceName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.SecondName)
+                    .HasMaxLength(50)
+                    .HasColumnName("Second_Name");
+
+                entity.Property(e => e.SexDescription).HasMaxLength(50);
+
+                entity.Property(e => e.StateAcronym)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .IsFixedLength(true)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.StateId).HasColumnName("StateID");
+
+                entity.Property(e => e.StateRegion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("State_region")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            });
+
             modelBuilder.Entity<VwPersonalDatum>(entity =>
             {
                 entity.HasNoKey();
@@ -1034,6 +1249,7 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.Adv)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("ADV");
 
                 entity.Property(e => e.Authenticity)
@@ -1058,28 +1274,27 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.BirthYear).HasColumnName("Birth_Year");
 
-                entity.Property(e => e.CityName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CountryAcronym)
                     .IsRequired()
                     .HasMaxLength(4)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
                 entity.Property(e => e.CountryName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.DataTypeDescription).HasMaxLength(100);
 
                 entity.Property(e => e.DataTypeName).HasMaxLength(50);
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
@@ -1106,6 +1321,12 @@ namespace NostralogiaDAL.NostradamusEntities
                     .HasMaxLength(50)
                     .HasColumnName("IDS_Source");
 
+                entity.Property(e => e.PlaceName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
                 entity.Property(e => e.SecondName)
                     .HasMaxLength(50)
                     .HasColumnName("Second_Name");
@@ -1117,14 +1338,16 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.StateAcronym)
                     .HasMaxLength(3)
                     .IsUnicode(false)
-                    .IsFixedLength(true);
+                    .IsFixedLength(true)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.StateId).HasColumnName("StateID");
 
                 entity.Property(e => e.StateRegion)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("State_region");
+                    .HasColumnName("State_region")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
             });
 
             modelBuilder.Entity<VwPersonalDisplayDatum>(entity =>
@@ -1136,7 +1359,8 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.Abbreviation)
                     .IsRequired()
                     .HasMaxLength(5)
-                    .IsFixedLength(true);
+                    .IsFixedLength(true)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.AdditionalHours).HasColumnName("Additional_hours");
 
@@ -1161,19 +1385,22 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.CityName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.CountryAcronym)
                     .IsRequired()
                     .HasMaxLength(4)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
                 entity.Property(e => e.CountryName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.DataTypeDescription)
                     .HasMaxLength(100)
@@ -1186,8 +1413,6 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
                 entity.Property(e => e.DiffTime).HasColumnName("Diff_Time");
-
-                entity.Property(e => e.Email).HasMaxLength(100);
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(50)
@@ -1210,7 +1435,8 @@ namespace NostralogiaDAL.NostradamusEntities
                 entity.Property(e => e.StateAcronym)
                     .HasMaxLength(3)
                     .IsUnicode(false)
-                    .IsFixedLength(true);
+                    .IsFixedLength(true)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.StateId).HasColumnName("StateID");
 
@@ -1218,12 +1444,14 @@ namespace NostralogiaDAL.NostradamusEntities
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("State_region");
+                    .HasColumnName("State_region")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.TzoneName)
                     .IsRequired()
                     .HasMaxLength(250)
-                    .HasColumnName("TZone_name");
+                    .HasColumnName("TZone_name")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
             });
 
             modelBuilder.Entity<VwPersonalNote>(entity =>
@@ -1244,7 +1472,9 @@ namespace NostralogiaDAL.NostradamusEntities
                     .IsRequired()
                     .HasColumnType("text");
 
-                entity.Property(e => e.UserName).HasMaxLength(20);
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(20)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
             });
 
             modelBuilder.Entity<VwRectTimeVariant>(entity =>
@@ -1259,7 +1489,8 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.DescriptVar)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(50)
@@ -1320,7 +1551,7 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.ToView("vwWorldEvents", "we");
 
-                entity.Property(e => e.CommentEvent).HasColumnName("Comment_event");
+                entity.Property(e => e.CommentEvent).HasColumnName("comment_event");
 
                 entity.Property(e => e.CommentSource)
                     .HasMaxLength(250)
@@ -1362,7 +1593,9 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.EventsYearTo).HasColumnName("Events_Year_to");
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -1374,7 +1607,9 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.ImpactRelatedSectors).HasColumnName("Impact_related_sectors");
 
-                entity.Property(e => e.LastName).HasMaxLength(150);
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(150)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.PagePlaceDataId).HasColumnName("PagePlaceDataID");
 
@@ -1386,7 +1621,8 @@ namespace NostralogiaDAL.NostradamusEntities
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
-                    .HasMaxLength(20);
+                    .HasMaxLength(200)
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
                 entity.Property(e => e.WictimsNumber).HasColumnName("Wictims_number");
             });

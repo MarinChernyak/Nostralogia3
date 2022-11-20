@@ -7,6 +7,7 @@ using Nostralogia3.Models.Geo;
 using Nostralogia3.Models.UserControls;
 using Nostralogia3.Models.UserControls.KeyWords;
 using Nostralogia3.ViewModels.MapNotes;
+using Nostralogia3.ViewModels.UserControls.KeyWords;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nostralogia3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nostralogia3.Models.UserControls.KeyWords
+namespace Nostralogia3.ViewModels.UserControls.KeyWords
 {
-    public abstract class KeyWordsBase : BaseModel
+    public abstract class KeyWordsBase : ViewModelBase
     {
         protected IEnumerable<SelectListItem> _lstKeyWordsCollection;
         protected List<SelectListItem> _lstSelectedKeyWordsCollection;

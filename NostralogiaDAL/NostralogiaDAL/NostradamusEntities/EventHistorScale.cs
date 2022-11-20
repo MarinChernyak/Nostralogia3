@@ -16,27 +16,27 @@ namespace NostralogiaDAL.NostradamusEntities
         public short KindEvent { get; set; }
         public string ScaleName { get; set; }
         public string DescrScale { get; set; }
-        public int Sc0 { get; set; }
+        public string Sc0 { get; set; }
         public string Descr0 { get; set; }
-        public int Sc1 { get; set; }
+        public string Sc1 { get; set; }
         public string Descr1 { get; set; }
-        public int Sc2 { get; set; }
+        public string Sc2 { get; set; }
         public string Descr2 { get; set; }
-        public int Sc3 { get; set; }
+        public string Sc3 { get; set; }
         public string Descr3 { get; set; }
-        public int Sc4 { get; set; }
+        public string Sc4 { get; set; }
         public string Descr4 { get; set; }
-        public int Sc5 { get; set; }
+        public string Sc5 { get; set; }
         public string Descr5 { get; set; }
-        public int Sc6 { get; set; }
+        public string Sc6 { get; set; }
         public string Descr6 { get; set; }
-        public int Sc7 { get; set; }
+        public string Sc7 { get; set; }
         public string Descr7 { get; set; }
-        public int Sc8 { get; set; }
+        public string Sc8 { get; set; }
         public string Descr8 { get; set; }
-        public int Sc9 { get; set; }
+        public string Sc9 { get; set; }
         public string Descr9 { get; set; }
-        public int Sc10 { get; set; }
+        public string Sc10 { get; set; }
         public string Descr10 { get; set; }
 
         public virtual KeyWord1 KindEventNavigation { get; set; }

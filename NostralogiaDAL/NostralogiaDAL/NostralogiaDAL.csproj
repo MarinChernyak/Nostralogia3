@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Factories\**" />
-    <EmbeddedResource Remove="Factories\**" />
-    <None Remove="Factories\**" />
+    <Compile Remove="NostradamusTestEntities\**" />
+    <EmbeddedResource Remove="NostradamusTestEntities\**" />
+    <None Remove="NostradamusTestEntities\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NostradamusTestEntities\" />
     <Folder Include="NostraGeoEntities\" />
   </ItemGroup>
 

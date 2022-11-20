@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Common;
 using Nostralogia3.Models;
 using Nostralogia3.Models.Factories;
-using Nostralogia3.Models.UserControls.KeyWords;
+using Nostralogia3.ViewModels.UserControls.KeyWords;
 using System;
 using System.Collections.Generic;
 using System.Linq;

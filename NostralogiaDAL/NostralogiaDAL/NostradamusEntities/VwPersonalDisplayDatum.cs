@@ -45,6 +45,5 @@ namespace NostralogiaDAL.NostradamusEntities
         public double DiffTime { get; set; }
         public string Abbreviation { get; set; }
         public string TzoneName { get; set; }
-        public string Email { get; set; }
     }
 }

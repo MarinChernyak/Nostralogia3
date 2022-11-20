@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Nostralogia3.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Factories;
 using Nostralogia3.Models.Geo;
 using Nostralogia3.Models.Persons;
 using Nostralogia3.Models.UserControls;
+using Nostralogia3.ViewModels.MapNotes;
+using Nostralogia3.ViewModels.PictureViewer;
+using Nostralogia3.ViewModels.UserControls.KeyWords;
 using NostralogiaDAL.NostradamusEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Nostralogia3.ViewModels.PictureViewer;
-using Nostralogia3.ViewModels.MapNotes;
-using Nostralogia3.Models.UserControls.KeyWords;
 
 namespace Nostralogia3.ViewModels
 {
@@ -42,7 +41,6 @@ namespace Nostralogia3.ViewModels
         }
         public PersonalDataVM(ISession session)
         {
-            _ = SetContextValuesAsync(session);
             ReadOnly = false;
             _model = new MPersonalData();
             EventPlaceModel = new EventPlaceModel("Birth Place");
@@ -58,7 +56,7 @@ namespace Nostralogia3.ViewModels
         }
         public PersonalDataVM(int Id, ISession session)
         {
-            _ = SetContextValuesAsync(session);
+            SetContextValuesAsync(session);
             UpdateFormDetails(Id);
         }
         protected void UpdateFormDetails(int Id)
@@ -190,6 +188,7 @@ namespace Nostralogia3.ViewModels
             UpdateModel();
             _model.Id = PersonalDataFactory.AddPersonalData(_model);
             KWCollection.IdForKWStorage = _model.Id;
+            EventsCollection = new PersonalEventsCollectionModel( "Keyword of the person", session);
             EventsCollection.Idperson = _model.Id;
             return _model.Id;
         }

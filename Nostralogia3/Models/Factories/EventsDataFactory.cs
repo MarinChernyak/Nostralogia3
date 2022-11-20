@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nostralogia3.Models.DataWorking;
 using Nostralogia3.Models.Events;
-using Nostralogia3.Models.Persons;
 using Nostralogia3.Models.UserControls.Tables;
 using Nostralogia3.Models.Utilities;
 using NostralogiaDAL.NostradamusEntities;

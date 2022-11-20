@@ -40,6 +40,7 @@ namespace Nostralogia3.Controllers
             HttpContext.Session.SetString(Constants.SessionCoockies.SessionUName, model.UserName);
             HttpContext.Session.SetString(Constants.SessionCoockies.SessionUID, model.UserId.ToString());
             HttpContext.Session.SetString(Constants.SessionCoockies.SessionULevel, model.UserLevel.ToString());
+           
         }
         protected void DeleteSessionVariables()
         {

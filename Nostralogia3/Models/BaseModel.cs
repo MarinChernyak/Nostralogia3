@@ -16,35 +16,16 @@ namespace Nostralogia3.Models
             _Index = Constants.Values.Counter;
         }
         protected ISession _session { get; set; }
-        public bool IsOnline { get; protected set; }
-
         public void SetSession(ISession session)
         {
             _session = session;
+            
         }
-        protected async Task SetContextValuesAsync(ISession session)
+        protected void SetContextValuesAsync(ISession session)
         {
             SetSession(session);
-            await SetOnlineStatusAsync();
+            //await SetOnlineStatusAsync();
         }
-        protected async Task SetOnlineStatusAsync()
-        {
-            try
-            {
-                var myClient = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true });
-                var response = await myClient.GetAsync("www.google.ca");
-                
 
-                //var request = WebRequest.Create("www.google.ca");
-                //using (var response = request.GetResponse())
-                //{
-                //    IsOnline = true;
-                //}
-            }
-            catch
-            {
-                IsOnline = false;
-            }
-        }
     }
 }

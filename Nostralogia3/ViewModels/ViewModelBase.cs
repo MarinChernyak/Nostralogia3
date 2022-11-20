@@ -4,14 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels
 {
     public class ViewModelBase : BaseModel
     {
-        public string ErrorMessage { get; protected set; }
 
+        public ViewModelBase()
+        {
+
+        }
         public int GetUID()
         {
             int uid = 0;
@@ -21,7 +25,6 @@ namespace Nostralogia3.ViewModels
                 uid = Convert.ToInt32(suid);
             }
             return uid;
-
         }
         public void SetUserId(int UID)
         {
@@ -31,7 +34,7 @@ namespace Nostralogia3.ViewModels
         {
             int level = 0;
             string slevel = _session.GetString(Constants.SessionCoockies.SessionULevel);
-            if(!string.IsNullOrEmpty(slevel))
+            if (!string.IsNullOrEmpty(slevel))
             {
                 level = Convert.ToInt32(slevel);
             }
@@ -42,6 +45,5 @@ namespace Nostralogia3.ViewModels
             _session.SetString(Constants.SessionCoockies.SessionULevel, level.ToString());
         }
 
-
-    }
+    }        
 }

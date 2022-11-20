@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using NostralogiaDAL.NostradamusEntities;
-using NostralogiaDAL.NostraGeoEntities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {

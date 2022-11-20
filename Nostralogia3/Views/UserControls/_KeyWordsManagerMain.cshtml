@@ -1,4 +1,4 @@
-﻿@model Nostralogia3.Models.UserControls.KeyWords.KeyWordsCollectionModel
+﻿@model Nostralogia3.ViewModels.UserControls.KeyWords.KeyWordsCollectionModel
 @*<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />*@
 
 <div class="container ">
@@ -24,7 +24,7 @@
                     <div class="col-1">
                             <div class="row">
                                 <a id=butAdd title="Add keyword" >
-                                    @if (Model.IsOnline)
+                                    @if (Model.IsOnline())
                                     {
                                         <i class="fa-solid fa-angles-right btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -36,7 +36,7 @@
                             </div>
                             <div class="row">
                                 <a id=butRemove  title="Remove keyword">
-                                    @if (Model.IsOnline)
+                                    @if (Model.IsOnline())
                                     {
                                         <i class="fa-solid fa-angles-left btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -48,7 +48,7 @@
                             </div>
                             <div class="row">
                                 <a id=butDrUp  title="Drill up...">
-                                    @if (Model.IsOnline)
+                                    @if (Model.IsOnline())
                                     {
                                         <i class="fa-solid fa-angles-up btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -61,7 +61,7 @@
                             <div class="row">
                                 <a id=butDrDown title="Drill down...">
                                     
-                                    @if (Model.IsOnline)
+                                    @if (Model.IsOnline())
                                     {
                                         <i class="fa-solid fa-angles-down btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -82,7 +82,7 @@
                     <div class="col-2">
                         <a id="butOK" title="Save changes">
 
-                            @if (Model.IsOnline)
+                            @if (Model.IsOnline())
                             {
                             <i class="fa-solid fa-floppy-disk fa-xl btn btn-default mt-2"></i>
                             }
@@ -95,7 +95,7 @@
                     <div class="col-2 ml-1">
                         <a id="butCancel" title="Cancel">
 
-                            @if (Model.IsOnline)
+                            @if (Model.IsOnline())
                             {
                             <i class="fa-regular fa-rectangle-xmark fa-xl btn btn-default mt-2"></i>
                             }
