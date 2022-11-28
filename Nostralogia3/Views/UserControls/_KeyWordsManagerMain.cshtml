@@ -1,4 +1,5 @@
-﻿@model Nostralogia3.ViewModels.UserControls.KeyWords.KeyWordsCollectionModel
+﻿@using Nostralogia3.Extensions
+@model Nostralogia3.ViewModels.UserControls.KeyWords.KeyWordsCollectionModel
 @*<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />*@
 
 <div class="container ">
@@ -22,9 +23,10 @@
                         @Html.ListBox("lstGeneral", @Model.KeyWordsCollection, new { id = "genLeft", size = "8", style = "width:200px;" })
                     </div>
                     <div class="col-1">
+                        <div class="container">
                             <div class="row">
                                 <a id=butAdd title="Add keyword" >
-                                    @if (Model.IsOnline())
+                                    @if (Model.IsOnline)
                                     {
                                         <i class="fa-solid fa-angles-right btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -36,7 +38,7 @@
                             </div>
                             <div class="row">
                                 <a id=butRemove  title="Remove keyword">
-                                    @if (Model.IsOnline())
+                                    @if (Model.IsOnline)
                                     {
                                         <i class="fa-solid fa-angles-left btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -48,7 +50,7 @@
                             </div>
                             <div class="row">
                                 <a id=butDrUp  title="Drill up...">
-                                    @if (Model.IsOnline())
+                                    @if (Model.IsOnline)
                                     {
                                         <i class="fa-solid fa-angles-up btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -61,7 +63,7 @@
                             <div class="row">
                                 <a id=butDrDown title="Drill down...">
                                     
-                                    @if (Model.IsOnline())
+                                    @if (Model.IsOnline)
                                     {
                                         <i class="fa-solid fa-angles-down btn btn-default mb-1 mr-1 border border-dark rounded"></i>
                                     }
@@ -71,7 +73,7 @@
                                     }
                                 </a>
                             </div>
-                        
+                        </div>
                     </div>
                     
                     <div class="col-4 " id="dvSelListKW" >
@@ -79,10 +81,10 @@
                     </div>
                 </div>
                 <div class="row mb-2 mt-1">
-                    <div class="col-2">
+                    <div class="col-1">
                         <a id="butOK" title="Save changes">
 
-                            @if (Model.IsOnline())
+                            @if (Model.IsOnline)
                             {
                             <i class="fa-solid fa-floppy-disk fa-xl btn btn-default mt-2"></i>
                             }
@@ -92,16 +94,29 @@
                             }
                          </a>
                     </div>
-                    <div class="col-2 ml-1">
+                    <div class="col-1 ml-1">
                         <a id="butCancel" title="Cancel">
 
-                            @if (Model.IsOnline())
+                            @if (Model.IsOnline)
                             {
                             <i class="fa-regular fa-rectangle-xmark fa-xl btn btn-default mt-2"></i>
                             }
                             else
                             {
                                 <i class="nstr_offline_button p-1 text-md-center">Cancel</i>
+                            }
+                        </a>
+                    </div>
+                    <div class="col-1 ml-1">
+                        <a id="butAddNew" title="Ad new...">
+
+                            @if (Model.IsOnline)
+                            {
+                                <i class="fa-regular fa-square-plus fa-xl btn btn-default mt-2"></i>
+                            }
+                            else
+                            {
+                                <i class="nstr_offline_button p-1 text-md-center">Add...</i>
                             }
                         </a>
                     </div>
@@ -114,7 +129,39 @@
     </div>
 </div>
 
+@*-----------------------------  MODAL ----------------------------------------*@
+@*<form id="frmModal" runat="server">
+        <div>          
+            <div id="modalPopUp" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            
+                            <h4 class="modal-title">
+                                <span id="spnTitle">
+                                    Create a new Keyword
+                                </span>
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                @await Html.PartialAsync("~/Views/UserControls/_AddNewKeyword.cshtml", Model.AddKW, nameof(Model.AddKW))
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" id="btnConfirm" class="btn btn-primary">
+                                Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </form>*@
 
+
+@*-----------------------------END MODAL ---------------------------------------*@
     <script type="text/javascript" src="~/js/KeyWordsManager.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -150,6 +197,11 @@
             });
             $("#butCancel").on("click", function () {
                 OnCancel();
+            });
+            $("#butAddNew").on("click", function() {
+                //$('#modalPopUp').modal('show');
+                //setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
+                window.location="/KeyWordsManager/AddNewKeyWord?idmap=@Model."
             });
 
         });

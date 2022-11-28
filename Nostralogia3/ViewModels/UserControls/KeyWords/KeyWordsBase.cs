@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.UserControls.KeyWords
 {
-    public abstract class KeyWordsBase : ViewModelBase
+    public abstract class KeyWordsBase : VisualBaseVM
     {
-        protected IEnumerable<SelectListItem> _lstKeyWordsCollection;
+        protected List<SelectListItem> _lstKeyWordsCollection;
         protected List<SelectListItem> _lstSelectedKeyWordsCollection;
         protected List<MKeyWord> _lstMainKWCollection;
         //for example - Id of person, or Id of Event

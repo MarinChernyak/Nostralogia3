@@ -17,52 +17,51 @@
                     </div>
                 </div>
                 
-                <div class="row w-100">
+                <div class="row">
                     @if (@Model._pictures.Count == 0)
                     {
-                        <div class="col-6">
+                        <div class="col-4">
                             <img src="~/Repository/PeopleImages/M_NoPict.JPG" id="imgPresent0" />
                         </div>
                     }
                     else
                     {
-                        <div class="col-6" id="imgContainer">
+                        <div class="col-4" id="imgContainer">
                         </div>
                     }
-
                     <div class="col-1">
-                        <div class="row mb-3 ">
-                            <a id=btnNext title="Next" >
-                                @if (Model.IsOnline())
-                                {
-                                    <i class="fa-solid fa-circle-arrow-right fa-xl"></i>
-                                }
-                                else
-                                {
-                                    <i class="nstr_offline_button  p-1">Next</i>
-                                }
-                            </a>
-                        </div>
-                        <div class="row mb-3">
-                            <a id=btnPrev title="Previous">
-                               
-                                @if (Model.IsOnline())
-                                {
-                                    <i class="fa-solid fa-circle-arrow-left fa-xl"></i>
-                                }
-                                else
-                                {
-                                    <i class="nstr_offline_button  p-1">Back</i>
-                                }
-
-                            </a>
-                        </div>
-                        @using (Html.BeginForm("PictureViewerEdit", "PicturesViewer", new { id = Model.IdRef }))
-                        {
+                        <div class="container">
+                            <div class="row mb-3 ">
+                                <a id=btnNext title="Next" >
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-circle-arrow-right fa-xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button  p-1">Next</i>
+                                    }
+                                </a>
+                            </div>
                             <div class="row mb-3">
-                                <button type="submit" class="btn btn-default" id="btnAddImg" title="Add new">
+                                <a id=btnPrev title="Previous">
+                               
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="fa-solid fa-circle-arrow-left fa-xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button  p-1">Back</i>
+                                    }
+
+                                </a>
+                            </div>
+                            <form asp-action="PictureViewerEdit" asp-controller="PicturesViewer"  asp-route-id="@Model.IdRef" id="frmAddNew">
+                            <div class="row mb-3">
+                                <a id="btnAddImg" title="Add new">
                                     
-                                    @if (Model.IsOnline())
+                                    @if (Model.IsOnline)
                                     {
                                         <i class="fa-solid fa-circle-plus fa-xl"></i>
                                     }
@@ -71,45 +70,43 @@
                                         <i class="nstr_offline_button  p-1">Add...</i>
 
                                     }
-                                </button>
+                                </a>
                             </div>
-                        }
-                        <div class="row mb-3">
-                            <a id=btnDeactivateImage title="Deactivate">
+                            </form>
+                            <div class="row mb-3">
+                                <a id=btnDeactivateImage title="Deactivate">
 
-                                @if (Model.IsOnline())
-                                {
-                                    <i class="far fa-trash-alt fa-xl"></i>
-                                }
-                                else
-                                {
-                                    <i class="nstr_offline_button  p-1">Deactivate</i>
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="far fa-trash-alt fa-xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button  p-1">Deactivate</i>
 
-                                }
+                                    }
 
-                            </a>
+                                </a>
+                            </div>
+                            @if (Model.GetUserLevel() > 2)
+                            {
+                            <div class="row mb-3">
+                                <a id=btnDelImage  class="text-danger" title="Delete">
+                                    @if (Model.IsOnline)
+                                    {
+                                        <i class="far fa-trash-alt fa-xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="nstr_offline_button  p-1">Delete</i>
+
+                                    }
+                                </a>
+                            </div>
+                            } 
                         </div>
-                        @if (Model.GetUserLevel() > 2)
-                        {
-                        <div class="row mb-3">
-                            <a id=btnDelImage  class="text-danger" title="Delete">
-                                @if (Model.IsOnline())
-                                {
-                                    <i class="far fa-trash-alt fa-xl"></i>
-                                }
-                                else
-                                {
-                                    <i class="nstr_offline_button  p-1">Delete</i>
-
-                                }
-                            </a>
-                        </div>
-                        }
-
-
-                    </div>
-
-                    <div class="col-5 ">
+                     </div>
+                    <div class="col-4">
                         <textarea id="txtComments" disabled="disabled" cols="35" rows="8">No comments found...</textarea>
                     </div>
                 </div>
@@ -129,18 +126,20 @@
     var cur_index = 0;
     var model = '@Html.Raw(Json.Serialize(@Model._pictures))';
     var pictures = JSON.parse(model);
-    //console.log("pictures L =>" + pictures.length);
-    //console.log(pictures);
-    InitPicture();
-    function InitPicture() {
 
-        if ((pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == true) ||
-            (pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == false && UserLevel > 2))
+    console.log("pictures L =>" + pictures.length);
+    console.log(pictures);
+    InitPicture();
+
+    function InitPicture() {
+        
+        if (pictures.length>0 && ((pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == true) ||
+            (pictures[cur_index]["isAvailable"] != undefined && pictures[cur_index]["isAvailable"] == false && UserLevel > 2)))
             {
             if (pictures[cur_index]["width"] != undefined && pictures[cur_index]["height"] != undefined && pictures[cur_index]["fileName"] != undefined) {
-                //console.log("InitPicture start");
+                console.log("InitPicture start");
                 var newimg = "<img  src=  '" + FullPath + pictures[cur_index]["fileName"] + "' id='imgPresent" + cur_index + "' width='" + pictures[cur_index]["width"] + "'" + " height='" + pictures[cur_index]["height"] + "' />";
-                //console.log("newimg => " + newimg);
+                console.log("newimg => " + newimg);
                 $("#imgContainer").empty();
                 $("#imgContainer").append(newimg);
                 $("#txtComments").val(pictures[cur_index]["comments"]);
@@ -154,7 +153,7 @@
             }
         }
         else {
-            console.log("ERROR :  width='" + pictures[cur_index]["width"] + "' height='" + pictures[cur_index]["height"] + "' src=  '" + pictures[cur_index]["fileName"]);
+            console.log("ERROR or pictures collection is empty.");
         }
     }
 
@@ -168,14 +167,18 @@
                 $(this).next('.custom-file-label').html(filename);
             });
             $("#btnPrev").on("click", function () {
-                console.log("prev");
+                //console.log("prev");
                 UpdateCursor(-1);
                 InitPicture();
             });
             $("#btnNext").on("click", function () {
-                console.log("next");
+                //console.log("next");
                 UpdateCursor(1);
                 InitPicture();
+            });
+            $("#btnAddImg").on("click", function() {
+                console.log("#btnAddImg");
+                $("#frmAddNew").submit();
             });
 
             function UpdateCursor(increment) {

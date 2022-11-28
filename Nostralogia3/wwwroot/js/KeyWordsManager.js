@@ -13,9 +13,10 @@ function AddKW() {
     }
 
 }
-function DrillDown() {
+function DrillDown(idList) {
 
-    var selid = $("#genLeft").val();
+    //var selid = $("#genLeft").val();  
+    var selid = $("#" + idList).val();
     if (selid == undefined || selid == 0) {
         alert("Please select some item to drill it down!");
     }
@@ -34,10 +35,10 @@ function DrillDown() {
         });
     }
 }
-function DrillUp() {
-    var selid = $("#genLeft").val();
+function DrillUp(idList) {
+    var selid = $("#" + idList).val();
     if (selid == undefined || selid == 0)
-        selid = $("#genLeft option:first").val();
+        selid = $("#" + idList+" option:first").val();
 
     $.ajax({
         type: "POST",

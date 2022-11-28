@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.PictureViewer
 {
-    public class PicturesViewerEditViewModel : ViewModelBase
+    public class PicturesViewerEditViewModel : VisualBaseVM
     {
 
         protected String _defaultPicture = "M_NoPict.JPG";
         public bool Expanded { get; set;  }
-        protected const double MAX_WIDTH = 300;
-        protected const double MAX_HEIGHT = 350;
+        protected const double MAX_WIDTH = 200;
+        protected const double MAX_HEIGHT = 250;
         public NewPictureData NewPictureData { get; set; } = new();
         public int IdRef { get; set; }
         public bool IsEdit { get; set; }

@@ -29,7 +29,7 @@
                             if (!string.IsNullOrEmpty(Context.Session.GetString(Constants.SessionCoockies.SessionULevel)))
                             {
                                 var ulevel = Convert.ToInt32(Context.Session.GetString(Constants.SessionCoockies.SessionULevel));
-                                if(ulevel>=3)
+                                if(ulevel>=Constants.Values.RESEARCHER_RIGHTS)
                                 {
                                      
                                         <li class="nav-item dropdown">
@@ -68,12 +68,32 @@
                                     <li class="nav-item  ">
                                         <a class="nav-link text-light" asp-area="" asp-controller="LogIn" asp-action="MyAccount">My Account</a>
                                     </li>
-                                    @if(level==4)
-                                {
-                                    <li class="nav-item  ">
-                                        <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
-                                    </li>
-                                }
+                                    @*if(level==4)
+                                    {
+                                        <li class="nav-item  ">
+                                            <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                                        </li>
+                                    }
+                                    *@
+                                    @if(level==Constants.Values.RESEARCHER_RIGHTS)
+                                    {                                     
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Add/Update Data </a>
+                                            <ul class="dropdown-menu" >
+                                                <li class="dropdown-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AddKeyWord">Add new keyword</a>
+                                                </li>
+                                               @* <li class="dropdown-item text-dark">
+                                                    <a class="nav-link" asp-area="" asp-controller="Geo" asp-action="AddStateProvince">Add State/Province</a>
+                                                </li>
+                                                <li class="dropdown-item text-dark">
+                                                    <a class="nav-link" asp-area="" asp-controller="Geo" asp-action="AddCity">Add City</a>
+                                                </li>
+                                                *@
+                                            </ul>
+                                        </li>                                    
+                                    }
+                            }
                                 </ul>
                         }
                         else

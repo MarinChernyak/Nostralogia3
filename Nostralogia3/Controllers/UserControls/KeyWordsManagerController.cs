@@ -54,5 +54,19 @@ namespace Nostralogia3.Controllers.UserControls
             }
             return Json(bRez);
         }
+        [HttpPost]
+        public ActionResult AddNewKeyWord(AddNewKeywordVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.CreateNewKeyword();
+            }
+            return RedirectToAction();
+        }
+        public ActionResult AddNewKeyWord(int idmap)
+        {
+            AddNewKeywordVM model = new AddNewKeywordVM(idmap);
+            return View("/Views/UserControls/AddNewKeyWord", model);
+        }
     }
 }

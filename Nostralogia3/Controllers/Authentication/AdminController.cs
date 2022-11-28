@@ -12,6 +12,11 @@ namespace Nostralogia3.Controllers.Authentication
         {
             return View();
         }
+        public IActionResult AddNewKeyWord()
+        {
+
+            return View();
+        }
 
     }
 }

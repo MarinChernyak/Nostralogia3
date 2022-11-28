@@ -54,11 +54,11 @@ namespace Nostralogia3.ViewModels.UserControls.KeyWords
             {
                 _lstKeyWordsCollection = KeyWordsFactory.GetRootKWSelectList();
             }
-
         }
     }
     public class KeyWordsCollectionModel :KeyWordsBase
     {
+        public AddNewKeywordVM AddKW { get; protected set; } = new();
         public KeyWordsCollectionModel(int id = 0, int idforstorage = 0)
             :base(id,idforstorage)
         {
@@ -71,12 +71,9 @@ namespace Nostralogia3.ViewModels.UserControls.KeyWords
             IdForKWStorage = idforstorage;
             if (lstKW != null)
             {
-                _lstKeyWordsCollection = from c in lstKW
-                                                 select new SelectListItem
-                                                 {
-                                                     Text = c.KeyWordDescription,
-                                                     Value = c.Idkw.ToString()
-                                                 };
+                var lst = lstKW.OrderBy(x => x.KeyWordDescription).ToList();
+                _lstKeyWordsCollection = FromLstObjectsToDropDownFeed(lst, "KeyWordDescription", "Idkw");
+                    
             }
             else
                 InitCollection(0);
@@ -91,7 +88,6 @@ namespace Nostralogia3.ViewModels.UserControls.KeyWords
             if (_lstKeyWordsCollection == null || _lstKeyWordsCollection.Count() == 0)
             {
                 _lstKeyWordsCollection = KeyWordsFactory.GetRootKWSelectList();
-
             }
         }
 
@@ -100,5 +96,6 @@ namespace Nostralogia3.ViewModels.UserControls.KeyWords
             bool bRez = PersonalDataFactory.UpdatePersonalKeywords(_lstSelectedKeyWordsCollection,IdForKWStorage);
             return bRez;
         }
+
     }
 }

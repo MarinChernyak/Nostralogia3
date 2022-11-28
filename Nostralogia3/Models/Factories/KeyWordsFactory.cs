@@ -1,14 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Nostralogia3.Models.UserControls.KeyWords;
+using Nostralogia3.Models.Utilities;
 using Nostralogia3.ViewModels.UserControls.KeyWords;
 using NostralogiaDAL.NostradamusEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Nostralogia3.Models.Factories
 {
     public class KeyWordsFactory
     {
+        #region GET
         public static List<MKeyWord> GetRootKWList()
         {
             return GetKWListByRef(0);
@@ -18,7 +24,7 @@ namespace Nostralogia3.Models.Factories
             List<SelectListItem> lst = null;
             using (NostradamusContext context = new NostradamusContext())
             {
-                lst = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == 0).Select(c => new SelectListItem()
+                lst = context.Keywords.Where(x => x.Idkw > 0 && x.ReferenceId == 0).OrderBy(x=>x.KeyWordDescription).Select(c => new SelectListItem()
                 {
                     Text = c.KeyWordDescription,
                     Value = c.Idkw.ToString()
@@ -56,13 +62,13 @@ namespace Nostralogia3.Models.Factories
             List<SelectListItem> lstSelectedKeyWordsCollection = null;
             using (NostradamusContext context = new NostradamusContext())
             {
-                List<Keyword> lst = context.Keywords.Where(x => x.Idkw > 0).ToList();
+                List<Keyword> lst = context.Keywords.Where(x => x.Idkw > 0).OrderBy(x=>x.KeyWordDescription).ToList();
                 List<MKeyWord> lstMainKWCollection = ModelsTransformer.TransferModelList<Keyword, MKeyWord>(lst);
 
                 if (IdForKWStorage > 0)
                 {
                     lstSelectedKeyWordsCollection = context.Peoplekeywordsstores.Join(context.Keywords, pks => pks.KeyWord, kw => kw.Idkw, (pks, kw) => new { Pks = pks, Kw = kw }).
-                    Where(x => x.Pks.IdPerson == IdForKWStorage).Select(c => new SelectListItem()
+                    Where(x => x.Pks.IdPerson == IdForKWStorage).OrderBy(x=>x.Kw.KeyWordDescription).Select(c => new SelectListItem()
                     {
                         Text = c.Kw.KeyWordDescription,
                         Value = c.Kw.Idkw.ToString()
@@ -102,5 +108,34 @@ namespace Nostralogia3.Models.Factories
             }
             return mkw;
         }
+        #endregion
+        #region ADD
+        public async Task<bool> CreateNewKeyword(string kw, int accessLevel, int refid)
+        {
+            bool brez = true;
+            try 
+            { 
+                using (NostradamusContext context = new NostradamusContext())
+                {
+                    Keyword nkw = new Keyword()
+                    {
+                        AccessLevel = (byte)accessLevel,
+                        KeyWordDescription = kw,
+                        ReferenceId = (short?)refid 
+                    };
+                    context.Entry(nkw).State = EntityState.Added;
+                    await context.SaveChangesAsync();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                LogMaster lm = new LogMaster();
+                lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+                brez = false;
+            }
+            return brez;
+        }
+        #endregion
     }
 }

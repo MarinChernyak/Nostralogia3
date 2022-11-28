@@ -69,4 +69,9 @@
     <ProjectReference Include="..\NostralogiaDAL\NostralogiaDAL\NostralogiaDAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Admin\" />
+    <Folder Include="Views\KeyWordsManager\" />
+  </ItemGroup>
+
 </Project>

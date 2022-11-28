@@ -1,0 +1,82 @@
+﻿@model Nostralogia3.ViewModels.UserControls.KeyWords.AddNewKeywordVM
+@{
+    ViewData["Title"] = "Add new keyword";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="container">
+    <div class="modal-header">
+                            
+        <h4 class="modal-title">
+            <span id="spnTitle">
+                Create a new Keyword
+            </span>
+        </h4>
+    </div>
+    @using(Html.BeginForm("AddNewKeyWord","KeyWordsManager",FormMethod.Post ))
+    {
+    <fieldset>
+        <div class="row">
+            <div class="col-6">
+                <label>New keyword</label>
+                <input id="txtNewKW" type="text" class="form-control" />
+            </div>
+        </div>                
+        <div class="row ">
+            <div class="col-6 mt-2">
+                <label>Select a reference keyword</label>
+                    @Html.DropDownListFor(x=>x.RefKW, @Model.KeyWordsCollection,null, new { id = "lstAddNew", size = "8", style = "width:200px;", @class="form-control" })
+                    
+            </div>
+            <div class="col-2  mt-2" >
+                <div class="row" style="height:50px;"></div>
+                <a id=butDrUpAdd  title="Drill up...">
+                    @if (Model.IsOnline)
+                    {
+                        <i class="fa-solid fa-angles-up btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                    }
+                    else
+                    {
+                        <i class="nstr_offline_button p-1 mb-1">Drill Up</i>
+                    }
+                </a>
+                <a id=butDrDownAdd title="Drill down...">
+                                    
+                    @if (Model.IsOnline)
+                    {
+                        <i class="fa-solid fa-angles-down btn btn-default mb-1 mr-1 border border-dark rounded"></i>
+                    }
+                    else
+                    {
+                        <i class="nstr_offline_button p-1 mb-1">Drill Down</i>
+                    }
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mt-2">
+                <label>Access level</label>
+                    @Html.DropDownListFor(x=>x.AccessLevel, Model.AccessLevelCollection,null, new { id = "lstAccess",style = "width:200px;", @class="form-control" })
+            </div>
+        </div>
+    </fieldset>
+     <div class="modal-footer">
+            <button type="button" class="btn btn-default">Close</button>
+            <input type="button" value="Cancel" onclick="window.location.href='/DataWorking/EditPersonalData?id=@Model.MapId'" />
+            <button type="submit" id="btnConfirm" class="btn btn-primary">Save</button>
+     </div>
+     @Html.HiddenFor(x=>x.MapId, new {id="hdMapId"})
+    }
+</div>
+    <script type="text/javascript" src="~/js/KeyWordsManager.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            $("#butDrDownAdd").on("click", function () {
+                DrillDown('lstAddNew');
+            });
+            $("#butDrUpAdd").on("click", function () {
+                DrillUp('lstAddNew');
+            });
+
+        });
+    </script>

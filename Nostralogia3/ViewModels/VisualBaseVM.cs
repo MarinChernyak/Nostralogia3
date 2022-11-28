@@ -5,7 +5,7 @@ namespace Nostralogia3.ViewModels
 {
     public class VisualBaseVM : ViewModelBase
     {
-        public string ErrorMessage { get; protected set; }
+
         private bool _isonline;
         public bool IsOnline { get { return _isonline; } }
         public VisualBaseVM()

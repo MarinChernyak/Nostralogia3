@@ -49,10 +49,10 @@ namespace Nostralogia3.ViewModels
             TimeFrom = new SimpleTimePickerModel("Birth Time From:", 0, 0, ReadOnly);
             TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0);
+            KWCollection.SetSession(session);
             MapNotes = new MapNotesVM(_session, 0);
             EventsCollection = new PersonalEventsCollectionModel("Events of the person", _session);
-            FillUpCollections();
-
+            FillUpCollections();            
         }
         public PersonalDataVM(int Id, ISession session)
         {
