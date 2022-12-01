@@ -102,7 +102,7 @@
                 @await Html.PartialAsync("~/Views/UserControls/_PictureViewerView.cshtml", Model.PicturesViewer, nameof(Model.PicturesViewer))
             </div>
             <div class="row  mt-2 mb-4">
-                @await Html.PartialAsync("~/Views/UserControls/_MapNotesView.cshtml", Model.MapNotes, nameof(Model.MapNotes))
+                @await Html.PartialAsync("~/Views/UserControls/MapNotes/_MapNotesView.cshtml", Model.MapNotes, nameof(Model.MapNotes))
             </div>
         }
     </div>

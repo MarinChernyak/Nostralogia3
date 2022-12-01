@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.MapNotes
 {
-    public class MapNotesVM : ViewModelBase
+    public class MapNotesVM : MapNoteBase
     {
         public List<SingleMapNoteVM> _NotesDataList { get; set; } = new();
-        public int IdRef { get; set; }
-        public string NewNote { get; set; }
         public MapNotesVM()
         {
 
@@ -21,7 +19,7 @@ namespace Nostralogia3.ViewModels.MapNotes
         public MapNotesVM(ISession session, int idRef)
         {
             _session = session;
-            IdRef = idRef;
+            MapNote.IdPerson = idRef;
             InitCollection();
         }
         protected void InitCollection()
@@ -34,7 +32,7 @@ namespace Nostralogia3.ViewModels.MapNotes
                 userlevel = Convert.ToInt32(sulevel);
             }
             
-            List<MMapNote> lstnotes = PersonalDataFactory.GetMapNotes(IdRef, userlevel);
+            List<MMapNote> lstnotes = PersonalDataFactory.GetMapNotes(MapNote.IdPerson, userlevel);
             foreach(MMapNote item in lstnotes)
             {
                 SingleMapNoteVM model = new SingleMapNoteVM(_session)

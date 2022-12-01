@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Nostralogia3.ViewModels.MapNotes
 {
-    public class SingleMapNoteVM : ViewModelBase
+    public class SingleMapNoteVM : MapNoteBase
     {
-        public MMapNote MapNote { get; set; }
         public SingleMapNoteVM() { }
         public SingleMapNoteVM(ISession session )
         {

@@ -62,13 +62,7 @@ namespace Nostralogia3.Controllers.MainActions
             }
             return RedirectToAction("HomePage", "Home");
         }
-        [HttpPost]
-        public async Task<JsonResult> CreateNewMapNote(int idRef, string newNote)
-        {
-            int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-            int id=await PersonalDataFactory.CreaNewMapNote(idRef,newNote, userid);
-            return Json(id);
-        }
+        
         [HttpPost]
         public async Task<JsonResult> SaveMapNote(int id, string newNote)
         {

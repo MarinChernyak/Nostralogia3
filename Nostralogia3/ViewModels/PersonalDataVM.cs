@@ -50,8 +50,8 @@ namespace Nostralogia3.ViewModels
             TimeTo = new SimpleTimePickerModel("Birth Time To:", 0, 0, ReadOnly);
             KWCollection = new KeyWordsCollectionModel(0);
             KWCollection.SetSession(session);
-            MapNotes = new MapNotesVM(_session, 0);
-            EventsCollection = new PersonalEventsCollectionModel("Events of the person", _session);
+            MapNotes = new MapNotesVM(session, 0);
+            EventsCollection = new PersonalEventsCollectionModel("Events of the person", session);
             FillUpCollections();            
         }
         public PersonalDataVM(int Id, ISession session)
