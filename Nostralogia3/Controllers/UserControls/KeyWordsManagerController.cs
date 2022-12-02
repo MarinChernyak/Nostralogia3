@@ -7,6 +7,7 @@ using Nostralogia3.ViewModels.UserControls.KeyWords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 
@@ -55,18 +56,23 @@ namespace Nostralogia3.Controllers.UserControls
             return Json(bRez);
         }
         [HttpPost]
-        public ActionResult AddNewKeyWord(AddNewKeywordVM model)
+        public async Task<ActionResult> AddNewKeyWord(AddNewKeywordVM model)
         {
             if (ModelState.IsValid)
             {
-                model.CreateNewKeyword();
+                bool brez=await model.CreateNewKeyword();
+                if(brez)
+                {
+                    RedirectToAction("EditPersonalData", "DataWorking", new {id=model.MapId });
+                }
             }
-            return RedirectToAction();
+            return View("/Views/UserControls/KeyWordsManager/AddNewKeyWord.cshtml", model);
         }
-        public ActionResult AddNewKeyWord(int idmap)
+        [HttpPost]
+        public ActionResult CallNewKeyWordDlg(KeyWordsCollectionModel model)
         {
-            AddNewKeywordVM model = new AddNewKeywordVM(idmap);
-            return View("/Views/UserControls/AddNewKeyWord", model);
+            AddNewKeywordVM anmodel = new AddNewKeywordVM(model.IdForKWStorage);
+            return View("/Views/UserControls/KeyWordsManager/AddNewKeyWord.cshtml", anmodel);
         }
     }
 }

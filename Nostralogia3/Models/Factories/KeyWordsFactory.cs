@@ -110,7 +110,7 @@ namespace Nostralogia3.Models.Factories
         }
         #endregion
         #region ADD
-        public async Task<bool> CreateNewKeyword(string kw, int accessLevel, int refid)
+        public static async Task<bool> CreateNewKeyword(string kw, int accessLevel, int refid)
         {
             bool brez = true;
             try 
@@ -131,7 +131,7 @@ namespace Nostralogia3.Models.Factories
             catch(Exception ex)
             {
                 LogMaster lm = new LogMaster();
-                lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+                lm.SetLogException("KeyWordsFactory", MethodBase.GetCurrentMethod().Name, ex.Message);
                 brez = false;
             }
             return brez;

@@ -64,7 +64,10 @@ namespace Nostralogia3.ViewModels.UserControls.KeyWords
         {
 
         }
+        public KeyWordsCollectionModel()
+        {
 
+        }
         public KeyWordsCollectionModel(List<MKeyWord> lstKW, int idforstorage = 0)
         {
 

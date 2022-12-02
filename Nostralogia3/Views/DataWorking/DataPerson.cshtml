@@ -93,7 +93,7 @@
         @if (Model._model.Id > 0)
         {
             <div class="row mt-2">
-                @await Html.PartialAsync("~/Views/UserControls/_KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
+                @await Html.PartialAsync("~/Views/UserControls/KeyWordsManager/_KeyWordsManagerMain.cshtml", Model.KWCollection, nameof(Model.KWCollection))
             </div>
             <div class="row  mt-2">
                 @await Html.PartialAsync("~/Views/UserControls/Tables/_PersonalEventsCollectionView.cshtml", Model.EventsCollection, nameof(Model.EventsCollection))

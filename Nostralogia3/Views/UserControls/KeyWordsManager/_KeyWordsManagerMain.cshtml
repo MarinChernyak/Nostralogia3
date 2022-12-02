@@ -1,6 +1,6 @@
 ﻿@using Nostralogia3.Extensions
 @model Nostralogia3.ViewModels.UserControls.KeyWords.KeyWordsCollectionModel
-@*<link href="@Url.Content("~/CSS/KeyWordsManager.css")" rel="stylesheet" type="text/css" />*@
+
 
 <div class="container ">
     <div class="container border border-secondary rounded BgColorControls">
@@ -108,23 +108,33 @@
                         </a>
                     </div>
                     <div class="col-1 ml-1">
-                        <a id="butAddNew" title="Ad new...">
+                        
+                        @using(Html.BeginForm("CallNewKeyWordDlg","KeyWordsManager", FormMethod.Post, new { id = "frmAddNew" } ))                           
+                        {
+                                @Html.HiddenFor(x=>x.IdForKWStorage)
+                                 <a id="butAddNew" title="Cancel">
+                                    @if (Model.IsOnline)
+                                    {
 
-                            @if (Model.IsOnline)
-                            {
-                                <i class="fa-regular fa-square-plus fa-xl btn btn-default mt-2"></i>
-                            }
-                            else
-                            {
-                                <i class="nstr_offline_button p-1 text-md-center">Add...</i>
-                            }
-                        </a>
+                                            <i class="fa-regular fa-square-plus fa-xl btn btn-default mt-2" ></i>
+
+                                    }
+                                    else
+                                    {
+
+                                            <i class="nstr_offline_button p-1 text-md-center" >Add...</i>
+
+                                    }
+                                </a>
+                                
+                         }
+                        
                     </div>
                 </div>
             </div>
 
             <input id="hdKWIDCoolection" type="hidden" />
-            @Html.HiddenFor(x=>x.IdForKWStorage, new { id = "IdForKWStorage" })
+            
         </div>
     </div>
 </div>
@@ -199,9 +209,9 @@
                 OnCancel();
             });
             $("#butAddNew").on("click", function() {
-                //$('#modalPopUp').modal('show');
-                //setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
-                window.location="/KeyWordsManager/AddNewKeyWord?idmap=@Model."
+                $('#frmAddNew').append("<input type='hidden' name='IdForKWStorage' value='"+
+                         @Model.IdForKWStorage+"' />");
+                $("#frmAddNew").submit();
             });
 
         });
