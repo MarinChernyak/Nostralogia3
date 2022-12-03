@@ -69,7 +69,7 @@ function OnOK() {
         selValues += this.value + ',';
         texts += this.textContent + ', ';
     });
-    //console.log("selValues => " + selValues);
+    console.log("selValues => " + selValues);
     //console.log("texts => " + texts);
 
     var IdForKWStorage = $("#IdForKWStorage").val();

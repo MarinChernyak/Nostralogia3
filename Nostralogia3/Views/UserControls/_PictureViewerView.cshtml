@@ -57,7 +57,7 @@
 
                                 </a>
                             </div>
-                            <form asp-action="PictureViewerEdit" asp-controller="PicturesViewer"  asp-route-id="@Model.IdRef" id="frmAddNew">
+                            <form asp-action="PictureViewerEdit" asp-controller="PicturesViewer"  asp-route-id="@Model.IdRef" id="frmAddImg">
                             <div class="row mb-3">
                                 <a id="btnAddImg" title="Add new">
                                     
@@ -178,7 +178,7 @@
             });
             $("#btnAddImg").on("click", function() {
                 console.log("#btnAddImg");
-                $("#frmAddNew").submit();
+                $("#frmAddImg").submit();
             });
 
             function UpdateCursor(increment) {

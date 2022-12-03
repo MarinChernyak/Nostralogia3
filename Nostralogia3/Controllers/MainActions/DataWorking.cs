@@ -63,27 +63,6 @@ namespace Nostralogia3.Controllers.MainActions
             return RedirectToAction("HomePage", "Home");
         }
         
-        [HttpPost]
-        public async Task<JsonResult> SaveMapNote(int id, string newNote)
-        {
-            int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-            bool brez=await PersonalDataFactory.UpdatewMapNote(id,newNote, userid);
-            return Json(brez);
-        }
 
-        [HttpPost]
-        public async Task<JsonResult> ActivateMapNote(int id, bool activate)
-        {
-            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-            bool brez=await PersonalDataFactory.ActivateMapNote(id,activate);
-            return Json(brez);
-        }
-        [HttpPost]
-        public async Task<JsonResult> DeleteMapNote(int id)
-        {
-            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-            bool brez = await PersonalDataFactory.DeleteMapNote(id);
-            return Json(brez);
-        }
     }
 }

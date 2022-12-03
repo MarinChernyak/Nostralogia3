@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nostralogia3.Models.DataWorking;
+using Nostralogia3.Models.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,12 @@ namespace Nostralogia3.ViewModels.MapNotes
             _session = session;
 
         }
-
+        public SingleMapNoteVM(ISession session, int id, string snote)
+        {
+            _session = session;
+            MapNote.Note = snote;
+            MapNote.Id = id;
+        }
         public string GetId() { return $"SMapNote{_Index}"; }
         public string GetDevEditId() { return $"dvEditNotes{_Index}"; }
         public string GetDevViewId() { return $"dvViewNotes{_Index}"; }
@@ -32,7 +38,5 @@ namespace Nostralogia3.ViewModels.MapNotes
         {
             return $"{MapNote.Date.Day}/{MapNote.Date.Month}/{MapNote.Date.Year}";
         }
-
-
     }
 }

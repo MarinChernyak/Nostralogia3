@@ -625,6 +625,26 @@ namespace Nostralogia3.Models.Factories
             }
             return bdeleted;
         }
+
+        public static MMapNote GetNote(int id)
+        {
+            MMapNote mapnote = new MMapNote();
+            using (NostradamusContext context = new NostradamusContext())
+            {
+                try
+                {
+                    MapNote note = context.MapNotes.FirstOrDefault(x => x.Id == id);
+
+                    mapnote = ModelsTransformer.TransferModel<MapNote, MMapNote>(note);
+                }
+                catch (Exception e)
+                {
+                    LogMaster lm = new LogMaster();
+                    lm.SetLog(e.Message);
+                }
+            }
+            return mapnote;
+        }
         #endregion
     }
 }

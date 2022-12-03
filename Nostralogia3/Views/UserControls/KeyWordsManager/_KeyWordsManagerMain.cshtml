@@ -111,7 +111,7 @@
                         
                         @using(Html.BeginForm("CallNewKeyWordDlg","KeyWordsManager", FormMethod.Post, new { id = "frmAddNew" } ))                           
                         {
-                                @Html.HiddenFor(x=>x.IdForKWStorage)
+                                @Html.HiddenFor(x=>x.IdForKWStorage, new {id="IdForKWStorage"})
                                  <a id="butAddNew" title="Cancel">
                                     @if (Model.IsOnline)
                                     {

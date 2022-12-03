@@ -13,10 +13,44 @@ namespace Nostralogia3.ViewModels.MapNotes
             MapNote.IdPerson=idRef;
 
         }
+        public MapNoteBase(int id, int idRef)
+        {
+            MapNote.Id = id;
+            
+            MapNote.IdPerson = idRef;
+            if (id > 0)
+            {
+                GetNote();
+            }
+        }
+        public async Task<bool> SaveNote()
+        {
+            if(MapNote.Id==0)
+            {
+                return await SaveNewNote();
+            }
+            else
+            {
+                return await UpdateNote();
+            }
+        }
+        protected void GetNote()
+        {
+            MMapNote note = PersonalDataFactory.GetNote(MapNote.Id);
+            if(note!=null)
+            {
+                MapNote=note;
+            }
+        }
         public async Task<bool> SaveNewNote()
         {
             MapNote.Id = await PersonalDataFactory.CreaNewMapNote(MapNote.IdPerson, MapNote.Note, GetUID());
             return MapNote.Id > 0;
+        }
+        public async Task<bool> UpdateNote()
+        {
+            return await PersonalDataFactory.UpdatewMapNote(MapNote.Id, MapNote.Note, GetUID());
+           
         }
     }
 }

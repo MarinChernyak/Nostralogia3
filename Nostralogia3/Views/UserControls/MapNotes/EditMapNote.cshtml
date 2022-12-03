@@ -10,7 +10,9 @@
     <div class="container">
         <h4 class="text-dark">Create New Note</h4>
         <button type="button" class="close pull-right" onclick="location.href='@Url.Action("EditPersonalData","DataWorking", new {id=Model.MapNote.IdPerson})'">&times;</button>
-        @using(Html.BeginForm("SaveNewNote","PersonalNotes"))
+
+        
+        @using(Html.BeginForm("SaveNote","PersonalNotes"))
         {
             <div class="row">
                 <div class="form-group">
@@ -29,7 +31,12 @@
                 </div>
             </div>
             @Html.HiddenFor(x=>x.MapNote.IdPerson)
+            @Html.HiddenFor(x=>x.MapNote.Id)
             }
     </div>
     
 </section>
+<script>
+$("#txtNewNote").val('@Model.MapNote.Note');
+
+</script>

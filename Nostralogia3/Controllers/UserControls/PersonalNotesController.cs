@@ -15,22 +15,48 @@ namespace Nostralogia3.Controllers.UserControls
             if (!string.IsNullOrEmpty(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID)))
             {
                 int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
-                //int idnote = await PersonalDataFactory.CreaNewMapNote(id, newNote, userid);
                 MapNoteBase model = new MapNoteBase(IdRef);
-                return View("~/Views/UserControls/MapNotes/NewMapNote.cshtml", model);
+                return View("~/Views/UserControls/MapNotes/EditMapNote.cshtml", model);
             }
             else
                 return RedirectToAction("EditPersonalData", "DataWorking", new { id = IdRef });
         }
         [HttpPost]
-        public async Task<ActionResult> SaveNewNote(MapNoteBase model)
+        public async Task<ActionResult> SaveNote(MapNoteBase model)
         {
             if(ModelState.IsValid)
             {
                 model.SetSession(HttpContext.Session);
-                await model.SaveNewNote();
+                await model.SaveNote();
+
             }
             return RedirectToAction("EditPersonalData", "DataWorking", new { id = model.MapNote.IdPerson });
+        }
+        [HttpPost]
+        public ActionResult UpdateMapNote(int id, int IdRef)
+        {
+            if (!string.IsNullOrEmpty(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID)))
+            {
+                MapNoteBase model = new MapNoteBase(id, IdRef);
+                return View("~/Views/UserControls/MapNotes/EditMapNote.cshtml", model);
+            }
+            else
+                return RedirectToAction("EditPersonalData", "DataWorking", new { id = IdRef });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ActivateMapNote(int id, bool activate)
+        {
+            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            bool brez = await PersonalDataFactory.ActivateMapNote(id, activate);
+            return Json(brez);
+        }
+        [HttpPost]
+        public async Task<JsonResult> DeleteMapNote(int id)
+        {
+            //int userid = Convert.ToInt32(SessionHelper.GetObjectFromJson(HttpContext.Session, Constants.SessionCoockies.SessionUID));
+            bool brez = await PersonalDataFactory.DeleteMapNote(id);
+            return Json(brez);
         }
     }
 }

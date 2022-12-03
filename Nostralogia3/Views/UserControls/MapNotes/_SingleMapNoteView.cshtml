@@ -6,56 +6,42 @@
         <div class="col-3 mt-2 text-light">
             <strong>@Model.GetDate()</strong>
         </div>
-        <div class="col-7"></div>
+        <div class="col-4"></div>
         <div class="col-1 mt-2">
             <a id="@Model.GetExpanderId()" role="button"><i class="fas fa-arrow-circle-down fa-lg text-light"></i></a>
             <a id="@Model.GetCollapserId()" role="button"><i class="fas fa-arrow-circle-up  fa-lg text-light"></i></a>
         </div>
-        <div class="col-1">
-                <button type="button" class="btn btn-default" id="@Model.GetBtnEditId()" title="Edit comments"><i class="fas fa-edit fa-lg text-light"></i></button>
-        </div>
+
+            @using(Html.BeginForm("UpdateMapNote","PersonalNotes",new {id=@Model.MapNote.Id, IdRef = @Model.MapNote.IdPerson }, FormMethod.Post, null,null))
+            {                
+                 <button type="submit" class="btn btn-default" id="@Model.GetBtnEditId()" title="Edit comments"><i class="fas fa-edit fa-lg text-light"></i></button>                
+            }
+
+        @if (Model.MapNote.IsAvailable == true)
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default" id="@Model.GetDeactivateId()" title="Deactivate"><i class="far fa-trash-alt fa-xl text-light"></i></button>
+            </div>
+        }
+        else
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default" id="@Model.GetActivateId()" title="Activate"><i class="fa-solid fa-arrow-turn-up fa-xl text-light"></i></button>
+            </div>
+        }
+
+        @if (Model.GetUserLevel() > 2)
+        {
+            <div class="col-1">
+                <button type="button" class="btn btn-default text-danger" id="@Model.GetDeleteId()" title="Delete"><i class="far fa-trash-alt fa-xl text-danger" ></i></button>
+            </div>
+        }
     </div>
     <div class="row p-3" id="@Model.GetdvMapNoteId()">
         @Model.MapNote.Note
     </div>
 </div>
 
-
-<div class="container border border-secondary rounded BgColorControls mt-2 mb-2" id="@Model.GetDevEditId()">
-    <div class="row">
-        <div class="mt-2 ml-2">
-            @Html.TextAreaFor(x => x.MapNote.Note, new { rows = "6", cols = "89", id = @Model.GetId() })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-8"></div>
-        <div class="col-1">
-            <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnSaveId()" title="Save changes"><i class="fa-solid fa-floppy-disk fa-xl"></i></button>
-        </div>
-        <div class="col-1">
-            <button type="button" class="btn btn-default mt-2" id="@Model.GetBtnCancelId()" title="Cancel"><i class="fa-regular fa-rectangle-xmark fa-xl"></i></button>
-        </div>
-        @if (Model.MapNote.IsAvailable == true)
-        {
-            <div class="col-1">
-                <button type="button" class="btn btn-default mt-2" id="@Model.GetDeactivateId()" title="Deactivate"><i class="far fa-trash-alt fa-xl"></i></button>
-            </div>
-        }
-        else
-        {
-            <div class="col-1">
-                <button type="button" class="btn btn-default mt-2" id="@Model.GetActivateId()" title="Activate"><i class="fa-solid fa-arrow-turn-up fa-xl"></i></button>
-            </div>
-        }
-        @if (Model.GetUserLevel() > 2)
-        {
-            <div class="col-1">
-                <button type="button" class="btn btn-default mt-2 text-danger" id="@Model.GetDeleteId()" title="Delete"><i class="far fa-trash-alt fa-xl"></i></button>
-            </div>
-        }
-
-    </div>
-</div>
 
 <script>
     InitControl();
@@ -77,11 +63,7 @@
         }
     }
     $(document).ready(function () {
-        $("#" + "@Model.GetBtnEditId()").on("click", function () {
-            //console.log("edit");
-            $("#" + "@Model.GetDevViewId()").hide();
-            $("#" + "@Model.GetDevEditId()").show();
-        });
+
         $("#" + "@Model.GetBtnCancelId()").on("click", function () {
             //console.log("cancel");
             $("#" + "@Model.GetDevViewId()").show();
@@ -102,23 +84,6 @@
             $("#" + "@Model.GetdvMapNoteId()").html("@Model.MapNote.Note");
         });
 
-       $("#" + "@Model.GetBtnSaveId()").on("click", function () {
-            //console.log("started");
-            var newnote = $("#" + "@Model.GetId()").val();
-            //console.log("new note => " + newnote);
-            var url = "/DataWorking/SaveMapNote?id=" + '@Model.MapNote.Id' + "&newNote=" + newnote;
-            //console.log("url => " + url);
-            $.ajax({
-                type: "POST",
-                url: url,
-                success: function (data) {
-                    if (data == true) {
-                        console.log("data=> " + data);
-                        location.reload();
-                    }
-                }
-            });
-        });
        $("#" + "@Model.GetDeactivateId()").on("click", function () {
            ActivationNote(false);
        });
@@ -128,7 +93,7 @@
        });
         function ActivationNote(activate) {
             console.log("ActivationNote");
-            var url = "/DataWorking/ActivateMapNote?id=" + '@Model.MapNote.Id'+'&activate='+activate;
+            var url = "/PersonalNotes/ActivateMapNote?id=" + '@Model.MapNote.Id'+'&activate='+activate;
             console.log("url => " + url);
             $.ajax({
                 type: "POST",
@@ -143,7 +108,7 @@
         }
        $("#" + "@Model.GetDeleteId()").on("click", function () {
             //console.log("deactivate");
-            var url = "/DataWorking/DeleteMapNote?id=" + '@Model.MapNote.Id';
+            var url = "/PersonalNotes/DeleteMapNote?id=" + '@Model.MapNote.Id';
             //console.log("url => " + url);
             $.ajax({
                 type: "POST",
