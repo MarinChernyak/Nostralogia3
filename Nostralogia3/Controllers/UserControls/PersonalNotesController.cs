@@ -20,7 +20,7 @@ namespace Nostralogia3.Controllers.UserControls
             }
             else
                 return RedirectToAction("EditPersonalData", "DataWorking", new { id = IdRef });
-        }
+          }
         [HttpPost]
         public async Task<ActionResult> SaveNote(MapNoteBase model)
         {

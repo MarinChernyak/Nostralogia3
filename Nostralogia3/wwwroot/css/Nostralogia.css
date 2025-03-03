@@ -88,15 +88,20 @@ table, th, td {
 }
 .CalendarLabel {
     font-family: Arial;
-    font-size: 17px;
-    font-weight:bold;
-    margin-left:20px;
-
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 0 40px;
+    color:red;
 }
 .wrapper {
     width: 500px;
     /*margin: 0 auto;*/
     padding-left: 12%;
+}
+.wraper_300 {
+    padding: 50px;
+    width: 300px;
+ /*   margin: 0 auto;*/
 }
 /*    COLORS    */
 .SecondaryYellow {
@@ -168,6 +173,10 @@ table {
     min-width: 500px;
     overflow: auto;
 }
+.thin_width_combo {
+    min-width: 100px;
+    overflow: auto;
+}
 /* enabled-disabled*/
 .disabledctrl {
     color: black;
@@ -177,9 +186,14 @@ table {
 }
 .input100{
     width:100px;
-    height:25px;
 }
 .input80 {
     width: 80px;
-    height: 25px;
+}
+.bg_dark{
+    color:azure;
+}
+.nostra_container{
+    min-height:80%;
+    border-radius:5px;
 }

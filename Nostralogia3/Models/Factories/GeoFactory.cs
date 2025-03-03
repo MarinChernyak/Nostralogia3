@@ -224,7 +224,7 @@ namespace Nostralogia3.Models.Factories
             {
                 LogMaster lm = new LogMaster();
                 lm.SetLogException(GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message);
-                err = -1;
+                err = (int)ErrMessagesCollection.Errors.DB_Exception;
             }
             return err;
         }

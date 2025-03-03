@@ -10,12 +10,15 @@ namespace Nostralogia3.Common
             NoErrors = 0,
             DataExisting,
             IndexArrBiggerSizeOfCollection,
+            DB_Exception
         }
         protected void SettErrosCollection()
         {
-            ErrMesasges.Add("No erros found");
+            ErrMesasges.Add("No errors found");
             ErrMesasges.Add("This data is already Existing");
             ErrMesasges.Add("Index is bigger than a size of anarray");
+            ErrMesasges.Add("Datbase exception. See log file for details");
+
         }
         protected List<string> ErrMesasges = new List<string>();
         public ErrMessagesCollection()

@@ -5,37 +5,39 @@
 }
 
 @model Nostralogia3.ViewModels.Geo.AddStateProvinceVM
+<div class="container bg-light nostra_container">
+    <h2>Add New State/Province Data</h2>
+    <form method="post" asp-action="AddStateProvince" asp-controller="Geo">
 
-<h2 class="container">Add New State/Province Data</h2>
-<form method="post" asp-action="AddStateProvince" asp-controller="Geo">
-
-        <div class="row">
-            <div class="form-group col-md-3">
-               <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a country</strong></label>
-                @Html.DropDownListFor(x => x.CountryRef, Model.Countries, new { @class = "form-control min_width_combo" })
+            <div class="row">
+                <div class="form-group col-md-3">
+                   <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a country</strong></label>
+                    @Html.DropDownListFor(x => x.CountryRef, Model.Countries, new { @class = "form-control min_width_combo" })
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">State/Province Name</strong></label>
-                <input asp-for="@Model.ProvinceName" asp- class="form-control" data-val="true" data-val-required="The Province Name field is required." type="text" value="" required="required"/>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">State/Province Name</strong></label>
+                    <input asp-for="@Model.ProvinceName" asp- class="form-control" data-val="true" data-val-required="The Province Name field is required." type="text" value="" required="required"/>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">State/Province Acronym</strong></label>
-                <input asp-for="@Model.ProvinceAcr" asp- class="form-control" data-val="true" data-val-required="The Acronym field is required."  type="text" value="" required="required"/>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">State/Province Acronym</strong></label>
+                    <input asp-for="@Model.ProvinceAcr" asp- class="form-control" data-val="true" data-val-required="The Acronym field is required."  type="text" value="" required="required"/>
+                </div>
             </div>
-        </div>
 
 
-         <div class="row mt-lg-5">
-            <div class="form-group ml-lg-4">
-                <button type="submit" class="nostr_btn">Add Province</button>
-            </div>    
-            <div class="form-group">
-                <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn" />
+             <div class="row mt-lg-5">
+                <div class="form-group ml-lg-4">
+                    <button type="submit" class="nostr_btn">Add Province</button>
+                </div>    
+                <div class="form-group">
+                    <input type="button" value="Cancel" onclick="location.href='@Url.Action("HomePage", "Home")'" class="nostr_btn" />
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+
+</div>

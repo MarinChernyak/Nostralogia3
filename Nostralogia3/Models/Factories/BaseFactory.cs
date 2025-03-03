@@ -13,7 +13,7 @@ namespace Nostralogia3.Models.Factories
     public class BaseFactory
     {
 
-        protected static void InsertSelectItem(List<SelectListItem> list)
+        public static void InsertSelectItem(List<SelectListItem> list)
         {
             if (list != null && list.Count == 0)
             {

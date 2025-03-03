@@ -1,25 +1,28 @@
 ﻿@model Nostralogia3.Models.Geo.CoordinatesModel
     <link rel="stylesheet" href="~/css/Nostralogia.css" />
-<div class="ml-3">
-    <div class="row" >
-        <div class="CalendarLabel text-dark ">
-            @Model.MainLabel
+
+<div class="wraper_300 border border-secondary rounded BgColorControls col-6">
+        <div class="row">
+            <div class="CalendarLabel text-dark mt-lg-2 ml-lg-4">
+                @Model.MainLabel
+            </div>
         </div>
-    </div>
-    <div class="wrapper border border-secondary rounded BgColorControls">
-        <div class="row mt-4 mb-4">
-            <span class="text-dark mr-1 ">Decimal degrees:</span> <span>@Html.RadioButtonFor(m => m.IsDecimal, false, new { id = "rbDecimal" }) </span>
-            <span class="text-dark ml-3 mr-1 "> Degrees/Minutes/Seconds: </span>  <span> @Html.RadioButtonFor(m => m.IsDecimal, true, new { id = "rbDegreeMinSec" }) </span>
+
+        <div class="mt-4 mb-4">
+            <div class="form-group">
+                <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select format of coordinates</strong></label>
+                @Html.DropDownListFor(x => x.CoordFormatSelected, Model.CoordFormats, new { @class = "form-control min_width_combo", id = "cmbFormatCoord" })
+            </div>
         </div>
-        <div id="divDecimalDegree">
+        <div id="divDecimalDegree" class="container ">
             <div class="form-group text-dark font-weight-bold ">
                 <h5>@Html.LabelFor(x => x.Latitude)</h5>
                 <div class="row">
                     <div class="col-3">
-                        <input asp-for=@Model.Latitude class="input100 mr-1" type="number" id="txtLatitude" />
+                        <input asp-for=@Model.Latitude class="form-control input100 mr-1" type="number" id="txtLatitude" />
                     </div>
                     <div class="col-3 ml-2">
-                        @Html.DropDownListFor(x => x.LatSemiSphere, Model.NS, null, new { id = "cmbLatSemi" })
+                    @Html.DropDownListFor(x => x.LatSemiSphere, Model.NS, null, new { id = "cmbLatSemi" })
                     </div>
                 </div>
             </div>
@@ -27,16 +30,16 @@
                 <h5>@Html.LabelFor(x => x.Longitude)</h5>
                 <div class="row">
                     <div class="col-3 ">
-                        <input asp-for="@Model.Longitude" class="input100 mr-1" type="number" id="txtLongitude" />
+                    <input asp-for="@Model.Longitude" class="form-control input100 mr-1" type="number" id="txtLongitude" />
                     </div>
                     <div class="col-3 ml-2">
-                        @Html.DropDownListFor(x => x.LongSemiSphere, Model.WE, null, new { id = "cmbLongSemi" })
+                    @Html.DropDownListFor(x => x.LongSemiSphere, Model.WE, null, new { id = "cmbLongSemi" })
                     </div>
                 </div>
             </div>
 
         </div>
-        <div id="divDegreeMinSec">
+    <div id="divDegreeMinSec" class="container">
 
             <div class="form-group text-dark font-weight-bold">
                 <h5>@Html.Label("Latitude")</h5>
@@ -53,16 +56,16 @@
                 </div>
                 <div class="row mr-3">
                     <div class="col-3">
-                        <input asp-for="@Model.LatDegrees" class="mr-1 input80" type="number" id="txtLongDegrees"  />
+                    <input asp-for="@Model.LatDegrees" class="form-control mr-1 input80" type="number" id="txtLongDegrees" />
                     </div>
                     <div class="col-3">
-                        <input asp-for="@Model.LatMinutes" class="mr-1 input80" type="number" id="txtLongMins" />
+                    <input asp-for="@Model.LatMinutes" class="form-control mr-1 input80" type="number" id="txtLongMins" />
                     </div>
                     <div class="col-3">
-                        <input asp-for="@Model.LatSeconds" class="mr-1 input80" type="number" id="txtLongSecs" />
+                    <input asp-for="@Model.LatSeconds" class="form-control mr-1 input80" type="number" id="txtLongSecs" />
                     </div>
                     <div class="col-3">
-                        @Html.DropDownListFor(x => x.LatSemiSphere, Model.NS, null, new { id = "cmbLatSemi" })
+                    @Html.DropDownListFor(x => x.LatSemiSphere2, Model.NS, null, new { id = "cmbLatSemi" })
                     </div>
                 </div>
 
@@ -84,38 +87,44 @@
                 </div>
                 <div class="row mr-3">
                     <div class="col-3">
-                        <input asp-for="@Model.LongDegrees" class="mr-1 input80" type="number" id="txtLongDegrees" />
+                    <input asp-for="@Model.LongDegrees" class="form-control mr-1 input80" type="number" id="txtLongDegrees" />
                     </div>
                     <div class="col-3">
-                        <input asp-for="@Model.LongMinutes" class="mr-1 input80" type="number" id="txtLongMins" />
+                    <input asp-for="@Model.LongMinutes" class="form-control mr-1 input80" type="number" id="txtLongMins" />
                     </div>
                     <div class="col-3">
-                        <input asp-for="@Model.LongSeconds" class="mr-1 input80" type="number" id="txtLongSecs" />
+                    <input asp-for="@Model.LongSeconds" class="form-control mr-1 input80" type="number" id="txtLongSecs" />
                     </div>
                     <div class="col-3">
-                        @Html.DropDownListFor(x => x.LongSemiSphere, Model.WE, null, new { id = "cmbLongSemi" })
+                    @Html.DropDownListFor(x => x.LongSemiSphere2, Model.WE, null, new { id = "cmbLongSemi" })
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        
-    </div>
 
 <script>
-    $("#divDegreeMinSec").hide();
+    
     $(document).ready(function () {
+        InitFormats();
+        $("#cmbFormatCoord").on("change", function () {
 
-        $("#rbDecimal").on("click", function () {
-            console.log("rbDecimal");
-
-            $("#divDegreeMinSec").hide();
-            $("#divDecimalDegree").show();
+            var value = $("#cmbFormatCoord").val();
+            //console.log("format val => " + value);
+            if (value == "1") {
+                $("#divDegreeMinSec").hide();
+                $("#divDecimalDegree").show();
+            }
+            else {
+                $("#divDegreeMinSec").show();
+                $("#divDecimalDegree").hide();
+            }
         });
-        $("#rbDegreeMinSec").on("click", function () {
-            console.log("rbDegreeMinSec");
-            $("#divDecimalDegree").hide();
+
+        function InitFormats() {
+            console.log("Inint OK");
             $("#divDegreeMinSec").show();
-        });
+            $("#divDecimalDegree").hide();
+        }
     });
 </script>

@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
     
 }
+@using Nostralogia3.Extensions
 @model Nostralogia3.ViewModels.Geo.AddCityVM
 <div class="container bg-light">
     <h2 class="container">Add New City</h2>
@@ -28,19 +29,9 @@
                     <input asp-for="@Model.CityName" asp- class="form-control" data-val="true" data-val-required="The City name field is required" type="text" value="" required="required"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Latitude</strong></label>
-                    <input asp-for="@Model.Latitude" asp- class="form-control" data-val="true" data-val-required="The laitide of city is required" type="text" value="" required="required"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Longitude</strong></label>
-                    <input asp-for="@Model.Longitude" asp- class="form-control" data-val="true" data-val-required="The longitide of city is required" type="text" value="" required="required"/>
-                </div>
-            </div>
-            <div class="row">
+        @await Html.PartialAsync("~/Views/UserControls/_EventCoordinatesView.cshtml", Model.Coordinates, nameof(Model.Coordinates))
+
+           <div class="row mt-lg-3">
                 <div class="form-group col-md-3">
                    <label class="required"><span class="field-name"></span>&nbsp;<strong class="required">Select a Time Zone</strong></label>
                     @Html.DropDownListFor(x => x.TimeZone, Model.TimeZonesCollection, new { @class = "form-control min_width_combo" })
@@ -60,12 +51,15 @@
     <script src="/JS/GeoActions.js"></script>
     <script>
         $(document).ready(function () {
-            $("#cmbCountries").on("change", function () {
-                UpdateCountry();
-            });
-            $("#cmbStates").on("change", function () {
-                UpdateStates();
-            });
 
+
+        $("#cmbCountries").on("change", function () {
+            UpdateCountry();
         });
+        $("#cmbStates").on("change", function () {
+            UpdateStates();
+        });
+
+     });
+
     </script>
